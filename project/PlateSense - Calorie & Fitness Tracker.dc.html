@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@500;600&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet"><script src="./image-slot.js"></script><style>
+body{margin:0;background:#E9E2D6;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#191512}
+a{color:#E1552B;text-decoration:none}a:hover{color:#C6362A}
+*{box-sizing:border-box}
+::-webkit-scrollbar{width:0;height:0}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.9;transform:scale(1.35)}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sweep{from{transform:translateY(-110%)}to{transform:translateY(310%)}}
+</style></helmet>
+
+<div style="display:flex;gap:56px;align-items:flex-start;padding:56px 64px 80px;min-height:100vh">
+
+  <div style="width:330px;flex:none;display:flex;flex-direction:column;gap:22px;padding-top:8px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:34px;height:34px;border-radius:11px;background:#E1552B;display:flex;align-items:center;justify-content:center;color:#FFF3E4;font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:16px;letter-spacing:-.02em">PS</div>
+      <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:25px;letter-spacing:-.02em">PlateSense</div>
+    </div>
+    <div style="font:600 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:rgba(25,21,18,.4)">Assumptions</div>
+    <div style="font:400 13.5px/1.65 'Plus Jakarta Sans';color:rgba(25,21,18,.7);text-wrap:pretty">
+      Desi-first calorie &amp; fitness tracker. AI is <strong style="color:#191512">ambient</strong> — no chatbot; it estimates portions from a photo, reads labels, and surfaces short nudges. Tone is playful/gamified (streaks, Thali Score, XP). Units toggle metric ⇄ imperial. Food DB covers Indian and Pakistani cooking, region chosen at onboarding.
+    </div>
+    <div style="font:600 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:rgba(25,21,18,.4)">15 screens wired</div>
+    <div style="font:400 13px/1.9 'Plus Jakarta Sans';color:rgba(25,21,18,.7)">
+      Onboarding · Home · Photo scan &amp; result · Shared plate · Leftover re-scan · Diary · Label scan · Allergy report · Allergy shield card · Micronutrients · Activity · Kitchen fingerprint · AI feed · Weekly insights · Recipes · Profile
+    </div>
+    <div style="height:1px;background:rgba(25,21,18,.12)"></div>
+    <div style="font:600 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:#B8340F">Only in PlateSense</div>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div style="font:400 13px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.72);text-wrap:pretty"><strong style="color:#191512">Shared plate.</strong> One handi, four people. Tap who ate how much and the calories split — no other tracker handles communal eating.</div>
+      <div style="font:400 13px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.72);text-wrap:pretty"><strong style="color:#191512">Leftover re-scan.</strong> Photograph the plate again when you're done; PlateSense subtracts what you didn't finish.</div>
+      <div style="font:400 13px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.72);text-wrap:pretty"><strong style="color:#191512">Kitchen fingerprint.</strong> It learns <em>your</em> kitchen — roti size, ghee hand, dal thickness — so estimates get sharper every week.</div>
+      <div style="font:400 13px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.72);text-wrap:pretty"><strong style="color:#191512">Hidden-oil meter.</strong> The number restaurants never tell you, in teaspoons.</div>
+      <div style="font:400 13px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.72);text-wrap:pretty"><strong style="color:#191512">Allergy shield card.</strong> A trilingual card you hand the waiter or your mother-in-law.</div>
+    </div>
+    <div style="height:1px;background:rgba(25,21,18,.12)"></div>
+    <div style="font:600 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:rgba(25,21,18,.4)">Three directions each</div>
+    <div style="font:400 13.5px/1.65 'Plus Jakarta Sans';color:rgba(25,21,18,.7);text-wrap:pretty">
+      Home, photo-scan and AI-surface each ship in 3 treatments. Switch them live in <strong style="color:#191512">Me → Design lab</strong>, or from the Tweaks panel.
+    </div>
+    <div style="padding:16px 18px;border-radius:16px;background:#FFFBF4;border:1px solid rgba(25,21,18,.09)">
+      <div style="font:700 13px/1.4 'Plus Jakarta Sans';margin-bottom:6px">Next steps</div>
+      <div style="font:400 12.5px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.6)">Real photography for scan + recipes (drop images straight onto the placeholders) · confidence UX when the model is unsure · Ramadan / fasting mode · family accounts.</div>
+    </div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" hint-size="402px,874px">
+
+  <div style="height:100%;display:flex;flex-direction:column;background:#FFFBF4;overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+    <sc-if value="{{ isOb }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;overflow:auto;padding:64px 26px 40px;display:flex;flex-direction:column">
+        <div style="display:flex;gap:6px;margin-bottom:30px">
+          <div style="flex:1;height:4px;border-radius:99px;background:#E1552B"></div>
+          <div style="flex:1;height:4px;border-radius:99px;background: {{ ob2 }}"></div>
+          <div style="flex:1;height:4px;border-radius:99px;background: {{ ob3 }}"></div>
+        </div>
+
+        <sc-if value="{{ ob0 }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:rise .35s ease both">
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.025em;margin-bottom:10px">Let's size up<br>your thali.</div>
+            <div style="font:400 14.5px/1.6 rgba(25,21,18,.6);color:rgba(25,21,18,.6);margin-bottom:26px">Six taps and we'll know your numbers. No calorie shaming, promise.</div>
+            <div style="font:700 12px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:10px">Sex</div>
+            <div style="display:flex;gap:8px;margin-bottom:24px">
+              <div onClick="{{ setFemale }}" style="flex:1;padding:14px 0;border-radius:14px;text-align:center;font:600 14px/1 'Plus Jakarta Sans';cursor:pointer;border:1.5px solid {{ sxF }};background: {{ sxFbg }};color: {{ sxFc }}">Female</div>
+              <div onClick="{{ setMale }}" style="flex:1;padding:14px 0;border-radius:14px;text-align:center;font:600 14px/1 'Plus Jakarta Sans';cursor:pointer;border:1.5px solid {{ sxM }};background: {{ sxMbg }};color: {{ sxMc }}">Male</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                <div style="font:600 14px/1 'Plus Jakarta Sans'">Age</div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div onClick="{{ ageDown }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">−</div>
+                  <div style="font:700 16px/1 'Plus Jakarta Sans';min-width:52px;text-align:center">{{ ageStr }}</div>
+                  <div onClick="{{ ageUp }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">+</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                <div style="font:600 14px/1 'Plus Jakarta Sans'">Height</div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div onClick="{{ htDown }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">−</div>
+                  <div style="font:700 16px/1 'Plus Jakarta Sans';min-width:74px;text-align:center">{{ hStr }}</div>
+                  <div onClick="{{ htUp }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">+</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                <div style="font:600 14px/1 'Plus Jakarta Sans'">Weight</div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div onClick="{{ wtDown }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">−</div>
+                  <div style="font:700 16px/1 'Plus Jakarta Sans';min-width:74px;text-align:center">{{ wStr }}</div>
+                  <div onClick="{{ wtUp }}" style="width:30px;height:30px;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">+</div>
+                </div>
+              </div>
+              <div onClick="{{ toggleUnits }}" style="align-self:flex-start;margin-top:2px;padding:8px 12px;border-radius:10px;background:#F3ECE0;font:600 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.6);cursor:pointer">Switch to {{ otherUnits }}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ ob1 }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:rise .35s ease both">
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.025em;margin-bottom:10px">What are we<br>playing for?</div>
+            <div style="font:400 14.5px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.6);margin-bottom:24px">Pick a goal and how much you move. We'll set the daily target.</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px">
+              <sc-for list="{{ goals }}" as="g" hint-placeholder-count="4">
+                <div onClick="{{ g.pick }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:15px;cursor:pointer;border:1.5px solid {{ g.bd }};background: {{ g.bg }}">
+                  <div style="font-size:19px">{{ g.icon }}</div>
+                  <div style="flex:1">
+                    <div style="font:700 14.5px/1.2 'Plus Jakarta Sans'">{{ g.name }}</div>
+                    <div style="font:400 12px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:3px">{{ g.sub }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font:700 12px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:10px">Activity level</div>
+            <div style="display:flex;gap:7px">
+              <sc-for list="{{ acts }}" as="a" hint-placeholder-count="4">
+                <div onClick="{{ a.pick }}" style="flex:1;padding:12px 4px;border-radius:13px;text-align:center;cursor:pointer;border:1.5px solid {{ a.bd }};background: {{ a.bg }};color: {{ a.fg }};font:600 11.5px/1.3 'Plus Jakarta Sans'">{{ a.name }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ ob2s }}" hint-placeholder-val="{{ false }}">
+          <div style="animation:rise .35s ease both">
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.025em;margin-bottom:10px">Anything we<br>should flag?</div>
+            <div style="font:400 14.5px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.6);margin-bottom:22px">We'll scream (politely) when a label hides one of these.</div>
+            <div style="font:700 12px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:10px">Allergies &amp; intolerances</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+              <sc-for list="{{ allergyChips }}" as="c" hint-placeholder-count="8">
+                <div onClick="{{ c.pick }}" style="padding:10px 14px;border-radius:99px;cursor:pointer;font:600 13px/1 'Plus Jakarta Sans';border:1.5px solid {{ c.bd }};background: {{ c.bg }};color: {{ c.fg }}">{{ c.name }}</div>
+              </sc-for>
+            </div>
+            <div style="font:700 12px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:10px">Kitchen region</div>
+            <div style="display:flex;gap:8px;margin-bottom:22px">
+              <sc-for list="{{ regions }}" as="r" hint-placeholder-count="3">
+                <div onClick="{{ r.pick }}" style="flex:1;padding:13px 4px;border-radius:13px;text-align:center;cursor:pointer;border:1.5px solid {{ r.bd }};background: {{ r.bg }};color: {{ r.fg }};font:600 12.5px/1.3 'Plus Jakarta Sans'">{{ r.name }}</div>
+              </sc-for>
+            </div>
+            <div style="padding:14px 16px;border-radius:14px;background:#F0F7F3;border:1px solid rgba(27,138,90,.2);display:flex;gap:11px;align-items:flex-start">
+              <div style="font-size:15px">🔒</div>
+              <div style="font:400 12.5px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.65)">Health data stays on device. Label scans are matched locally first, then anonymised.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="flex:1;min-height:22px"></div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div onClick="{{ obBack }}" style="width:52px;height:52px;flex:none;border-radius:16px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 18px/1 'Plus Jakarta Sans';cursor:pointer;color:rgba(25,21,18,.5)">←</div>
+          <div onClick="{{ obNext }}" style="flex:1;height:52px;border-radius:16px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;gap:8px;font:700 15px/1 'Plus Jakarta Sans';cursor:pointer">{{ obCta }}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div>
+            <div style="font:600 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);letter-spacing:.04em">{{ today }}</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:25px;letter-spacing:-.02em;margin-top:5px">{{ greeting }}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;background:#FFF0DE;border:1px solid rgba(245,165,36,.35)">
+            <div style="font-size:14px">🔥</div>
+            <div style="font:800 14px/1 'Plus Jakarta Sans';color:#B8730C">12</div>
+          </div>
+        </div>
+
+        <sc-if value="{{ homeRings }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:22px;border-radius:24px;background:#191512;color:#FFFBF4;position:relative;overflow:hidden;margin-bottom:14px">
+            <div style="position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(225,85,43,.5),transparent 70%)"></div>
+            <div style="display:flex;align-items:center;gap:22px;position:relative">
+              <div style="width:118px;height:118px;flex:none;position:relative">
+                {{ ring }}
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:29px;line-height:1;letter-spacing:-.03em">{{ remaining }}</div>
+                  <div style="font:600 10px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(255,251,244,.55);margin-top:6px">kcal left</div>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:11px">
+                <sc-for list="{{ macros }}" as="m" hint-placeholder-count="3">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;font:600 11.5px/1 'Plus Jakarta Sans';margin-bottom:6px">
+                      <span style="color:rgba(255,251,244,.7)">{{ m.name }}</span>
+                      <span>{{ m.val }}</span>
+                    </div>
+                    <div style="height:6px;border-radius:99px;background:rgba(255,251,244,.16);overflow:hidden">
+                      <div style="height:100%;border-radius:99px;width: {{ m.pct }};background: {{ m.color }}"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;gap:20px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,251,244,.14);position:relative">
+              <div><div style="font:800 16px/1 'Plus Jakarta Sans'">{{ eaten }}</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.5);margin-top:5px">eaten</div></div>
+              <div><div style="font:800 16px/1 'Plus Jakarta Sans'">340</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.5);margin-top:5px">burned</div></div>
+              <div><div style="font:800 16px/1 'Plus Jakarta Sans'">{{ target }}</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.5);margin-top:5px">target</div></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ homePlate }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:22px;border-radius:24px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:14px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+              <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:19px;letter-spacing:-.02em">Today's thali</div>
+              <div style="font:600 12px/1 'Plus Jakarta Sans';color:#1B8A5A">{{ platePct }} full</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <div style="width:132px;height:132px;flex:none;position:relative">{{ plate }}</div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ plateLegend }}" as="p" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <div style="width:10px;height:10px;border-radius:3px;flex:none;background: {{ p.color }}"></div>
+                    <div style="flex:1;font:600 12.5px/1.2 'Plus Jakarta Sans'">{{ p.name }}</div>
+                    <div style="font:700 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.5)">{{ p.val }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="margin-top:18px;padding:13px 15px;border-radius:14px;background:#FFF7EA;font:500 12.5px/1.5 'Plus Jakarta Sans';color:#8A5A0B">Your plate is heavy on carbs — swap one roti for a bowl of rajma to even it out.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ homeStreak }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:24px 22px;border-radius:24px;background:linear-gradient(160deg,#E1552B,#B8340F);color:#FFF3E4;margin-bottom:14px;position:relative;overflow:hidden">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 2px,transparent 2px 14px)"></div>
+            <div style="position:relative">
+              <div style="font:700 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;opacity:.75">Fuel gauge · Day 12</div>
+              <div style="display:flex;align-items:flex-end;gap:8px;margin:14px 0 18px">
+                <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:52px;line-height:.85;letter-spacing:-.04em">{{ remaining }}</div>
+                <div style="font:700 13px/1 'Plus Jakarta Sans';padding-bottom:7px;opacity:.8">kcal to burn through</div>
+              </div>
+              <div style="height:16px;border-radius:99px;background:rgba(0,0,0,.22);overflow:hidden;display:flex">
+                <div style="height:100%;background:#FFD79A;width: {{ eatenPct }}"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:12px;font:600 11.5px/1 'Plus Jakarta Sans';opacity:.85">
+                <span>{{ eaten }} in</span><span>340 out</span><span>{{ target }} tank</span>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:18px">
+                <div style="flex:1;padding:11px 12px;border-radius:13px;background:rgba(0,0,0,.2)"><div style="font:800 15px/1 'Plus Jakarta Sans'">+240</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';opacity:.75;margin-top:5px">XP today</div></div>
+                <div style="flex:1;padding:11px 12px;border-radius:13px;background:rgba(0,0,0,.2)"><div style="font:800 15px/1 'Plus Jakarta Sans'">Rank 4</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';opacity:.75;margin-top:5px">in Lahore</div></div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        {{ aiSurface }}
+
+        <div style="display:flex;gap:10px;margin:14px 0">
+          <div onClick="{{ goMicros }}" style="flex:1;padding:16px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);cursor:pointer">
+            <div style="font:700 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);letter-spacing:.06em;text-transform:uppercase">Micros</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;margin-top:8px;letter-spacing:-.02em">6 / 9</div>
+            <div style="font:500 11.5px/1.3 'Plus Jakarta Sans';color:#C6362A;margin-top:5px">B12 &amp; iron low</div>
+          </div>
+          <div onClick="{{ goInsights }}" style="flex:1;padding:16px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);cursor:pointer">
+            <div style="font:700 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);letter-spacing:.06em;text-transform:uppercase">Thali score</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;margin-top:8px;letter-spacing:-.02em">74</div>
+            <div style="font:500 11.5px/1.3 'Plus Jakarta Sans';color:#1B8A5A;margin-top:5px">+6 this week</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin:20px 0 12px">
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:700;font-size:17px;letter-spacing:-.01em">Quick add</div>
+          <div onClick="{{ goDiary }}" style="font:600 12.5px/1 'Plus Jakarta Sans';color:#E1552B;cursor:pointer">Full diary →</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ quickAdd }}" as="q" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:15px;background:#FFFFFF;border:1px solid rgba(25,21,18,.08)">
+              <div style="width:36px;height:36px;flex:none;border-radius:11px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font-size:17px">{{ q.icon }}</div>
+              <div style="flex:1"><div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">{{ q.name }}</div><div style="font:500 11.5px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.48);margin-top:4px">{{ q.serving }} · {{ q.kcal }} kcal</div></div>
+              <div onClick="{{ q.add }}" style="width:30px;height:30px;border-radius:10px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">+</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div onClick="{{ goSplit }}" style="margin-top:14px;padding:16px 18px;border-radius:18px;background:#F5F2FF;border:1px solid rgba(60,76,173,.2);display:flex;align-items:center;gap:12px;cursor:pointer">
+          <div style="font-size:20px">🍽️</div>
+          <div style="flex:1"><div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">Eating from one handi tonight?</div><div style="font:500 11.5px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:4px">Split the dish across the table in four taps</div></div>
+          <div style="font:700 15px/1 'Plus Jakarta Sans';color:#2B3894">→</div>
+        </div>
+
+        <div onClick="{{ goRecipes }}" style="margin-top:10px;padding:16px 18px;border-radius:18px;background:#F0F7F3;border:1px solid rgba(27,138,90,.22);display:flex;align-items:center;gap:12px;cursor:pointer">
+          <div style="font-size:20px">🥗</div>
+          <div style="flex:1"><div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">Healthy desi recipes</div><div style="font:500 11.5px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:4px">Built around your {{ remaining }} kcal left</div></div>
+          <div style="font:700 15px/1 'Plus Jakarta Sans';color:#1B8A5A">→</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isScan }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ scanNotDone }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;position:relative;background:#EFE7DA;overflow:hidden">
+        <div style="position:absolute;inset:0">
+          <image-slot id="poshan-plate" shape="rect" placeholder="Drop a thali photo"></image-slot>
+        </div>
+
+        <sc-if value="{{ scanAim }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;inset:0;pointer-events:none">
+            <div style="position:absolute;top:150px;left:50%;transform:translateX(-50%);width:250px;height:250px;border-radius:26px;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 0 9999px rgba(0,0,0,.42)"></div>
+            <div style="position:absolute;top:96px;left:0;right:0;text-align:center;font:600 13px/1.4 'Plus Jakarta Sans';color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)">Frame the whole plate — bowls and all</div>
+          </div>
+          <div style="position:absolute;bottom:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:18px">
+            <div style="display:flex;gap:8px">
+              <div style="padding:9px 15px;border-radius:99px;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);color:#fff;font:600 12.5px/1 'Plus Jakarta Sans'">Photo</div>
+              <div onClick="{{ goLabel }}" style="padding:9px 15px;border-radius:99px;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);color:rgba(255,255,255,.72);font:600 12.5px/1 'Plus Jakarta Sans';cursor:pointer">Label / barcode</div>
+            </div>
+            <div onClick="{{ shoot }}" style="width:74px;height:74px;border-radius:50%;background:#fff;border:5px solid rgba(255,255,255,.32);cursor:pointer;display:flex;align-items:center;justify-content:center">
+              <div style="width:56px;height:56px;border-radius:50%;background:#E1552B"></div>
+            </div>
+          </div>
+          <div onClick="{{ goHome }}" style="position:absolute;top:60px;left:20px;width:36px;height:36px;border-radius:12px;background:rgba(0,0,0,.4);backdrop-filter:blur(10px);color:#fff;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">✕</div>
+        </sc-if>
+
+        <sc-if value="{{ scanBusy }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:rgba(13,11,10,.55);backdrop-filter:blur(2px);overflow:hidden">
+            <div style="position:absolute;left:0;right:0;height:120px;background:linear-gradient(180deg,transparent,rgba(225,85,43,.55),transparent);animation:sweep 1.1s linear infinite"></div>
+            <div style="position:absolute;bottom:130px;left:24px;right:24px;padding:18px 20px;border-radius:20px;background:rgba(255,251,244,.94)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div style="width:8px;height:8px;border-radius:50%;background:#E1552B;animation:pulse 1s ease-in-out infinite"></div>
+                <div style="font:700 13.5px/1 'Plus Jakarta Sans'">Reading your plate…</div>
+              </div>
+              <div style="font:500 12.5px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.6)">Matching against 4,100 South Asian dishes · estimating portion depth from bowl geometry</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ scanDone }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:#FFFBF4;display:flex;flex-direction:column">
+
+          <sc-if value="{{ scanPins }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative;height:342px;flex:none;background:#EFE7DA">
+              <image-slot id="poshan-plate" shape="rect" placeholder="Drop a thali photo"></image-slot>
+              <div style="position:absolute;inset:0">
+                <div onClick="{{ pick0 }}" style="position:absolute;left:26%;top:46%;cursor:pointer;display:flex;align-items:center;gap:7px">
+                  <div style="width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px {{ p0 }},0 2px 8px rgba(0,0,0,.4)"></div>
+                  <div style="padding:5px 9px;border-radius:9px;background: {{ p0 }};color:#fff;font:700 11px/1 'Plus Jakarta Sans';white-space:nowrap">Roti ×2 · 208</div>
+                </div>
+                <div onClick="{{ pick1 }}" style="position:absolute;left:44%;top:32%;cursor:pointer;display:flex;align-items:center;gap:7px">
+                  <div style="width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px {{ p1 }},0 2px 8px rgba(0,0,0,.4)"></div>
+                  <div style="padding:5px 9px;border-radius:9px;background: {{ p1 }};color:#fff;font:700 11px/1 'Plus Jakarta Sans';white-space:nowrap">Dal tadka · 180</div>
+                </div>
+                <div onClick="{{ pick2 }}" style="position:absolute;left:20%;top:64%;cursor:pointer;display:flex;align-items:center;gap:7px">
+                  <div style="width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px {{ p2 }},0 2px 8px rgba(0,0,0,.4)"></div>
+                  <div style="padding:5px 9px;border-radius:9px;background: {{ p2 }};color:#fff;font:700 11px/1 'Plus Jakarta Sans';white-space:nowrap">Chicken karahi · 310</div>
+                </div>
+                <div onClick="{{ pick3 }}" style="position:absolute;left:58%;top:76%;cursor:pointer;display:flex;align-items:center;gap:7px">
+                  <div style="width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px {{ p3 }},0 2px 8px rgba(0,0,0,.4)"></div>
+                  <div style="padding:5px 9px;border-radius:9px;background: {{ p3 }};color:#fff;font:700 11px/1 'Plus Jakarta Sans';white-space:nowrap">Raita · 62</div>
+                </div>
+              </div>
+              <div onClick="{{ goHome }}" style="position:absolute;top:60px;left:20px;width:36px;height:36px;border-radius:12px;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);color:#fff;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">✕</div>
+              <div style="position:absolute;bottom:14px;right:20px;padding:7px 12px;border-radius:99px;background:rgba(27,138,90,.9);color:#fff;font:700 11.5px/1 'Plus Jakarta Sans'">92% sure</div>
+            </div>
+            <div style="flex:1;overflow:auto;padding:20px 20px 110px">
+              <div style="font:600 11.5px/1 'Plus Jakarta Sans';letter-spacing:.12em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:8px">Tap a pin to adjust</div>
+              <div style="padding:18px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                  <div>
+                    <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:21px;letter-spacing:-.02em">{{ sel.name }}</div>
+                    <div style="font:500 12.5px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:5px">{{ sel.note }}</div>
+                  </div>
+                  <div style="text-align:right;flex:none"><div style="font:800 20px/1 'Plus Jakarta Sans'">{{ sel.kcal }}</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);margin-top:4px">kcal</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:14px;margin:18px 0 4px">
+                  <div onClick="{{ portDown }}" style="width:34px;height:34px;border-radius:11px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 17px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">−</div>
+                  <div style="flex:1;text-align:center"><div style="font:700 15px/1 'Plus Jakarta Sans'">{{ sel.portion }}</div><div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);margin-top:5px">portion</div></div>
+                  <div onClick="{{ portUp }}" style="width:34px;height:34px;border-radius:11px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 17px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">+</div>
+                </div>
+                <div style="display:flex;gap:7px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(25,21,18,.08)">
+                  <sc-for list="{{ sel.macros }}" as="mm" hint-placeholder-count="4">
+                    <div style="flex:1;text-align:center;padding:9px 0;border-radius:11px;background:#FAF5EC">
+                      <div style="font:700 13px/1 'Plus Jakarta Sans'">{{ mm.v }}</div>
+                      <div style="font:500 10px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);margin-top:5px">{{ mm.k }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="padding:14px 16px;border-radius:16px;background:#FFF7EA;border:1px solid rgba(245,165,36,.3);margin-top:12px;font:500 12.5px/1.55 'Plus Jakarta Sans';color:#8A5A0B">Ghee on the roti adds ~45 kcal each. Tap the roti pin if it was dry.</div>
+
+              <div style="padding:17px 18px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-top:12px">
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px">
+                  <div style="font-size:15px">🫗</div>
+                  <div style="flex:1;font:800 13.5px/1 'Plus Jakarta Sans'">Hidden-oil meter</div>
+                  <div style="font:800 13px/1 'Plus Jakarta Sans';color:#C6362A">3.2 tsp</div>
+                </div>
+                <div style="height:9px;border-radius:99px;background:#F3ECE0;overflow:hidden">
+                  <div style="height:100%;width:64%;border-radius:99px;background:linear-gradient(90deg,#F5A524,#C6362A)"></div>
+                </div>
+                <div style="font:500 12px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:10px">128 of these 760 kcal are pure oil — the karahi tarka is doing it. A home karahi lands near 1.4 tsp.</div>
+              </div>
+
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <div onClick="{{ goSplit }}" style="flex:1;padding:15px 15px;border-radius:18px;background:#F5F2FF;border:1px solid rgba(60,76,173,.2);cursor:pointer">
+                  <div style="font-size:17px;margin-bottom:9px">🍽️</div>
+                  <div style="font:800 13px/1.25 'Plus Jakarta Sans';color:#2B3894">Split this dish</div>
+                  <div style="font:500 11px/1.4 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:4px">Shared handi? Divide it</div>
+                </div>
+                <div onClick="{{ goLeftover }}" style="flex:1;padding:15px 15px;border-radius:18px;background:#F0F7F3;border:1px solid rgba(27,138,90,.22);cursor:pointer">
+                  <div style="font-size:17px;margin-bottom:9px">📷</div>
+                  <div style="font:800 13px/1.25 'Plus Jakarta Sans';color:#146647">Scan leftovers</div>
+                  <div style="font:500 11px/1.4 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:4px">Only pay for what you ate</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scanSheet }}" hint-placeholder-val="{{ false }}">
+            <div style="height:262px;flex:none;position:relative;background:#EFE7DA">
+              <image-slot id="poshan-plate" shape="rect" placeholder="Drop a thali photo"></image-slot>
+              <div onClick="{{ goHome }}" style="position:absolute;top:60px;left:20px;width:36px;height:36px;border-radius:12px;background:rgba(0,0,0,.45);color:#fff;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">✕</div>
+            </div>
+            <div style="flex:1;overflow:auto;margin-top:-26px;border-radius:26px 26px 0 0;background:#FFFBF4;padding:20px 20px 110px;position:relative">
+              <div style="width:40px;height:4px;border-radius:99px;background:rgba(25,21,18,.15);margin:0 auto 18px"></div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px">
+                <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">4 dishes found</div>
+                <div style="font:700 12px/1 'Plus Jakarta Sans';color:#1B8A5A">92% sure</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ detected }}" as="d" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:12px;padding:14px 15px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                    <div style="width:38px;height:38px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font-size:17px">{{ d.icon }}</div>
+                    <div style="flex:1"><div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">{{ d.name }}</div><div style="font:500 11.5px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.48);margin-top:4px">{{ d.portion }}</div></div>
+                    <div style="font:800 14px/1 'Plus Jakarta Sans'">{{ d.kcal }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scanCards }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;overflow:auto;padding:60px 20px 110px">
+              <div onClick="{{ goHome }}" style="width:36px;height:36px;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;margin-bottom:16px">✕</div>
+              <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:26px;letter-spacing:-.025em;margin-bottom:4px">Nice plate.</div>
+              <div style="font:500 13px/1.5 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-bottom:18px">4 dishes · 760 kcal · 92% confidence</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <sc-for list="{{ detected }}" as="d" hint-placeholder-count="4">
+                  <div style="padding:14px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+                    <div style="width:100%;height:74px;border-radius:12px;overflow:hidden;margin-bottom:11px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font-size:26px">{{ d.icon }}</div>
+                    <div style="font:700 13px/1.25 'Plus Jakarta Sans'">{{ d.name }}</div>
+                    <div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.48);margin-top:4px">{{ d.portion }}</div>
+                    <div style="font:800 16px/1 'Plus Jakarta Sans';margin-top:9px">{{ d.kcal }}<span style="font:500 10px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45)"> kcal</span></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 20px 30px;background:linear-gradient(transparent,#FFFBF4 34%);display:flex;gap:10px">
+            <div onClick="{{ reshoot }}" style="width:52px;height:52px;flex:none;border-radius:16px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer">↺</div>
+            <div onClick="{{ logMeal }}" style="flex:1;height:52px;border-radius:16px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;gap:9px;font:700 15px/1 'Plus Jakarta Sans';cursor:pointer">Log 760 kcal</div>
+          </div>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ isDiary }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:26px;letter-spacing:-.025em;margin-bottom:14px">Diary</div>
+        <div style="display:flex;gap:6px;margin-bottom:18px">
+          <sc-for list="{{ week }}" as="d" hint-placeholder-count="7">
+            <div style="flex:1;padding:10px 0;border-radius:13px;text-align:center;background: {{ d.bg }};color: {{ d.fg }}">
+              <div style="font:600 10px/1 'Plus Jakarta Sans';opacity:.6">{{ d.dow }}</div>
+              <div style="font:700 13px/1 'Plus Jakarta Sans';margin-top:6px">{{ d.n }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:16px 18px;border-radius:18px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div><div style="font:600 11px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.55);letter-spacing:.08em;text-transform:uppercase">Eaten today</div><div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:24px;margin-top:7px">{{ eaten }} <span style="font:600 12px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.5)">/ {{ target }}</span></div></div>
+          <div style="text-align:right"><div style="font:600 11px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.55);letter-spacing:.08em;text-transform:uppercase">Left</div><div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:24px;margin-top:7px;color:#F5A524">{{ remaining }}</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ meals }}" as="m" hint-placeholder-count="4">
+            <div style="border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);overflow:hidden">
+              <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(25,21,18,.07)">
+                <div style="font-size:16px">{{ m.icon }}</div>
+                <div style="flex:1;font:700 14px/1 'Plus Jakarta Sans'">{{ m.name }}</div>
+                <div style="font:700 13px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.5)">{{ m.kcal }}</div>
+              </div>
+              <sc-for list="{{ m.items }}" as="it" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:10px;padding:11px 16px">
+                  <div style="flex:1"><div style="font:600 13px/1.2 'Plus Jakarta Sans'">{{ it.name }}</div><div style="font:500 11px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.45);margin-top:3px">{{ it.portion }}</div></div>
+                  <div style="font:600 12.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.55)">{{ it.kcal }}</div>
+                </div>
+              </sc-for>
+              <div onClick="{{ goScan }}" style="padding:12px 16px;border-top:1px solid rgba(25,21,18,.07);font:600 12.5px/1 'Plus Jakarta Sans';color:#E1552B;cursor:pointer">+ Add to {{ m.name }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isLabel }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <div onClick="{{ goScan }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Label check</div>
+        </div>
+        <div style="display:flex;gap:14px;padding:16px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:14px">
+          <div style="width:76px;height:92px;flex:none;border-radius:12px;overflow:hidden">
+            <image-slot id="poshan-pack" shape="rounded" radius="12" placeholder="Pack shot"></image-slot>
+          </div>
+          <div style="flex:1">
+            <div style="font:500 11px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);letter-spacing:.08em;text-transform:uppercase">Barcode 8901234·567890</div>
+            <div style="font:700 15.5px/1.25 'Plus Jakarta Sans';margin-top:7px">Everyday Elaichi Rusk</div>
+            <div style="font:500 12px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:4px">Per 2 pieces · 28 g</div>
+            <div style="display:flex;gap:6px;margin-top:11px">
+              <div style="padding:6px 10px;border-radius:9px;background:#FAF5EC;font:700 11.5px/1 'Plus Jakarta Sans'">124 kcal</div>
+              <div style="padding:6px 10px;border-radius:9px;background:#FDECEA;color:#C6362A;font:700 11.5px/1 'Plus Jakarta Sans'">High sodium</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:18px;border-radius:20px;background:#FDECEA;border:1px solid rgba(198,54,42,.25);margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px">
+            <div style="width:22px;height:22px;border-radius:50%;background:#C6362A;color:#fff;display:flex;align-items:center;justify-content:center;font:800 13px/1 'Plus Jakarta Sans'">!</div>
+            <div style="font:800 14.5px/1 'Plus Jakarta Sans';color:#8F2119">Not for you, Ayesha</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ flags }}" as="f" hint-placeholder-count="3">
+              <div style="padding:12px 14px;border-radius:13px;background:rgba(255,255,255,.75)">
+                <div style="display:flex;align-items:center;gap:8px"><div style="font:800 12.5px/1 'Plus Jakarta Sans';color:#8F2119">{{ f.name }}</div><div style="padding:3px 7px;border-radius:6px;background:#C6362A;color:#fff;font:700 9.5px/1 'Plus Jakarta Sans';letter-spacing:.06em;text-transform:uppercase">{{ f.level }}</div></div>
+                <div style="font:500 12px/1.5 'Plus Jakarta Sans';color:rgba(25,21,18,.65);margin-top:6px">{{ f.why }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:18px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:12px">
+          <div style="font:800 13.5px/1 'Plus Jakarta Sans';margin-bottom:13px">Ingredients, decoded</div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{ ingredients }}" as="i" hint-placeholder-count="7">
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(25,21,18,.06)">
+                <div style="width:7px;height:7px;border-radius:50%;flex:none;background: {{ i.dot }}"></div>
+                <div style="flex:1;font:600 12.5px/1.3 'Plus Jakarta Sans'">{{ i.name }}</div>
+                <div style="font:500 11.5px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.5);text-align:right;max-width:150px">{{ i.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:18px;border-radius:20px;background:#F0F7F3;border:1px solid rgba(27,138,90,.22)">
+          <div style="font:800 13.5px/1 'Plus Jakarta Sans';color:#146647;margin-bottom:11px">Safer swaps on your shelf</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ swaps }}" as="s" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.8)">
+                <div style="font-size:16px">{{ s.icon }}</div>
+                <div style="flex:1"><div style="font:700 12.5px/1.2 'Plus Jakarta Sans'">{{ s.name }}</div><div style="font:500 11px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:3px">{{ s.why }}</div></div>
+                <div style="font:700 12px/1 'Plus Jakarta Sans';color:#1B8A5A">{{ s.kcal }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isMicros }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Micronutrients</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:10px 0 18px">Estimated from everything you logged today, adjusted for how desi cooking actually behaves — turmeric, ghee, pressure-cooked dals.</div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ micros }}" as="m" hint-placeholder-count="8">
+            <div style="padding:14px 16px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px">
+                <div style="font:700 13.5px/1 'Plus Jakarta Sans'">{{ m.name }}</div>
+                <div style="font:700 12.5px/1 'Plus Jakarta Sans';color: {{ m.color }}">{{ m.label }}</div>
+              </div>
+              <div style="height:7px;border-radius:99px;background:#F3ECE0;overflow:hidden">
+                <div style="height:100%;border-radius:99px;width: {{ m.pct }};background: {{ m.color }}"></div>
+              </div>
+              <div style="font:500 11.5px/1.4 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:9px">{{ m.tip }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isMove }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:26px;letter-spacing:-.025em;margin-bottom:16px">Move</div>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <sc-for list="{{ moveStats }}" as="s" hint-placeholder-count="3">
+            <div style="flex:1;padding:16px 14px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="font-size:16px;margin-bottom:9px">{{ s.icon }}</div>
+              <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:20px;letter-spacing:-.02em">{{ s.val }}</div>
+              <div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:5px">{{ s.name }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:20px;border-radius:20px;background:#191512;color:#FFFBF4;margin-bottom:14px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+            <div style="font:700 14px/1 'Plus Jakarta Sans'">Steps this week</div>
+            <div style="font:600 11.5px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.5)">avg 8,140</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:96px">
+            <sc-for list="{{ stepBars }}" as="b" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;height:100%">
+                <div style="width:100%;border-radius:6px;height: {{ b.h }};background: {{ b.color }}"></div>
+                <div style="font:600 10px/1 'Plus Jakarta Sans';color:rgba(255,251,244,.45)">{{ b.dow }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-family:'Bricolage Grotesque',serif;font-weight:700;font-size:17px;margin:20px 0 12px">Today's sessions</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+          <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:12px;padding:14px 15px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="width:38px;height:38px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font-size:17px">{{ s.icon }}</div>
+              <div style="flex:1"><div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">{{ s.name }}</div><div style="font:500 11.5px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.48);margin-top:4px">{{ s.meta }}</div></div>
+              <div style="font:800 13.5px/1 'Plus Jakarta Sans';color:#E1552B">−{{ s.kcal }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-family:'Bricolage Grotesque',serif;font-weight:700;font-size:17px;margin-bottom:12px">Connected apps</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ apps }}" as="a" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:15px;background:#FFFFFF;border:1px solid rgba(25,21,18,.08)">
+              <div style="width:32px;height:32px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;background: {{ a.bg }}">{{ a.icon }}</div>
+              <div style="flex:1;font:600 13px/1.2 'Plus Jakarta Sans'">{{ a.name }}</div>
+              <div style="padding:6px 11px;border-radius:99px;font:700 11px/1 'Plus Jakarta Sans';background: {{ a.pillBg }};color: {{ a.pillFg }}">{{ a.state }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Your week</div>
+        </div>
+        <div style="padding:22px;border-radius:22px;background:linear-gradient(150deg,#1B8A5A,#0E5B3B);color:#EAF7F0;margin-bottom:14px">
+          <div style="font:700 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;opacity:.7">Thali score</div>
+          <div style="display:flex;align-items:flex-end;gap:10px;margin-top:12px">
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:56px;line-height:.85;letter-spacing:-.04em">74</div>
+            <div style="font:700 13px/1 'Plus Jakarta Sans';padding-bottom:8px;opacity:.85">+6 vs last week</div>
+          </div>
+          <div style="font:500 13px/1.55 'Plus Jakarta Sans';opacity:.85;margin-top:14px">Protein finally cleared 60 g on five days. Sodium is the one holding you back — three days above 2,300 mg.</div>
+        </div>
+        <div style="padding:20px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:14px">
+          <div style="font:700 14px/1 'Plus Jakarta Sans';margin-bottom:16px">Calories vs target</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:110px">
+            <sc-for list="{{ calBars }}" as="b" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;height:100%">
+                <div style="width:100%;border-radius:6px;height: {{ b.h }};background: {{ b.color }}"></div>
+                <div style="font:600 10px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.4)">{{ b.dow }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ weekNotes }}" as="n" hint-placeholder-count="3">
+            <div style="display:flex;gap:12px;padding:15px 16px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="font-size:17px">{{ n.icon }}</div>
+              <div style="flex:1"><div style="font:700 13px/1.3 'Plus Jakarta Sans'">{{ n.title }}</div><div style="font:500 12px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:5px">{{ n.body }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isRecipes }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Recipes</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">Desi food, lighter hands. Everything here fits your {{ remaining }} kcal and dodges lactose.</div>
+        <div style="display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap">
+          <sc-for list="{{ recipeTabs }}" as="t" hint-placeholder-count="4">
+            <div onClick="{{ t.pick }}" style="padding:9px 14px;border-radius:99px;cursor:pointer;font:600 12.5px/1 'Plus Jakarta Sans';background: {{ t.bg }};color: {{ t.fg }}">{{ t.name }}</div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ recipes }}" as="r" hint-placeholder-count="3">
+            <div style="border-radius:20px;overflow:hidden;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="height:132px;position:relative">
+                <image-slot id="{{ r.slot }}" shape="rect" placeholder="{{ r.name }}"></image-slot>
+                <div style="position:absolute;top:12px;right:12px;padding:6px 11px;border-radius:99px;background:rgba(13,11,10,.72);color:#fff;font:700 11.5px/1 'Plus Jakarta Sans';pointer-events:none">{{ r.kcal }} kcal</div>
+              </div>
+              <div style="padding:15px 16px">
+                <div style="font:800 15px/1.25 'Plus Jakarta Sans'">{{ r.name }}</div>
+                <div style="font:500 12px/1.5 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-top:6px">{{ r.note }}</div>
+                <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+                  <sc-for list="{{ r.tags }}" as="tg" hint-placeholder-count="3">
+                    <div style="padding:5px 10px;border-radius:8px;background:#FAF5EC;font:600 11px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.6)">{{ tg }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:26px;letter-spacing:-.025em;margin-bottom:16px">Me</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:12px">
+          <div style="width:56px;height:56px;flex:none;border-radius:18px;overflow:hidden"><image-slot id="poshan-avatar" shape="rounded" radius="18" placeholder="Photo"></image-slot></div>
+          <div style="flex:1">
+            <div style="font:800 16px/1.2 'Plus Jakarta Sans'">Ayesha K.</div>
+            <div style="font:500 12px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:5px">{{ profileLine }}</div>
+          </div>
+          <div onClick="{{ restartOb }}" style="padding:8px 12px;border-radius:10px;background:#F3ECE0;font:600 12px/1 'Plus Jakarta Sans';cursor:pointer">Edit</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <div style="flex:1;padding:15px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.08)"><div style="font:800 18px/1 'Plus Jakarta Sans'">{{ target }}</div><div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:6px">daily kcal</div></div>
+          <div style="flex:1;padding:15px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.08)"><div style="font:800 18px/1 'Plus Jakarta Sans'">{{ bmiStr }}</div><div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:6px">BMI</div></div>
+          <div style="flex:1;padding:15px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.08)"><div style="font:800 18px/1 'Plus Jakarta Sans'">12</div><div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:6px">day streak</div></div>
+        </div>
+        <div style="border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);overflow:hidden;margin-bottom:12px">
+          <sc-for list="{{ meRows }}" as="r" hint-placeholder-count="5">
+            <div onClick="{{ r.go }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid rgba(25,21,18,.06);cursor:pointer">
+              <div style="font-size:16px">{{ r.icon }}</div>
+              <div style="flex:1;font:600 13.5px/1.2 'Plus Jakarta Sans'">{{ r.name }}</div>
+              <div style="font:500 12px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.4)">{{ r.meta }}</div>
+              <div style="font:600 14px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.28)">›</div>
+            </div>
+          </sc-for>
+        </div>
+        <div onClick="{{ toggleUnits }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:16px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);cursor:pointer;margin-bottom:12px">
+          <div style="font-size:16px">📐</div>
+          <div style="flex:1;font:600 13.5px/1.2 'Plus Jakarta Sans'">Units</div>
+          <div style="padding:6px 11px;border-radius:99px;background:#191512;color:#FFFBF4;font:700 11.5px/1 'Plus Jakarta Sans'">{{ unitsLabel }}</div>
+        </div>
+
+        <div style="padding:18px;border-radius:20px;background:#F5F2FF;border:1px solid rgba(60,76,173,.2)">
+          <div style="font:800 13.5px/1 'Plus Jakarta Sans';color:#2B3894;margin-bottom:4px">Design lab</div>
+          <div style="font:500 11.5px/1.5 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin-bottom:14px">Three directions per surface — flip them live.</div>
+          <sc-for list="{{ labGroups }}" as="g" hint-placeholder-count="3">
+            <div style="margin-bottom:14px">
+              <div style="font:700 10.5px/1 'Plus Jakarta Sans';letter-spacing:.12em;text-transform:uppercase;color:rgba(25,21,18,.42);margin-bottom:8px">{{ g.name }}</div>
+              <div style="display:flex;gap:6px">
+                <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="3">
+                  <div onClick="{{ o.pick }}" style="flex:1;padding:10px 4px;border-radius:11px;text-align:center;cursor:pointer;font:600 11px/1.25 'Plus Jakarta Sans';background: {{ o.bg }};color: {{ o.fg }};border:1px solid {{ o.bd }}">{{ o.name }}</div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isFeed }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 108px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">What PlateSense noticed</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">No chatbot. Just the handful of things worth knowing, written the moment we spot them.</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ feed }}" as="f" hint-placeholder-count="5">
+            <div style="padding:17px 18px;border-radius:18px;background: {{ f.bg }};border:1px solid {{ f.bd }}">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                <div style="font-size:15px">{{ f.icon }}</div>
+                <div style="font:700 10.5px/1 'Plus Jakarta Sans';letter-spacing:.12em;text-transform:uppercase;color:rgba(25,21,18,.45)">{{ f.kind }}</div>
+                <div style="flex:1"></div>
+                <div style="font:500 10.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.35)">{{ f.when }}</div>
+              </div>
+              <div style="font:700 14.5px/1.35 'Plus Jakarta Sans';margin-bottom:6px">{{ f.title }}</div>
+              <div style="font:500 12.5px/1.6 'Plus Jakarta Sans';color:rgba(25,21,18,.6)">{{ f.body }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 40px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Shared plate</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">One handi, one photo, everyone's numbers. Drag the shares until it matches how the table actually ate.</div>
+        <div style="display:flex;gap:14px;padding:16px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09);margin-bottom:14px">
+          <div style="width:70px;height:70px;flex:none;border-radius:14px;overflow:hidden"><image-slot id="ps-handi" shape="rounded" radius="14" placeholder="Handi"></image-slot></div>
+          <div style="flex:1">
+            <div style="font:800 15px/1.25 'Plus Jakarta Sans'">Chicken karahi handi</div>
+            <div style="font:500 12px/1.4 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:5px">Full pot · 720 g · scanned 7:42 pm</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:20px;margin-top:8px">1,240 <span style="font:600 11px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45)">kcal in the pot</span></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ splitPeople }}" as="p" hint-placeholder-count="4">
+            <div style="padding:15px 16px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:38px;height:38px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font:800 14px/1 'Plus Jakarta Sans';color:#fff;background: {{ p.color }}">{{ p.initial }}</div>
+                <div style="flex:1">
+                  <div style="font:700 13.5px/1.2 'Plus Jakarta Sans'">{{ p.name }}</div>
+                  <div style="font:500 11.5px/1.2 'Plus Jakarta Sans';color:rgba(25,21,18,.48);margin-top:4px">{{ p.role }}</div>
+                </div>
+                <div style="text-align:right"><div style="font:800 15px/1 'Plus Jakarta Sans'">{{ p.kcal }}</div><div style="font:500 10px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45);margin-top:4px">kcal</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:13px">
+                <div onClick="{{ p.down }}" style="width:30px;height:30px;flex:none;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">−</div>
+                <div style="flex:1;height:8px;border-radius:99px;background:#F3ECE0;overflow:hidden">
+                  <div style="height:100%;border-radius:99px;width: {{ p.pct }};background: {{ p.color }}"></div>
+                </div>
+                <div onClick="{{ p.up }}" style="width:30px;height:30px;flex:none;border-radius:10px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer;user-select:none">+</div>
+                <div style="width:42px;text-align:right;font:700 12.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.55)">{{ p.pct }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:14px 16px;border-radius:16px;background: {{ splitBg }};border:1px solid {{ splitBd }};margin-top:12px">
+          <div style="font-size:15px">{{ splitIcon }}</div>
+          <div style="flex:1;font:600 12.5px/1.5 'Plus Jakarta Sans';color: {{ splitFg }}">{{ splitNote }}</div>
+        </div>
+        <div onClick="{{ logSplit }}" style="height:52px;border-radius:16px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;font:700 15px/1 'Plus Jakarta Sans';cursor:pointer;margin-top:14px">Log my {{ myShare }} kcal &amp; notify the family</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isLeftover }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 40px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goHome }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Leftover re-scan</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">Every other app charges you for the plate you were served. PlateSense charges you for the plate you finished.</div>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <div style="flex:1;min-width:0">
+            <div style="height:140px;border-radius:16px;overflow:hidden;background:#EFE7DA"><image-slot id="ps-before" shape="rect" style="width:100%;height:100%" placeholder="Before"></image-slot></div>
+            <div style="font:700 11px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:rgba(25,21,18,.45);margin-top:9px">Served · 760</div>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="height:140px;border-radius:16px;overflow:hidden;background:#EFE7DA"><image-slot id="ps-after" shape="rect" style="width:100%;height:100%" placeholder="After"></image-slot></div>
+            <div style="font:700 11px/1 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;color:#146647;margin-top:9px">Eaten · 553</div>
+          </div>
+        </div>
+        <div style="padding:18px;border-radius:20px;background:#F0F7F3;border:1px solid rgba(27,138,90,.22);margin-bottom:12px">
+          <div style="font:800 13.5px/1 'Plus Jakarta Sans';color:#146647;margin-bottom:12px">You left food on the plate</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ leftovers }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.82)">
+                <div style="flex:1"><div style="font:700 12.5px/1.2 'Plus Jakarta Sans'">{{ l.name }}</div><div style="font:500 11px/1.3 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:3px">{{ l.note }}</div></div>
+                <div style="font:800 12.5px/1 'Plus Jakarta Sans';color: {{ l.color }}">{{ l.delta }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid rgba(27,138,90,.2)">
+            <div style="font:700 13px/1 'Plus Jakarta Sans';color:#146647">Correction</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:24px;color:#146647">−207 kcal</div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:16px;background:#F5F2FF;border:1px solid rgba(60,76,173,.2);font:500 12.5px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.65);margin-bottom:14px">This is the third time you've left a roti behind at dinner. PlateSense will serve you one fewer in tomorrow's plan.</div>
+        <div onClick="{{ applyLeftover }}" style="height:52px;border-radius:16px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;font:700 15px/1 'Plus Jakarta Sans';cursor:pointer">Apply correction</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKitchen }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 40px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goMe }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Kitchen fingerprint</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">A generic database says a roti is 120 kcal. Yours isn't. Every correction you make teaches PlateSense your kitchen.</div>
+        <div style="padding:20px;border-radius:22px;background:#191512;color:#FFFBF4;margin-bottom:14px">
+          <div style="font:700 11px/1 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:rgba(255,251,244,.5)">Accuracy on your food</div>
+          <div style="display:flex;align-items:flex-end;gap:10px;margin-top:12px">
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:48px;line-height:.85;letter-spacing:-.04em">94%</div>
+            <div style="font:700 12.5px/1.3 'Plus Jakarta Sans';padding-bottom:6px;color:rgba(255,251,244,.65)">up from 71% in<br>your first week</div>
+          </div>
+          <div style="height:8px;border-radius:99px;background:rgba(255,251,244,.16);overflow:hidden;margin-top:16px">
+            <div style="height:100%;width:94%;border-radius:99px;background:linear-gradient(90deg,#F5A524,#1B8A5A)"></div>
+          </div>
+          <div style="font:500 12px/1.6 'Plus Jakarta Sans';color:rgba(255,251,244,.6);margin-top:13px">Built from 68 photos, 24 portion corrections and 6 dishes you named yourself.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ kitchenRows }}" as="k" hint-placeholder-count="5">
+            <div style="padding:15px 16px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(25,21,18,.09)">
+              <div style="display:flex;align-items:center;gap:11px">
+                <div style="font-size:16px">{{ k.icon }}</div>
+                <div style="flex:1;font:700 13.5px/1.2 'Plus Jakarta Sans'">{{ k.name }}</div>
+                <div style="font:800 13px/1 'Plus Jakarta Sans';color:#B8340F">{{ k.value }}</div>
+              </div>
+              <div style="font:500 11.5px/1.5 'Plus Jakarta Sans';color:rgba(25,21,18,.5);margin-top:9px">{{ k.learned }}</div>
+              <div style="display:flex;align-items:center;gap:9px;margin-top:11px">
+                <div style="flex:1;height:5px;border-radius:99px;background:#F3ECE0;overflow:hidden"><div style="height:100%;border-radius:99px;width: {{ k.conf }};background:#1B8A5A"></div></div>
+                <div style="font:700 10.5px/1 'Plus Jakarta Sans';color:rgba(25,21,18,.45)">{{ k.conf }} sure</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div onClick="{{ retrain }}" style="height:50px;border-radius:16px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 14px/1 'Plus Jakarta Sans';cursor:pointer;margin-top:14px;color:rgba(25,21,18,.7)">Teach it a new family dish</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isShield }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;overflow:auto;padding:60px 20px 40px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div onClick="{{ goMe }}" style="width:36px;height:36px;flex:none;border-radius:12px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 16px/1 'Plus Jakarta Sans';cursor:pointer">←</div>
+          <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:22px;letter-spacing:-.02em">Allergy shield</div>
+        </div>
+        <div style="font:500 13px/1.55 'Plus Jakarta Sans';color:rgba(25,21,18,.55);margin:8px 0 16px">Hand this to the waiter, the caterer, or whoever insists there's no cream in it.</div>
+        <div style="border-radius:24px;overflow:hidden;background:#C6362A;color:#FFF3E4;margin-bottom:14px">
+          <div style="padding:22px 22px 18px">
+            <div style="font:700 10.5px/1 'Plus Jakarta Sans';letter-spacing:.16em;text-transform:uppercase;opacity:.75">Medical · allergy card</div>
+            <div style="font-family:'Bricolage Grotesque',serif;font-weight:800;font-size:27px;letter-spacing:-.025em;margin-top:12px">Do not serve me</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+              <sc-for list="{{ shieldTags }}" as="t" hint-placeholder-count="2">
+                <div style="padding:8px 13px;border-radius:99px;background:rgba(0,0,0,.22);font:700 13px/1 'Plus Jakarta Sans'">{{ t }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:18px 22px 22px;background:rgba(0,0,0,.14);display:flex;gap:16px;align-items:center">
+            <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ shieldLines }}" as="l" hint-placeholder-count="3">
+                <div>
+                  <div style="font:700 11px/1.35 'Plus Jakarta Sans';letter-spacing:.1em;text-transform:uppercase;opacity:.7">{{ l.lang }}</div>
+                  <div style="font-weight:600;font-size:15.5px;line-height:1.6;margin-top:5px;direction: {{ l.dir }};font-family: {{ l.font }}">{{ l.text }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="width:74px;height:74px;flex:none;border-radius:12px;background:#FFF3E4;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:2px;padding:7px">
+              <sc-for list="{{ qr }}" as="q" hint-placeholder-count="25">
+                <div style="border-radius:1px;background: {{ q }}"></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <div onClick="{{ shareShield }}" style="flex:1;height:50px;border-radius:16px;background:#191512;color:#FFFBF4;display:flex;align-items:center;justify-content:center;font:700 14px/1 'Plus Jakarta Sans';cursor:pointer">Show full screen</div>
+          <div onClick="{{ shareShield }}" style="flex:1;height:50px;border-radius:16px;background:#F3ECE0;display:flex;align-items:center;justify-content:center;font:700 14px/1 'Plus Jakarta Sans';cursor:pointer;color:rgba(25,21,18,.7)">Send to family</div>
+        </div>
+        <div style="padding:16px 18px;border-radius:18px;background:#FFF7EA;border:1px solid rgba(245,165,36,.3);font:500 12.5px/1.6 'Plus Jakarta Sans';color:#8A5A0B">The QR opens a live page — if you edit your allergies here, every card you've already handed out updates itself.</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;padding:8px 12px 26px;background:rgba(255,251,244,.86);backdrop-filter:blur(18px);border-top:1px solid rgba(25,21,18,.08);display:flex;align-items:center">
+        <div onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color: {{ tHome }}">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>
+          <div style="font:600 10px/1 'Plus Jakarta Sans'">Home</div>
+        </div>
+        <div onClick="{{ goDiary }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color: {{ tDiary }}">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+          <div style="font:600 10px/1 'Plus Jakarta Sans'">Diary</div>
+        </div>
+        <div style="flex:1;display:flex;justify-content:center">
+          <div onClick="{{ goScan }}" style="width:54px;height:54px;margin-top:-22px;border-radius:19px;background:#E1552B;box-shadow:0 8px 20px rgba(225,85,43,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"></path><circle cx="12" cy="12" r="3.2"></circle></svg>
+          </div>
+        </div>
+        <div onClick="{{ goMove }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color: {{ tMove }}">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h3l2.5-7 3.5 14 2.5-7h4.5"></path></svg>
+          <div style="font:600 10px/1 'Plus Jakarta Sans'">Move</div>
+        </div>
+        <div onClick="{{ goMe }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color: {{ tMe }}">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"></path></svg>
+          <div style="font:600 10px/1 'Plus Jakarta Sans'">Me</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:20px;right:20px;bottom:108px;z-index:60;padding:14px 17px;border-radius:16px;background:#191512;color:#FFFBF4;box-shadow:0 14px 34px rgba(0,0,0,.28);display:flex;align-items:center;gap:11px;animation:rise .25s ease both">
+        <div style="width:22px;height:22px;border-radius:50%;background:#1B8A5A;display:flex;align-items:center;justify-content:center;font:800 12px/1 'Plus Jakarta Sans'">✓</div>
+        <div style="flex:1;font:600 13px/1.4 'Plus Jakarta Sans'">{{ toast }}</div>
+      </div>
+    </sc-if>
+
+  </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:880,&quot;height&quot;:1010},&quot;homeStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Rings&quot;,&quot;Thali plate&quot;,&quot;Streak fuel&quot;],&quot;default&quot;:&quot;Rings&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;scanStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Tap pins&quot;,&quot;Bottom sheet&quot;,&quot;Item cards&quot;],&quot;default&quot;:&quot;Tap pins&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;aiStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Ambient cards&quot;,&quot;Coach timeline&quot;,&quot;Nudge stack&quot;],&quot;default&quot;:&quot;Ambient cards&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;units&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Metric&quot;,&quot;Imperial&quot;],&quot;default&quot;:&quot;Metric&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const INK='#191512', ACC='#E1552B', GRN='#1B8A5A', MAR='#F5A524', RED='#C6362A', MUT='rgba(25,21,18,.5)';
+const LINE='rgba(25,21,18,.14)';
+
+class Component extends DCLogic {
+  state = {
+    screen: 'ob', ob: 0, scanPhase: 'aim', pin: 0, toast: '',
+    sex: 'Female', age: 28, hCm: 163, wKg: 68, goal: 'Lose weight', act: 'Light',
+    allergies: ['Lactose', 'Peanuts'], region: 'Both',
+    units: null, home: null, scan: null, ai: null,
+    recipeTab: 'Under 300', eatenBase: 1120, portion: 2,
+    shares: [40, 34, 26]
+  };
+
+  componentWillUnmount(){ clearTimeout(this._t); }
+  flash(m){ this.setState({toast:m}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:''}),2400); }
+  go(s){ this.setState({screen:s}); }
+
+  units(){ return this.state.units || this.props.units || 'Metric'; }
+  homeDir(){ return this.state.home || this.props.homeStyle || 'Rings'; }
+  scanDir(){ return this.state.scan || this.props.scanStyle || 'Tap pins'; }
+  aiDir(){ return this.state.ai || this.props.aiStyle || 'Ambient cards'; }
+
+  target(){
+    const s=this.state, m = s.sex==='Male'?5:-161;
+    const bmr = 10*s.wKg + 6.25*s.hCm - 5*s.age + m;
+    const f = {Sedentary:1.25, Light:1.38, Active:1.55, Athlete:1.72}[s.act]||1.38;
+    const g = {'Lose weight':-380,'Maintain':0,'Build muscle':240,'Manage sugar':-180}[s.goal]||0;
+    return Math.round((bmr*f + g)/10)*10;
+  }
+
+  ringEl(pct){
+    const R=52, C=2*Math.PI*R;
+    return React.createElement('svg',{width:118,height:118,viewBox:'0 0 118 118',style:{transform:'rotate(-90deg)'}},
+      React.createElement('circle',{cx:59,cy:59,r:R,fill:'none',stroke:'rgba(255,251,244,.16)',strokeWidth:11}),
+      React.createElement('circle',{cx:59,cy:59,r:R,fill:'none',stroke:ACC,strokeWidth:11,strokeLinecap:'round',
+        strokeDasharray:C, strokeDashoffset:C*(1-Math.min(pct,1)), style:{transition:'stroke-dashoffset .6s ease'}}));
+  }
+
+  plateEl(){
+    const segs=[{c:'#F5A524',v:.82},{c:'#E1552B',v:.54},{c:'#1B8A5A',v:.31},{c:'#8A6FD6',v:.66}];
+    const R=58, C=2*Math.PI*R/4;
+    return React.createElement('svg',{width:132,height:132,viewBox:'0 0 132 132'},
+      React.createElement('circle',{cx:66,cy:66,r:R,fill:'none',stroke:'#F3ECE0',strokeWidth:14}),
+      ...segs.map((s,i)=>React.createElement('circle',{key:i,cx:66,cy:66,r:R,fill:'none',stroke:s.c,strokeWidth:14,
+        strokeDasharray:(C*s.v)+' '+(2*Math.PI*R),
+        transform:'rotate('+(i*90-90)+' 66 66)'})),
+      React.createElement('circle',{cx:66,cy:66,r:36,fill:'#FFFBF4'}),
+      React.createElement('text',{x:66,y:63,textAnchor:'middle',fontSize:22,fontWeight:800,fill:INK,fontFamily:'Plus Jakarta Sans'},'58%'),
+      React.createElement('text',{x:66,y:79,textAnchor:'middle',fontSize:9,fontWeight:600,fill:'rgba(25,21,18,.45)',fontFamily:'Plus Jakarta Sans'},'FULL'));
+  }
+
+  aiCards(){
+    const d=this.aiDir(), open=()=>this.go('feed');
+    const box=(bg,bd,extra)=>Object.assign({padding:'17px 18px',borderRadius:18,background:bg,border:'1px solid '+bd,cursor:'pointer'},extra||{});
+    const t=(txt,st)=>React.createElement('div',{style:st},txt);
+    if(d==='Coach timeline'){
+      const rows=[['08:20','Aloo paratha + chai','Heavy start — 520 kcal before 9am.'],
+                  ['13:05','Roti, dal, bhindi','Balanced. Protein still light at 18 g.'],
+                  ['16:40','Samosa','+130 kcal. Two left in your snack budget.'],
+                  ['now','Dinner window','Aim 620 kcal with 30 g protein — try grilled seekh.']];
+      return React.createElement('div',{onClick:open,style:box('#FFFFFF','rgba(25,21,18,.09)')},
+        t('PLATESENSE AI · TODAY',{font:"700 10.5px/1 'Plus Jakarta Sans'",letterSpacing:'.12em',color:'rgba(25,21,18,.42)',marginBottom:14}),
+        ...rows.map((r,i)=>React.createElement('div',{key:i,style:{display:'flex',gap:12,paddingBottom:i===rows.length-1?0:14}},
+          React.createElement('div',{style:{width:44,flex:'none',font:"700 11px/1.4 'Plus Jakarta Sans'",color:MUT}},r[0]),
+          React.createElement('div',{style:{width:2,flex:'none',background:i===rows.length-1?ACC:'rgba(25,21,18,.1)',borderRadius:2}}),
+          React.createElement('div',{style:{flex:1}},
+            React.createElement('div',{style:{font:"700 12.5px/1.3 'Plus Jakarta Sans'"}},r[1]),
+            React.createElement('div',{style:{font:"500 11.5px/1.5 'Plus Jakarta Sans'",color:'rgba(25,21,18,.55)',marginTop:4}},r[2])))));
+    }
+    if(d==='Nudge stack'){
+      return React.createElement('div',{style:{position:'relative',paddingBottom:10}},
+        React.createElement('div',{style:{position:'absolute',left:12,right:12,top:12,height:70,borderRadius:18,background:'#F3ECE0'}}),
+        React.createElement('div',{style:{position:'absolute',left:6,right:6,top:6,height:70,borderRadius:18,background:'#F8EFE0'}}),
+        React.createElement('div',{onClick:open,style:box('#191512','#191512',{position:'relative',color:'#FFFBF4'})},
+          t('NUDGE 1 OF 4',{font:"700 10.5px/1 'Plus Jakarta Sans'",letterSpacing:'.12em',color:'rgba(255,251,244,.5)',marginBottom:10}),
+          t('Sodium is running hot',{font:"800 16px/1.3 'Plus Jakarta Sans'",marginBottom:6}),
+          t('2,410 mg already — mostly the rusk and the karahi. Skip pickle at dinner and you land under.',{font:"500 12.5px/1.6 'Plus Jakarta Sans'",color:'rgba(255,251,244,.7)'}),
+          React.createElement('div',{style:{display:'flex',gap:8,marginTop:14}},
+            React.createElement('div',{style:{flex:1,padding:'10px 0',textAlign:'center',borderRadius:12,background:'#FFFBF4',color:INK,font:"700 12px/1 'Plus Jakarta Sans'"}},'Got it'),
+            React.createElement('div',{style:{flex:1,padding:'10px 0',textAlign:'center',borderRadius:12,background:'rgba(255,251,244,.14)',font:"700 12px/1 'Plus Jakarta Sans'"}},'Later'))));
+    }
+    const cards=[['🧠','#FFF7EA','rgba(245,165,36,.3)','Protein is trailing again','18 g by 4pm. A cup of rajma or 150 g curd closes the gap without touching your calories.'],
+                 ['🧂','#FDECEA','rgba(198,54,42,.22)','Sodium at 118% of target','The elaichi rusk did most of it. PlateSense will flag it next time you scan the pack.']];
+    return React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:10}},
+      ...cards.map((c,i)=>React.createElement('div',{key:i,onClick:open,style:box(c[1],c[2])},
+        React.createElement('div',{style:{display:'flex',alignItems:'center',gap:9,marginBottom:9}},
+          React.createElement('div',{style:{fontSize:15}},c[0]),
+          t('PLATESENSE AI',{font:"700 10.5px/1 'Plus Jakarta Sans'",letterSpacing:'.12em',color:'rgba(25,21,18,.45)'})),
+        t(c[3],{font:"700 14.5px/1.35 'Plus Jakarta Sans'",marginBottom:6}),
+        t(c[4],{font:"500 12.5px/1.6 'Plus Jakarta Sans'",color:'rgba(25,21,18,.6)'}))));
+  }
+
+  chip(active, activeBg, activeFg){
+    return active
+      ? {bd: activeBg||INK, bg: activeBg||INK, fg: activeFg||'#FFFBF4'}
+      : {bd: LINE, bg: '#FFFFFF', fg: 'rgba(25,21,18,.65)'};
+  }
+
+  renderVals(){
+    const s=this.state, imp=this.units()==='Imperial';
+    const target=this.target(), eaten=s.eatenBase, burned=340;
+    const remaining=Math.max(target-eaten+burned,0);
+    const shareTotal = s.shares.reduce((a,b)=>a+b,0);
+    const qrSeed = [1,0,1,1,0, 0,1,1,0,1, 1,1,0,1,0, 0,1,0,1,1, 1,0,1,0,1];
+    const qrCells = qrSeed.map(v=>v?'#191512':'transparent');
+    const pinData=[
+      {name:'Roti (tandoori)',note:'2 pieces · atta, no ghee',kcal:208,portion:'2 pieces',macros:[{k:'carb',v:'42g'},{k:'protein',v:'7g'},{k:'fat',v:'2g'},{k:'fibre',v:'6g'}]},
+      {name:'Dal tadka',note:'1 katori · toor dal, 1 tsp ghee',kcal:180,portion:'1 katori (150g)',macros:[{k:'carb',v:'22g'},{k:'protein',v:'9g'},{k:'fat',v:'6g'},{k:'fibre',v:'5g'}]},
+      {name:'Chicken karahi',note:'1 serving · bone-in, tomato base',kcal:310,portion:'1 serving (180g)',macros:[{k:'carb',v:'6g'},{k:'protein',v:'28g'},{k:'fat',v:'19g'},{k:'fibre',v:'2g'}]},
+      {name:'Raita',note:'1 small bowl · cucumber',kcal:62,portion:'1 bowl (100g)',macros:[{k:'carb',v:'5g'},{k:'protein',v:'3g'},{k:'fat',v:'3g'},{k:'fibre',v:'1g'}]}
+    ];
+    const pc=i=>i===s.pin?ACC:'rgba(13,11,10,.62)';
+    const goalList=[['Lose weight','~0.4 kg a week','⬇️'],['Maintain','Hold steady, eat better','⚖️'],['Build muscle','Lean gain + protein push','💪'],['Manage sugar','Low-GI, split meals','🩺']];
+    const dow=['M','T','W','T','F','S','S'];
+    const stepVals=[.62,.78,.55,.9,.71,1,.83], calVals=[.86,1.02,.74,.93,.68,1.12,.82];
+
+    const mk=(name,list,cur,key)=>({name, opts:list.map(o=>{
+      const a=cur===o, c=this.chip(a,'#2B3894','#fff');
+      return {name:o, bg:c.bg, fg:c.fg, bd:c.bd, pick:()=>this.setState({[key]:o})};
+    })});
+
+    return {
+      isOb: s.screen==='ob', ob0: s.ob===0, ob1: s.ob===1, ob2s: s.ob===2,
+      ob2: s.ob>=1?ACC:'#F3ECE0', ob3: s.ob>=2?ACC:'#F3ECE0',
+      obCta: s.ob===2?'Build my plan 🎉':'Continue',
+      obNext: ()=>{ if(s.ob<2) this.setState({ob:s.ob+1}); else { this.setState({screen:'home',ob:0}); this.flash('Target set: '+this.target()+' kcal a day'); } },
+      obBack: ()=>{ if(s.ob>0) this.setState({ob:s.ob-1}); else this.setState({screen:'home'}); },
+      setFemale: ()=>this.setState({sex:'Female'}), setMale: ()=>this.setState({sex:'Male'}),
+      sxF: s.sex==='Female'?INK:LINE, sxFbg: s.sex==='Female'?INK:'#FFFFFF', sxFc: s.sex==='Female'?'#FFFBF4':'rgba(25,21,18,.65)',
+      sxM: s.sex==='Male'?INK:LINE, sxMbg: s.sex==='Male'?INK:'#FFFFFF', sxMc: s.sex==='Male'?'#FFFBF4':'rgba(25,21,18,.65)',
+      ageStr: s.age+' yrs', ageUp: ()=>this.setState({age:s.age+1}), ageDown: ()=>this.setState({age:Math.max(s.age-1,14)}),
+      hStr: imp ? Math.floor(s.hCm/30.48)+"' "+Math.round((s.hCm/2.54)%12)+'"' : s.hCm+' cm',
+      wStr: imp ? Math.round(s.wKg*2.205)+' lb' : s.wKg+' kg',
+      htUp: ()=>this.setState({hCm:s.hCm+1}), htDown: ()=>this.setState({hCm:Math.max(s.hCm-1,120)}),
+      wtUp: ()=>this.setState({wKg:s.wKg+1}), wtDown: ()=>this.setState({wKg:Math.max(s.wKg-1,30)}),
+      toggleUnits: ()=>this.setState({units: imp?'Metric':'Imperial'}),
+      otherUnits: imp?'metric (cm / kg)':'imperial (ft / lb)', unitsLabel: imp?'Imperial':'Metric',
+      goals: goalList.map(g=>{ const a=s.goal===g[0], c=this.chip(a,'#FFF0DE',INK);
+        return {name:g[0], sub:g[1], icon:g[2], bd:a?MAR:LINE, bg:a?'#FFF7EA':'#FFFFFF', pick:()=>this.setState({goal:g[0]})}; }),
+      acts: ['Sedentary','Light','Active','Athlete'].map(a=>{ const on=s.act===a, c=this.chip(on);
+        return {name:a, bd:c.bd, bg:c.bg, fg:c.fg, pick:()=>this.setState({act:a})}; }),
+      allergyChips: ['Lactose','Peanuts','Gluten','Tree nuts','Soy','Shellfish','Egg','Sesame','Mustard'].map(n=>{
+        const on=s.allergies.indexOf(n)>-1, c=this.chip(on,RED,'#fff');
+        return {name:n, bd:c.bd, bg:c.bg, fg:c.fg, pick:()=>this.setState({allergies: on? s.allergies.filter(x=>x!==n) : s.allergies.concat([n])})}; }),
+      regions: ['Indian','Pakistani','Both'].map(r=>{ const on=s.region===r, c=this.chip(on);
+        return {name:r, bd:c.bd, bg:c.bg, fg:c.fg, pick:()=>this.setState({region:r})}; }),
+
+      isHome: s.screen==='home',
+      isSplit: s.screen==='split', isLeftover: s.screen==='leftover', isKitchen: s.screen==='kitchen', isShield: s.screen==='shield', isScan: s.screen==='scan', isDiary: s.screen==='diary',
+      isLabel: s.screen==='label', isMicros: s.screen==='micros', isMove: s.screen==='move',
+      isInsights: s.screen==='insights', isRecipes: s.screen==='recipes', isMe: s.screen==='me', isFeed: s.screen==='feed',
+      showTabs: ['home','diary','move','me'].indexOf(s.screen)>-1,
+      homeRings: this.homeDir()==='Rings', homePlate: this.homeDir()==='Thali plate', homeStreak: this.homeDir()==='Streak fuel',
+      scanPins: this.scanDir()==='Tap pins', scanSheet: this.scanDir()==='Bottom sheet', scanCards: this.scanDir()==='Item cards',
+      scanAim: s.scanPhase==='aim', scanBusy: s.scanPhase==='busy', scanDone: s.scanPhase==='done', scanNotDone: s.scanPhase!=='done',
+
+      goHome: ()=>this.go('home'),
+      goSplit: ()=>this.go('split'), goLeftover: ()=>this.go('leftover'),
+      goKitchen: ()=>this.go('kitchen'), goShield: ()=>this.go('shield'),
+      retrain: ()=>this.flash('Recording mode on — cook and narrate'),
+      shareShield: ()=>this.flash('Shield card link copied'),
+      applyLeftover: ()=>{ this.setState({screen:'diary', eatenBase: Math.max(s.eatenBase-207,0)}); this.flash('Corrected · 207 kcal back in your budget'); },
+      logSplit: ()=>{ this.setState({screen:'diary', eatenBase: s.eatenBase + Math.round(1240*s.shares[0]/100)}); this.flash('Your share logged · family notified'); },
+      splitPeople: [
+        {name:'You', role:'Ayesha · lactose-free', initial:'A', color:'#E1552B'},
+        {name:'Bilal', role:'Husband · building muscle', initial:'B', color:'#3C4CAD'},
+        {name:'Amma', role:'Shared account · diabetic', initial:'M', color:'#1B8A5A'}
+      ].map((p,i)=>({name:p.name, role:p.role, initial:p.initial, color:p.color,
+        pct: s.shares[i]+'%', kcal: Math.round(1240*s.shares[i]/100).toLocaleString(),
+        up: ()=>{ const n=s.shares.slice(); n[i]=Math.min(n[i]+5,100); this.setState({shares:n}); },
+        down: ()=>{ const n=s.shares.slice(); n[i]=Math.max(n[i]-5,0); this.setState({shares:n}); }})),
+      myShare: Math.round(1240*s.shares[0]/100).toLocaleString(),
+      splitNote: shareTotal===100 ? 'The pot adds up. Everyone gets their real number.' : (shareTotal<100 ? (100-shareTotal)+'% of the handi is unclaimed — leftovers, or someone is being shy?' : 'That is '+(shareTotal-100)+'% more than was in the pot. Trim someone.'),
+      splitBg: shareTotal===100?'#F0F7F3':'#FFF7EA', splitBd: shareTotal===100?'rgba(27,138,90,.22)':'rgba(245,165,36,.3)',
+      splitFg: shareTotal===100?'#146647':'#8A5A0B', splitIcon: shareTotal===100?'✓':'⚖️',
+      leftovers: [
+        {name:'Roti (tandoori)', note:'2 served → 1 eaten', delta:'−104', color:GRN},
+        {name:'Chicken karahi', note:'A third still in the bowl', delta:'−103', color:GRN},
+        {name:'Dal tadka', note:'Finished', delta:'0', color:'rgba(25,21,18,.35)'},
+        {name:'Raita', note:'Finished', delta:'0', color:'rgba(25,21,18,.35)'}
+      ],
+      kitchenRows: [
+        {icon:'🫓', name:'Your roti', value:'98 kcal', learned:'You resized it down 24 times. PlateSense now assumes a 6-inch atta roti, not the 8-inch database default.', conf:'94%'},
+        {icon:'🧈', name:'Ghee hand', value:'0.4 tsp', learned:'Weekday rotis run dry, Sunday parathas do not. It splits the estimate by day.', conf:'88%'},
+        {icon:'🍲', name:'Dal consistency', value:'Thin', learned:'Your dal photographs thinner than average — 150 kcal a katori, not 180.', conf:'91%'},
+        {icon:'🛢️', name:'Household oil', value:'1.4× base', learned:'Across 60 home dishes your tarka runs heavier than the reference kitchen.', conf:'82%'},
+        {icon:'⭐', name:"Amma's biryani", value:'268 / cup', learned:'You built this one yourself, ingredient by ingredient. It never guesses again.', conf:'100%'}
+      ],
+      shieldTags: s.allergies.length ? s.allergies : ['Lactose'],
+      shieldLines: [
+        {lang:'English', dir:'ltr', font:"'Plus Jakarta Sans', system-ui, sans-serif", text:'No milk, cream, paneer, ghee or peanuts. Medical allergy.'},
+        {lang:'हिन्दी', dir:'ltr', font:"'Noto Sans Devanagari', 'Nirmala UI', serif", text:'दूध, क्रीम, पनीर, घी या मूंगफली नहीं। एलर्जी है।'},
+        {lang:'اردو', dir:'rtl', font:"'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif", text:'دودھ، کریم، پنیر، گھی یا مونگ پھلی نہیں۔ الرجی ہے۔'}
+      ],
+      qr: qrCells, goDiary: ()=>this.go('diary'), goMove: ()=>this.go('move'),
+      goMe: ()=>this.go('me'), goMicros: ()=>this.go('micros'), goInsights: ()=>this.go('insights'),
+      goRecipes: ()=>this.go('recipes'), goLabel: ()=>this.go('label'), goFeed: ()=>this.go('feed'),
+      goScan: ()=>this.setState({screen:'scan',scanPhase:'aim'}),
+      restartOb: ()=>this.setState({screen:'ob',ob:0}),
+      shoot: ()=>{ this.setState({scanPhase:'busy'}); clearTimeout(this._s); this._s=setTimeout(()=>this.setState({scanPhase:'done'}),1500); },
+      reshoot: ()=>this.setState({scanPhase:'aim'}),
+      logMeal: ()=>{ this.setState({screen:'diary',scanPhase:'aim',eatenBase:s.eatenBase+760}); this.flash('760 kcal logged · +40 XP'); },
+      tHome: s.screen==='home'?INK:'rgba(25,21,18,.35)', tDiary: s.screen==='diary'?INK:'rgba(25,21,18,.35)',
+      tMove: s.screen==='move'?INK:'rgba(25,21,18,.35)', tMe: s.screen==='me'?INK:'rgba(25,21,18,.35)',
+      toast: s.toast,
+
+      today: 'Saturday, 5 Sept', greeting: 'Assalam-o-alaikum 👋',
+      target: target.toLocaleString(), eaten: eaten.toLocaleString(), remaining: remaining.toLocaleString(),
+      eatenPct: Math.min(Math.round(eaten/target*100),100)+'%', platePct: '58%',
+      ring: this.ringEl(remaining/target), plate: this.plateEl(), aiSurface: this.aiCards(),
+      macros: [{name:'Protein',val:'52 / 96 g',pct:'54%',color:'#F5A524'},{name:'Carbs',val:'168 / 210 g',pct:'80%',color:'#E1552B'},{name:'Fat',val:'41 / 62 g',pct:'66%',color:'#8A6FD6'}],
+      plateLegend: [{name:'Grains',val:'82%',color:'#F5A524'},{name:'Protein',val:'54%',color:'#E1552B'},{name:'Veg & dal',val:'31%',color:'#1B8A5A'},{name:'Fats',val:'66%',color:'#8A6FD6'}],
+      quickAdd: [
+        {name:'Roti (atta)',serving:'1 medium',kcal:104,icon:'🫓',add:()=>this.flash('Roti added · 104 kcal')},
+        {name:'Dal tadka',serving:'1 katori',kcal:180,icon:'🍲',add:()=>this.flash('Dal tadka added · 180 kcal')},
+        {name:'Chai with sugar',serving:'1 cup',kcal:90,icon:'☕',add:()=>this.flash('Chai added · 90 kcal')},
+        {name:'Chicken biryani',serving:'1 cup',kcal:290,icon:'🍛',add:()=>this.flash('Biryani added · 290 kcal')}
+      ],
+
+      pick0: ()=>this.setState({pin:0}), pick1: ()=>this.setState({pin:1}), pick2: ()=>this.setState({pin:2}), pick3: ()=>this.setState({pin:3}),
+      p0: pc(0), p1: pc(1), p2: pc(2), p3: pc(3),
+      sel: Object.assign({}, pinData[s.pin], {portion: pinData[s.pin].portion}),
+      portUp: ()=>this.flash('Portion up · recalculating'), portDown: ()=>this.flash('Portion down · recalculating'),
+      detected: [
+        {name:'Roti (tandoori)',portion:'2 pieces',kcal:208,icon:'🫓'},
+        {name:'Dal tadka',portion:'1 katori',kcal:180,icon:'🍲'},
+        {name:'Chicken karahi',portion:'180 g',kcal:310,icon:'🍗'},
+        {name:'Cucumber raita',portion:'1 bowl',kcal:62,icon:'🥣'}
+      ],
+
+      week: dow.map((d,i)=>({dow:d, n:[31,1,2,3,4,5,6][i], bg:i===5?INK:'#FFFFFF', fg:i===5?'#FFFBF4':'rgba(25,21,18,.6)'})),
+      meals: [
+        {name:'Breakfast',icon:'🌅',kcal:'520 kcal',items:[{name:'Aloo paratha',portion:'1 with 1 tsp ghee',kcal:'250'},{name:'Dahi',portion:'1 katori',kcal:'100'},{name:'Chai with sugar',portion:'1 cup',kcal:'90'},{name:'Banana',portion:'1 medium',kcal:'80'}]},
+        {name:'Lunch',icon:'☀️',kcal:'470 kcal',items:[{name:'Roti (atta)',portion:'2 medium',kcal:'208'},{name:'Bhindi masala',portion:'1 katori',kcal:'132'},{name:'Dal tadka',portion:'1 katori',kcal:'130'}]},
+        {name:'Snack',icon:'🫖',kcal:'130 kcal',items:[{name:'Samosa',portion:'1 piece',kcal:'130'}]},
+        {name:'Dinner',icon:'🌙',kcal:'planned',items:[{name:'Suggested: seekh kebab + salad',portion:'AI pick · 30 g protein',kcal:'~620'}]}
+      ],
+
+      flags: [
+        {name:'Milk solids',level:'Your allergy',why:'You logged lactose intolerance. 2 pieces carry ~3.1 g lactose — enough for you to feel it.'},
+        {name:'Sodium 480 mg',level:'High',why:'21% of your daily cap in a snack you rarely stop at two pieces of.'},
+        {name:'Palm oil + INS 471',level:'Watch',why:'Saturated fat and an emulsifier. Fine occasionally, not daily with chai.'}
+      ],
+      ingredients: [
+        {name:'Refined wheat flour (maida)',note:'Low fibre',dot:MAR},
+        {name:'Sugar',note:'6.2 g per 2 pcs',dot:MAR},
+        {name:'Palm oil',note:'Saturated fat',dot:MAR},
+        {name:'Milk solids',note:'Contains lactose',dot:RED},
+        {name:'Iodised salt',note:'480 mg sodium',dot:RED},
+        {name:'Cardamom, yeast',note:'Fine',dot:GRN},
+        {name:'INS 471 (emulsifier)',note:'Plant-derived, watch',dot:MAR}
+      ],
+      swaps: [
+        {name:'Ragi khakhra',why:'No dairy · 4 g fibre',kcal:'92',icon:'🟤'},
+        {name:'Roasted chana',why:'7 g protein per handful',kcal:'110',icon:'🫘'},
+        {name:'Multigrain toast',why:'Lower sodium, no milk solids',kcal:'86',icon:'🍞'}
+      ],
+      micros: [
+        {name:'Fibre',label:'71%',pct:'71%',color:GRN,tip:'Dal and bhindi carried it. One more veg katori and you clear it.'},
+        {name:'Iron',label:'62%',pct:'62%',color:MAR,tip:'Add lemon to your dal — vitamin C lifts non-heme iron absorption.'},
+        {name:'Vitamin B12',label:'40%',pct:'40%',color:RED,tip:'Low three days running. Curd, eggs or a fortified milk would fix it.'},
+        {name:'Calcium',label:'55%',pct:'55%',color:MAR,tip:'Lactose-free route: sesame chutney, ragi, or almonds.'},
+        {name:'Vitamin D',label:'28%',pct:'28%',color:RED,tip:'Diet rarely covers this. 15 min of morning sun is the cheap fix.'},
+        {name:'Potassium',label:'48%',pct:'48%',color:MAR,tip:'Bananas and rajma are your easiest wins.'},
+        {name:'Folate',label:'66%',pct:'66%',color:GRN,tip:'Palak and chana keep this healthy.'},
+        {name:'Sodium',label:'118% · over',pct:'100%',color:RED,tip:'Rusk, pickle and karahi. Cutting pickle alone drops you 12%.'},
+        {name:'Vitamin C',label:'88%',pct:'88%',color:GRN,tip:'Tomato base in the karahi did most of the work.'}
+      ],
+      moveStats: [{icon:'👟',val:'7,420',name:'steps of 9,000'},{icon:'🔥',val:'340',name:'kcal burned'},{icon:'⏱️',val:'46 min',name:'active time'}],
+      stepBars: dow.map((d,i)=>({dow:d, h:Math.round(stepVals[i]*100)+'%', color:i===6?ACC:'rgba(255,251,244,.28)'})),
+      sessions: [
+        {name:'Evening walk',meta:'32 min · 2.8 km · Google Fit',kcal:'146',icon:'🚶'},
+        {name:'Strength — push',meta:'28 min · 6 sets · logged manually',kcal:'194',icon:'🏋️'},
+        {name:'Yoga (planned)',meta:'20 min · 7:00 am tomorrow',kcal:'82',icon:'🧘'}
+      ],
+      apps: [
+        {name:'Apple Health',icon:'🍎',bg:'#F3ECE0',state:'Synced',pillBg:'#EAF5EF',pillFg:'#146647'},
+        {name:'Google Fit',icon:'🟢',bg:'#EAF5EF',state:'Synced',pillBg:'#EAF5EF',pillFg:'#146647'},
+        {name:'Strava',icon:'🟠',bg:'#FFF0DE',state:'Connect',pillBg:'#F3ECE0',pillFg:'rgba(25,21,18,.6)'},
+        {name:'Samsung Health',icon:'🔵',bg:'#EDF1FF',state:'Connect',pillBg:'#F3ECE0',pillFg:'rgba(25,21,18,.6)'}
+      ],
+      calBars: dow.map((d,i)=>({dow:d, h:Math.round(Math.min(calVals[i],1.2)/1.2*100)+'%', color:calVals[i]>1?RED:GRN})),
+      weekNotes: [
+        {icon:'🍛',title:'Saturdays are your biryani day',body:'Every Saturday runs ~380 kcal over. PlateSense will pre-book the budget on Friday night instead of nagging you after.'},
+        {icon:'🧂',title:'Sodium spikes track eating out',body:'Three of four high-sodium days had a restaurant entry. Home karahi runs 40% lower.'},
+        {icon:'💪',title:'Protein trend up',body:'Averaged 71 g, up from 58 g. Two more curd servings a week hits your 96 g target.'}
+      ],
+      recipeTabs: ['Under 300','High protein','No dairy','Iftar'].map(t=>{ const on=s.recipeTab===t;
+        return {name:t, bg:on?INK:'#FFFFFF', fg:on?'#FFFBF4':'rgba(25,21,18,.6)', pick:()=>this.setState({recipeTab:t})}; }),
+      recipes: [
+        {slot:'poshan-r1',name:'Baked palak paneer tikka',kcal:268,note:'Air-fried, no cream. 22 g protein, and the paneer swap keeps it lactose-light.',tags:['22 g protein','25 min','North Indian']},
+        {slot:'poshan-r2',name:'Masala oats khichdi',kcal:242,note:'Pressure-cook oats with moong dal and vegetables. Low GI, sits well for diabetics.',tags:['Low GI','15 min','One pot']},
+        {slot:'poshan-r3',name:'Chana chaat with pudina',kcal:186,note:'Roasted chana, onion, tomato, mint. Iftar-friendly and 11 g of fibre.',tags:['11 g fibre','No cook','Pakistani']}
+      ],
+      profileLine: s.age+' · '+s.sex+' · '+(imp?Math.round(s.wKg*2.205)+' lb':s.wKg+' kg')+' · '+s.goal,
+      bmiStr: (s.wKg/Math.pow(s.hCm/100,2)).toFixed(1),
+      meRows: [
+        {icon:'🚫',name:'Allergies & flags',meta:s.allergies.length+' set',go:()=>this.setState({screen:'ob',ob:2})},
+        {icon:'🧠',name:'What PlateSense noticed',meta:'4 new',go:()=>this.go('feed')},
+        {icon:'🔬',name:'Kitchen fingerprint',meta:'94% accurate',go:()=>this.go('kitchen')},
+        {icon:'🛡️',name:'Allergy shield card',meta:s.allergies.length+' listed',go:()=>this.go('shield')},
+        {icon:'📈',name:'Weekly insights',meta:'Score 74',go:()=>this.go('insights')},
+        {icon:'🥗',name:'Saved recipes',meta:'12',go:()=>this.go('recipes')},
+        {icon:'🧪',name:'Micronutrient history',meta:'30 days',go:()=>this.go('micros')}
+      ],
+      labGroups: [
+        mk('Home dashboard',['Rings','Thali plate','Streak fuel'], this.homeDir(),'home'),
+        mk('Photo scan result',['Tap pins','Bottom sheet','Item cards'], this.scanDir(),'scan'),
+        mk('AI surface',['Ambient cards','Coach timeline','Nudge stack'], this.aiDir(),'ai')
+      ],
+      feed: [
+        {icon:'🧠',kind:'Pattern',when:'2m ago',title:'Protein is trailing again',body:'18 g by 4pm on four of the last five days. A katori of rajma at lunch would close it without touching your calorie budget.',bg:'#FFF7EA',bd:'rgba(245,165,36,.3)'},
+        {icon:'🧂',kind:'Label flag',when:'1h ago',title:'The rusk you scanned has milk solids',body:'You logged lactose intolerance, so PlateSense moved it to your avoid list and suggested ragi khakhra instead.',bg:'#FDECEA',bd:'rgba(198,54,42,.22)'},
+        {icon:'📷',kind:'Scan correction',when:'Yesterday',title:'Learned your roti size',body:'You resized roti down twice. PlateSense now assumes 6-inch atta roti at 98 kcal for your kitchen.',bg:'#FFFFFF',bd:'rgba(25,21,18,.09)'},
+        {icon:'🏃',kind:'Activity',when:'Yesterday',title:'Evening walks are working',body:'Your 8pm walk shows up on nine of the last ten days and pulled resting heart rate down 3 bpm.',bg:'#F0F7F3',bd:'rgba(27,138,90,.22)'},
+        {icon:'🍛',kind:'Heads up',when:'2d ago',title:'Saturday biryani is booked',body:'PlateSense trimmed 120 kcal from Thursday and Friday so today\u2019s plate has room. Eat it guilt-free.',bg:'#FFFFFF',bd:'rgba(25,21,18,.09)'}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
