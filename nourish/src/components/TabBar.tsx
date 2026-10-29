@@ -53,7 +53,7 @@ function IconScan({ color }: { color: string }) {
 }
 
 export function TabBar() {
-  const { s, go } = useApp();
+  const { s, go, goScan } = useApp();
   const tone = (t: Screen) => (s.screen === t ? colors.ink : 'rgba(25,21,18,.35)');
   return (
     <View style={styles.wrap}>
@@ -69,7 +69,7 @@ export function TabBar() {
         <Pressable onPress={() => go('voice')} style={styles.micBtn}>
           <IconMic color="rgba(25,21,18,.55)" />
         </Pressable>
-        <Pressable onPress={() => go('scan')} style={styles.scanBtn}>
+        <Pressable onPress={goScan} style={styles.scanBtn}>
           <IconScan color="#fff" />
         </Pressable>
       </View>
@@ -95,7 +95,10 @@ const styles = StyleSheet.create({
   tab: { flex: 1, alignItems: 'center', gap: 5 },
   label: { fontFamily: fonts.bodySemibold, fontSize: 10 },
   micBtn: {
-    position: 'absolute', left: -2, top: 6, width: 32, height: 32, borderRadius: 11,
+    // Sits clear of the 54px camera button (which is centred in this slot and
+    // painted over it). At left:-2 the camera covered the mic's centre, leaving
+    // a ~12px tappable sliver that opened the camera instead of voice logging.
+    position: 'absolute', left: -28, top: 4, width: 36, height: 36, borderRadius: 12,
     backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center',
   },
   scanBtn: {

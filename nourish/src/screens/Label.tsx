@@ -8,11 +8,11 @@ import { PlaceholderImage, Screen, ScreenHeader } from '../components/ui';
 const DOT_COLOR: Record<string, string> = { amber: colors.amber, red: colors.red, green: colors.green };
 
 export default function Label() {
-  const { go } = useApp();
+  const { goScan } = useApp();
 
   return (
     <Screen>
-      <ScreenHeader title="Label check" onBack={() => go('scan')} />
+      <ScreenHeader title="Label check" onBack={goScan} />
 
       <View style={{ flexDirection: 'row', gap: 14, padding: 16, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.lineSoft, marginBottom: 14 }}>
         <PlaceholderImage label="Pack shot" style={{ width: 76, height: 92, borderRadius: 12 }} />

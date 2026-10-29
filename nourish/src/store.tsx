@@ -115,6 +115,7 @@ type Ctx = {
   d: Derived;
   set: (patch: Partial<State>) => void;
   go: (screen: Screen) => void;
+  goScan: () => void;
   flash: (msg: string) => void;
   toggleMic: () => void;
   shoot: () => void;
@@ -132,6 +133,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const set = useCallback((patch: Partial<State>) => setS((prev) => ({ ...prev, ...patch })), []);
   const go = useCallback((screen: Screen) => set({ screen }), [set]);
+  // Entering the camera must always start a fresh frame: without this, returning
+  // to the scanner after a completed scan shows the previous meal's result with
+  // its Log button primed, which risks logging the same meal twice.
+  const goScan = useCallback(() => set({ screen: 'scan', scanPhase: 'aim' }), [set]);
 
   const flash = useCallback((msg: string) => {
     set({ toast: msg });
@@ -167,7 +172,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [set]);
 
   const d = useDerived(s);
-  const value = useMemo(() => ({ s, d, set, go, flash, toggleMic, shoot }), [s, d, set, go, flash, toggleMic, shoot]);
+  const value = useMemo(() => ({ s, d, set, go, goScan, flash, toggleMic, shoot }), [s, d, set, go, goScan, flash, toggleMic, shoot]);
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

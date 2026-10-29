@@ -6,11 +6,11 @@ import { PLATES } from '../data';
 import { PlaceholderImage, PrimaryButton, Screen, ScreenHeader, SubText } from '../components/ui';
 
 export default function Calib() {
-  const { s, set, go, flash } = useApp();
+  const { s, set, goScan, flash } = useApp();
 
   return (
     <Screen padBottom={40}>
-      <ScreenHeader title="Plate calibration" onBack={() => go('scan')} />
+      <ScreenHeader title="Plate calibration" onBack={goScan} />
       <SubText>A photo can't tell a 22 cm plate from a 30 cm one — which is exactly where every other app loses 200 kcal. Calibrate once per plate.</SubText>
 
       <View style={{ height: 190, borderRadius: 20, overflow: 'hidden', marginBottom: 14, position: 'relative' }}>
@@ -60,7 +60,7 @@ export default function Calib() {
         </View>
       </View>
 
-      <PrimaryButton label="Use this plate" onPress={() => go('scan')} />
+      <PrimaryButton label="Use this plate" onPress={goScan} />
     </Screen>
   );
 }

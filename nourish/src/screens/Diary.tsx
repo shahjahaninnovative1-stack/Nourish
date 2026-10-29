@@ -8,7 +8,7 @@ import { Screen } from '../components/ui';
 const WEEK_NUMS = [31, 1, 2, 3, 4, 5, 6];
 
 export default function Diary() {
-  const { d, go } = useApp();
+  const { d, goScan } = useApp();
 
   return (
     <Screen>
@@ -56,7 +56,7 @@ export default function Diary() {
                 <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12.5, color: 'rgba(25,21,18,.55)' }}>{it.kcal}</Text>
               </View>
             ))}
-            <Pressable onPress={() => go('scan')} style={{ paddingVertical: 12, paddingHorizontal: 16, borderTopWidth: 1, borderTopColor: 'rgba(25,21,18,.07)' }}>
+            <Pressable onPress={goScan} style={{ paddingVertical: 12, paddingHorizontal: 16, borderTopWidth: 1, borderTopColor: 'rgba(25,21,18,.07)' }}>
               <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12.5, color: colors.accent }}>+ Add to {m.name}</Text>
             </Pressable>
           </View>
