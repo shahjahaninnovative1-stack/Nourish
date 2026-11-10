@@ -21,7 +21,8 @@ const ASSETS = path.join(ROOT, 'assets');
 
 const appJson = JSON.parse(fs.readFileSync(path.join(ROOT, 'app.json'), 'utf8'));
 const web = appJson.expo.web || {};
-const base = (appJson.expo.experiments && appJson.expo.experiments.baseUrl) || '';
+// Must match app.config.js, which is what the build actually used.
+const base = process.env.PUBLIC_BASE_PATH ?? '/Nourish';
 const url = (file) => `${base}/${file}`.replace(/\/+/g, '/');
 
 if (!fs.existsSync(DIST)) {

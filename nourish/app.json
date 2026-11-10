@@ -31,9 +31,6 @@
       "backgroundColor": "#FFFBF4",
       "display": "standalone",
       "description": "AI calorie & fitness coach — desi-first, with a world kitchen."
-    },
-    "experiments": {
-      "baseUrl": "/Nourish"
     }
   }
 }
