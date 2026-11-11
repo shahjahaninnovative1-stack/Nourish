@@ -39,7 +39,7 @@ const body = () => page.locator('body').innerText();
 
 (async () => {
   const browser = await chromium.launch({ executablePath: EXEC });
-  const ctx = await browser.newContext({ ...devices['iPhone 13'] });
+  const ctx = await browser.newContext({ ...devices['iPhone 13'], locale: 'en-GB' });
   page = await ctx.newPage();
   page.setDefaultTimeout(6000);
   page.on('pageerror', e => errs.push('PAGEERROR ' + String(e).slice(0, 160)));
@@ -104,7 +104,7 @@ const body = () => page.locator('body').innerText();
   await check('8. Activity select', async () => { await tap('Athlete'); return 'selected'; });
   await check('9. Allergies step', async () => { await tap('Continue'); return seen('Anything we'); });
   await check('10. Allergy chip', async () => { await tap('Gluten'); return 'toggled'; });
-  await check('11. Region select', async () => { await tap('Pakistani'); return 'selected'; });
+  await check('11. Region select', async () => { await tap('South Asian'); return 'selected'; });
   await check('12. -> permissions', async () => { await tap('Build my plan', false); return seen('Three things'); });
   await check('13. Permission detail', () => seen('on-device'));
   await check('14. -> home', async () => { await page.getByText(/All set|Continue without/).first().click(); await page.waitForTimeout(700); return seen('kcal left'); });
@@ -121,11 +121,32 @@ const body = () => page.locator('body').innerText();
   await check('17. Quick add', () => seen('Chai with sugar'));
   await check('18. Voice banner', () => seen('Just say what you ate'));
 
+  await check('18a. LOGIC: quick add really logs', async () => {
+    const eaten = async () => parseInt((await body()).match(/([\d,]+)\s*\n?\s*eaten/)[1].replace(/,/g, ''));
+    const b4 = await eaten();
+    await page.getByText('+', { exact: true }).first().click(); await page.waitForTimeout(300);
+    const af = await eaten();
+    if (af <= b4) throw new Error(`eaten stayed ${b4}`); return `${b4} -> ${af}`;
+  });
+  await check('18b. Real date, neutral greeting', async () => {
+    const b = await body();
+    if (b.includes('5 Sept') || b.includes('Assalam')) throw new Error('hardcoded date/greeting remains');
+    if (!/Good (morning|afternoon|evening)/.test(b)) throw new Error('no greeting'); return 'ok';
+  });
+
   // ---- tabs ----
   await check('19. Diary tab', async () => { await tap('Diary'); return seen('Aloo paratha'); });
   await check('20. Diary meals', () => seen('Suggested: shakshuka'));
   await check('21. Move tab', async () => { await tap('Move'); return seen('Steps this week'); });
   await check('22. Connected apps', () => seen('Google Fit'));
+  await check('22a. LOGIC: workout log raises burned', async () => {
+    const burned = async () => parseInt((await body()).match(/Total burned today: ([\d,]+)/)[1].replace(/,/g, ''));
+    const b4 = await burned();
+    await tap('Run', false); await tap('Log run', false); await page.waitForTimeout(300);
+    const af = await burned();
+    if (af <= b4) throw new Error(`burned stayed ${b4}`);
+    await seen('logged by you'); return `${b4} -> ${af} kcal`;
+  });
   await check('23. Me tab', async () => { await tap('Me'); return seen('Ayesha K.'); });
   await check('24. LOGIC: BMI', async () => { if (!/\d\d\.\d/.test(await body())) throw new Error('no BMI'); return 'present'; });
 
@@ -182,6 +203,7 @@ const body = () => page.locator('body').innerText();
   await check('45a. Allergen caveat shown', () => seen('cannot detect cross-contamination'));
   await check('45b. Legal screen', () => viaMe('Privacy, terms', 'Not medical advice'));
   await check('45c. Demo build disclosed', () => seen('This is a demo build'));
+  await check('45e. Free data export offered', () => seen('Export my data'));
   await check('45d. No body-render imagery', async () => {
     await viaMe('Future you', 'Projected trajectory');
     if ((await body()).includes('AI render')) throw new Error('body render still present');

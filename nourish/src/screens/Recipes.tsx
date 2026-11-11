@@ -12,7 +12,7 @@ export default function Recipes() {
   const originCount = d.originCount;
 
   const intro = s.cuisine === 'All'
-    ? `Healthy cooking from ${originCount} kitchens — desi first, then everywhere else. Portions sized to your ${d.remaining.toLocaleString()} kcal left, and anything carrying one of your allergens is flagged, not hidden.`
+    ? `Healthy cooking from ${originCount} kitchens — your home cuisine first, then everywhere else. Portions sized to your ${d.remaining.toLocaleString()} kcal left, and anything carrying one of your allergens is flagged, not hidden.`
     : `${s.cuisine} cooking, lightened. Portions already sized to your ${d.remaining.toLocaleString()} kcal left.`;
 
   const countLabel = d.shownRecipes.length === 24 ? `24 recipes from ${originCount} kitchens` : `${d.shownRecipes.length} of 24 recipes`;

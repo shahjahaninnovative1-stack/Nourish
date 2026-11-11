@@ -34,7 +34,7 @@ export default function Onboarding() {
         {s.ob === 0 && (
           <View>
             <Text style={{ fontFamily: fonts.display, fontSize: 32, lineHeight: 35, color: colors.ink, marginBottom: 10 }}>
-              Let's size up{'\n'}your thali.
+              Let's size up{'\n'}your plate.
             </Text>
             <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 14.5, lineHeight: 22, color: 'rgba(25,21,18,.6)', marginBottom: 26 }}>
               Six taps and we'll know your numbers. No calorie shaming, promise.
@@ -133,8 +133,8 @@ export default function Onboarding() {
                 );
               })}
             </View>
-            <Text style={sectionLabel}>Kitchen region</Text>
-            <View style={{ flexDirection: 'row', gap: 8, marginBottom: 22 }}>
+            <Text style={sectionLabel}>Home cuisine</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 }}>
               {REGIONS.map((r) => (
                 <Chip key={r} label={r} active={s.region === r} onPress={() => set({ region: r })} />
               ))}

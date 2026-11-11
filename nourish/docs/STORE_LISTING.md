@@ -6,7 +6,7 @@ Do not add "lose X kg" or "N% accurate" — neither can be substantiated.
 
 **Name (30 chars max):** see RELEASE_CHECKLIST.md — the current name needs replacing first.
 
-**Subtitle (30):** Desi food diary & meal log
+**Subtitle (30):** Food diary for every kitchen
 
 **Category:** Health & Fitness · **Age rating:** 17+ (Apple) / 18+ (Google Play)
 
@@ -14,7 +14,7 @@ Do not add "lose X kg" or "N% accurate" — neither can be substantiated.
 Log roti, dal and biryani the way you actually eat them — by katori, by plate, by voice. Split a shared handi. Flag allergens. Recipes from seven cuisines.
 
 **Description:**
-A food diary built around South Asian home cooking.
+A food diary that starts from your own home cuisine — South Asian, Middle Eastern, East Asian, Mediterranean, Latin, African or Nordic.
 
 • Log in household portions — katori, roti, plate — not grams
 • Split one shared dish between everyone at the table
@@ -22,6 +22,8 @@ A food diary built around South Asian home cooking.
 • Flag your allergens across 24 recipes from seven cuisines
 • An allergy card in English, Hindi and Urdu to show whoever is cooking
 • See where your current pace leads over 4, 12 and 24 weeks
+• Log workouts and see what they burn at your own weight
+• Export your data any time, free
 • Your profile stays on your device. No account, no ads, no tracking.
 
 Calorie figures are estimates. This app is not medical advice and never confirms that a food is safe for an allergy — always check the label.

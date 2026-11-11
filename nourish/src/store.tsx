@@ -6,7 +6,7 @@ export type Sex = 'Female' | 'Male';
 export type Goal = 'Lose weight' | 'Maintain' | 'Build muscle' | 'Manage sugar';
 export type Act = 'Sedentary' | 'Light' | 'Active' | 'Athlete';
 export type Units = 'Metric' | 'Imperial';
-export type Region = 'Indian' | 'Pakistani' | 'Both';
+export type Region = string;
 export type ScanPhase = 'aim' | 'busy' | 'done';
 export type MicState = 'idle' | 'hearing' | 'parsed';
 export type Screen =
@@ -32,27 +32,36 @@ type State = {
   plateCm: number;
   dropped: string[];
   onboarded: boolean;
+  workouts: { name: string; icon: string; minutes: number; kcal: number }[];
 };
 
 const BURNED = 340;
 const STORE_KEY = 'nourish.profile.v1';
 const PERSISTED: (keyof State)[] = [
   'sex', 'age', 'hCm', 'wKg', 'goal', 'act', 'allergies', 'region', 'units',
-  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded',
+  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts',
 ];
+
+// Only the US, Liberia and Myanmar use pounds and feet day to day.
+function defaultUnits(): Units {
+  try {
+    const loc = Intl.DateTimeFormat().resolvedOptions().locale || '';
+    return /-(US|LR|MM)\b/i.test(loc) ? 'Imperial' : 'Metric';
+  } catch { return 'Metric'; }
+}
 
 function initialState(): State {
   return {
     screen: 'ob', ob: 0, scanPhase: 'aim', pin: 0, toast: '',
     sex: 'Female', age: 28, hCm: 163, wKg: 68, goal: 'Lose weight', act: 'Light',
-    allergies: ['Lactose', 'Peanuts'], region: 'Both',
-    units: 'Metric',
+    allergies: ['Lactose', 'Peanuts'], region: 'South Asian',
+    units: defaultUnits(),
     recipeTab: 'All', cuisine: 'All', eatenBase: 1120,
     shares: [40, 34, 26],
     micState: 'idle', typed: 0, horizon: 12, quoteIdx: 0,
     permOn: { Camera: true, Microphone: true, Notifications: true },
     notifOn: { Breakfast: true, 'Water reminders': false, 'Evening check-in': true, 'Quote of the day': true, 'Streak rescue': true },
-    plateCm: 26, dropped: [], onboarded: false,
+    plateCm: 26, dropped: [], onboarded: false, workouts: [],
   };
 }
 
@@ -69,7 +78,8 @@ export function useDerived(s: State) {
     const imp = s.units === 'Imperial';
     const tgt = target(s);
     const eaten = s.eatenBase;
-    const remaining = Math.max(tgt - eaten + BURNED, 0);
+    const burned = BURNED + s.workouts.reduce((a, w) => a + w.kcal, 0);
+    const remaining = Math.max(tgt - eaten + burned, 0);
     const shareTotal = s.shares.reduce((a, b) => a + b, 0);
     const voiceTotal = VOICE_ITEMS.filter((v) => s.dropped.indexOf(v.name) < 0).reduce((a, v) => a + v.kcal, 0);
     const paceKgPerWk = ({ 'Lose weight': -0.4, Maintain: 0, 'Build muscle': 0.16, 'Manage sugar': -0.22 } as Record<string, number>)[s.goal] || 0;
@@ -104,7 +114,7 @@ export function useDerived(s: State) {
     const futureLabel = s.horizon === 52 ? 'In 1 year' : `In ${s.horizon} weeks`;
 
     return {
-      imp, target: tgt, eaten, remaining, burned: BURNED, shareTotal, voiceTotal,
+      imp, target: tgt, eaten, remaining, burned, shareTotal, voiceTotal,
       deltaW, projW, bmi, projectedBmi, permCount, notifCount,
       shownRecipes, blockedCount, originCount, hStr, wStr, futureWeight, futureLabel,
       transcript: s.micState === 'parsed' ? VOICE_SENTENCE : VOICE_WORDS.slice(0, s.typed).join(' '),

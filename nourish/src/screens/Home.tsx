@@ -24,7 +24,13 @@ function IconMic() {
 }
 
 export default function Home() {
-  const { s, d, go, flash } = useApp();
+  const { s, d, go, set, flash } = useApp();
+  const now = new Date();
+  const today = now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'short' });
+  const hr = now.getHours();
+  const greeting = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+  // Lead with the user's home cuisine, then fill from the rest of the world.
+  const quick = [...QUICK_ADD.filter((q) => q.cuisine === s.region), ...QUICK_ADD.filter((q) => q.cuisine !== s.region)].slice(0, 6);
   const kg12 = (d.deltaW / s.horizon) * 12;
   const pace12 = kg12 === 0 ? 'holding steady' : `${kg12 < 0 ? '−' : '+'}${Math.abs(kg12).toFixed(1)} kg`;
 
@@ -32,8 +38,8 @@ export default function Home() {
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingTop: 60, paddingBottom: 108 }} showsVerticalScrollIndicator={false}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <View>
-          <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12, color: 'rgba(25,21,18,.45)', letterSpacing: 0.5 }}>Saturday, 5 Sept</Text>
-          <Text style={{ fontFamily: fonts.display, fontSize: 25, color: colors.ink, marginTop: 5 }}>Assalam-o-alaikum 👋</Text>
+          <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12, color: 'rgba(25,21,18,.45)', letterSpacing: 0.5 }}>{today}</Text>
+          <Text style={{ fontFamily: fonts.display, fontSize: 25, color: colors.ink, marginTop: 5 }}>{greeting} 👋</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 99, backgroundColor: '#FFF0DE', borderWidth: 1, borderColor: 'rgba(245,165,36,.35)' }}>
           <Text style={{ fontSize: 14 }}>🔥</Text>
@@ -74,7 +80,7 @@ export default function Home() {
           </View>
         </View>
         <View style={{ flexDirection: 'row', gap: 20, marginTop: 20, paddingTop: 16, borderTopWidth: 1, borderTopColor: 'rgba(255,251,244,.14)' }}>
-          {[['eaten', d.eaten.toLocaleString()], ['burned', '340'], ['target', d.target.toLocaleString()]].map(([label, val]) => (
+          {[['eaten', d.eaten.toLocaleString()], ['burned', d.burned.toLocaleString()], ['target', d.target.toLocaleString()]].map(([label, val]) => (
             <View key={label}>
               <Text style={{ fontFamily: fonts.bodyBold, fontSize: 16, color: colors.onDark }}>{val}</Text>
               <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 10.5, color: 'rgba(255,251,244,.5)', marginTop: 5 }}>{label}</Text>
@@ -123,7 +129,7 @@ export default function Home() {
         <Pressable onPress={() => go('diary')}><Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12.5, color: colors.accent }}>Full diary →</Text></Pressable>
       </View>
       <View style={{ gap: 8 }}>
-        {QUICK_ADD.map((q) => (
+        {quick.map((q) => (
           <View key={q.name} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 13, borderRadius: 15, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.lineSoft }}>
             <View style={{ width: 36, height: 36, borderRadius: 11, backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontSize: 17 }}>{q.icon}</Text>
@@ -132,7 +138,7 @@ export default function Home() {
               <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.ink }}>{q.name}</Text>
               <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, color: 'rgba(25,21,18,.48)', marginTop: 4 }}>{q.serving} · {q.kcal} kcal</Text>
             </View>
-            <Pressable onPress={() => flash(`${q.name} added · ${q.kcal} kcal`)} style={{ width: 30, height: 30, borderRadius: 10, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>
+            <Pressable onPress={() => { set({ eatenBase: s.eatenBase + q.kcal }); flash(`${q.name} added · ${q.kcal} kcal`); }} style={{ width: 30, height: 30, borderRadius: 10, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontFamily: fonts.bodyBold, fontSize: 16, color: colors.onDark }}>+</Text>
             </Pressable>
           </View>

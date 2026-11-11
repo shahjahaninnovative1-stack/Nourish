@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Share, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { useApp } from '../store';
 import { APP_NAME, DEMO_MODE, MIN_AGE } from '../brand';
@@ -29,7 +29,13 @@ const SECTIONS: { title: string; body: string }[] = [
 ];
 
 export default function Legal() {
-  const { go, resetAll, flash } = useApp();
+  const { s, go, resetAll, flash } = useApp();
+  // Export is free and unrestricted: the data is the user's own.
+  const exportData = async () => {
+    const { screen, toast, scanPhase, pin, micState, typed, dropped, ob, ...profile } = s;
+    try { await Share.share({ title: `${APP_NAME} data export`, message: JSON.stringify(profile, null, 2) }); }
+    catch { flash('Export prepared — sharing is not available in this browser'); }
+  };
   return (
     <Screen padBottom={40}>
       <ScreenHeader title="Privacy & terms" onBack={() => go('me')} />
@@ -49,11 +55,12 @@ export default function Legal() {
           </View>
         ))}
       </View>
+      <PrimaryButton label="Export my data" onPress={exportData} style={{ marginTop: 16 }} />
       <PrimaryButton
         label="Delete my data from this device"
         dim
         onPress={() => { resetAll(); flash('All data deleted'); }}
-        style={{ marginTop: 16 }}
+        style={{ marginTop: 10 }}
       />
     </Screen>
   );

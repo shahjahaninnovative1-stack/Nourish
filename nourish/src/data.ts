@@ -110,7 +110,25 @@ export const GOAL_LIST: { key: string; sub: string; icon: string }[] = [
 
 export const ACTIVITY_LEVELS = ['Sedentary', 'Light', 'Active', 'Athlete'] as const;
 export const ALLERGY_OPTIONS = ['Lactose', 'Peanuts', 'Gluten', 'Tree nuts', 'Soy', 'Shellfish', 'Egg', 'Sesame', 'Mustard'];
-export const REGIONS = ['Indian', 'Pakistani', 'Both'] as const;
+// Home cuisine, chosen at onboarding. Drives which foods and recipes lead.
+export const REGIONS = ['South Asian', 'Middle East', 'East Asia', 'Mediterranean', 'Latin', 'Africa', 'Nordic'] as const;
+
+// Size reference suggested for plate calibration, by region.
+export const COIN_BY_REGION: Record<string, string> = {
+  'South Asian': '₹10 coin', 'Middle East': '1 dirham coin', 'East Asia': '¥100 coin',
+  Mediterranean: '€1 coin', Latin: '10 peso coin', Africa: '1 rand coin', Nordic: '10 krona coin',
+};
+
+// Metabolic equivalents (Compendium of Physical Activities, rounded).
+// kcal = MET x body weight (kg) x hours.
+export const WORKOUTS = [
+  { name: 'Walk', icon: '🚶', met: 3.5 },
+  { name: 'Run', icon: '🏃', met: 9.0 },
+  { name: 'Cycle', icon: '🚴', met: 7.0 },
+  { name: 'Strength', icon: '🏋️', met: 5.0 },
+  { name: 'Yoga', icon: '🧘', met: 2.8 },
+  { name: 'Swim', icon: '🏊', met: 7.0 },
+] as const;
 
 export const PIN_DATA = [
   { name: 'Roti (tandoori)', note: '2 pieces · atta, no ghee', kcal: 208, portion: '2 pieces', macros: [{ k: 'carb', v: '42g' }, { k: 'protein', v: '7g' }, { k: 'fat', v: '2g' }, { k: 'fibre', v: '6g' }] },
@@ -127,12 +145,21 @@ export const DETECTED = [
 ];
 
 export const QUICK_ADD = [
-  { name: 'Roti (atta)', serving: '1 medium', kcal: 104, icon: '🥓' },
-  { name: 'Dal tadka', serving: '1 katori', kcal: 180, icon: '🍲' },
-  { name: 'Chai with sugar', serving: '1 cup', kcal: 90, icon: '☕' },
-  { name: 'Greek yoghurt & berries', serving: '1 bowl', kcal: 148, icon: '🫠' },
-  { name: 'Hummus with pita', serving: '3 tbsp + 1 pita', kcal: 212, icon: '🥙' },
-  { name: 'Miso soup & edamame', serving: '1 bowl', kcal: 126, icon: '🍜' },
+  { name: 'Roti (atta)', serving: '1 medium', kcal: 104, icon: '🥓', cuisine: 'South Asian' },
+  { name: 'Dal tadka', serving: '1 katori', kcal: 180, icon: '🍲', cuisine: 'South Asian' },
+  { name: 'Chai with sugar', serving: '1 cup', kcal: 90, icon: '☕', cuisine: 'South Asian' },
+  { name: 'Greek yoghurt & berries', serving: '1 bowl', kcal: 148, icon: '🫠', cuisine: 'Mediterranean' },
+  { name: 'Hummus with pita', serving: '3 tbsp + 1 pita', kcal: 212, icon: '🥙', cuisine: 'Middle East' },
+  { name: 'Miso soup & edamame', serving: '1 bowl', kcal: 126, icon: '🍜', cuisine: 'East Asia' },
+  { name: 'Steamed rice', serving: '1 bowl', kcal: 205, icon: '🍚', cuisine: 'East Asia' },
+  { name: 'Black beans & rice', serving: '1 cup', kcal: 228, icon: '🫘', cuisine: 'Latin' },
+  { name: 'Corn tortilla', serving: '2 small', kcal: 104, icon: '🫓', cuisine: 'Latin' },
+  { name: 'Jollof rice', serving: '1 cup', kcal: 256, icon: '🍛', cuisine: 'Africa' },
+  { name: 'Injera with lentils', serving: '1 piece + ½ cup', kcal: 240, icon: '🥘', cuisine: 'Africa' },
+  { name: 'Rye bread & cheese', serving: '2 slices', kcal: 196, icon: '🍞', cuisine: 'Nordic' },
+  { name: 'Oat porridge', serving: '1 bowl', kcal: 158, icon: '🥣', cuisine: 'Nordic' },
+  { name: 'Lentil soup', serving: '1 bowl', kcal: 186, icon: '🍲', cuisine: 'Middle East' },
+  { name: 'Olive oil salad', serving: '1 plate', kcal: 142, icon: '🥗', cuisine: 'Mediterranean' },
 ];
 
 export const DOW = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];

@@ -2,11 +2,12 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { useApp } from '../store';
-import { PLATES } from '../data';
+import { COIN_BY_REGION, PLATES } from '../data';
 import { PlaceholderImage, PrimaryButton, Screen, ScreenHeader, SubText } from '../components/ui';
 
 export default function Calib() {
   const { s, set, goScan, flash } = useApp();
+  const coin = COIN_BY_REGION[s.region] || 'coin';
 
   return (
     <Screen padBottom={40}>
@@ -16,7 +17,7 @@ export default function Calib() {
       <View style={{ height: 190, borderRadius: 20, overflow: 'hidden', marginBottom: 14, position: 'relative' }}>
         <PlaceholderImage label="Plate with a coin on it" style={{ width: '100%', height: '100%' }} />
         <View style={{ position: 'absolute', left: 16, bottom: 16, paddingHorizontal: 13, paddingVertical: 8, borderRadius: 99, backgroundColor: 'rgba(13,11,10,.75)' }}>
-          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 11.5, color: '#fff' }}>◉ Reference found · ₹10 coin</Text>
+          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 11.5, color: '#fff' }}>◉ Reference found · {coin}</Text>
         </View>
       </View>
 
@@ -26,7 +27,7 @@ export default function Calib() {
           return (
             <Pressable
               key={p.name}
-              onPress={() => (p.cm === null ? flash('Hold a ₹10 coin beside the plate') : set({ plateCm: p.cm }))}
+              onPress={() => (p.cm === null ? flash(`Hold a ${coin} beside the plate`) : set({ plateCm: p.cm }))}
               style={{ flexDirection: 'row', alignItems: 'center', gap: 13, padding: 15, borderRadius: 17, borderWidth: 1.5, borderColor: on ? colors.ink : colors.line, backgroundColor: on ? colors.amberBg : '#fff' }}
             >
               <View style={{ width: 38, height: 38, borderRadius: 19, borderWidth: 3, borderColor: on ? colors.accent : '#E4DCCE', alignItems: 'center', justifyContent: 'center' }}>
