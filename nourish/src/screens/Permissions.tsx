@@ -6,7 +6,7 @@ import { PERMISSIONS_META } from '../data';
 import { PrimaryButton, Toggle } from '../components/ui';
 
 export default function Permissions() {
-  const { s, set, go, flash } = useApp();
+  const { s, set, flash } = useApp();
   const onCount = Object.keys(s.permOn).filter((k) => s.permOn[k]).length;
 
   return (
@@ -42,7 +42,7 @@ export default function Permissions() {
       <View style={{ flex: 1, minHeight: 20 }} />
       <PrimaryButton
         label={onCount === 3 ? 'All set — let’s eat' : 'Continue without those'}
-        onPress={() => { go('home'); flash('Permissions saved · change them any time in Me'); }}
+        onPress={() => { set({ screen: 'home', onboarded: true }); flash('Permissions saved · change them any time in Me'); }}
         style={{ marginTop: 18 }}
       />
     </View>

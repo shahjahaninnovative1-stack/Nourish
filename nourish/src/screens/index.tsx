@@ -21,6 +21,7 @@ import Shield from './Shield';
 import Calib from './Calib';
 import Future from './Future';
 import Nudges from './Nudges';
+import Legal from './Legal';
 
 const registry: Record<Screen, React.ComponentType> = {
   ob: Onboarding,
@@ -43,6 +44,7 @@ const registry: Record<Screen, React.ComponentType> = {
   calib: Calib,
   future: Future,
   nudges: Nudges,
+  legal: Legal,
 };
 
 export function ScreenRouter({ screen }: { screen: Screen }) {

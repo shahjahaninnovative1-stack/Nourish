@@ -69,6 +69,7 @@ export function TabBar() {
         <Pressable onPress={() => go('voice')} style={styles.micBtn}>
           <IconMic color="rgba(25,21,18,.55)" />
         </Pressable>
+        <View style={styles.scanEdge} />
         <Pressable onPress={goScan} style={styles.scanBtn}>
           <IconScan color="#fff" />
         </Pressable>
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     position: 'absolute', left: -28, top: 4, width: 36, height: 36, borderRadius: 12,
     backgroundColor: colors.chip, alignItems: 'center', justifyContent: 'center',
   },
+  scanEdge: { position: 'absolute', top: -17, width: 54, height: 54, borderRadius: 19, backgroundColor: colors.accentDark },
   scanBtn: {
     width: 54, height: 54, marginTop: -22, borderRadius: 19, backgroundColor: colors.accent,
     alignItems: 'center', justifyContent: 'center',

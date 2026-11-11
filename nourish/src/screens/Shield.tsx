@@ -4,6 +4,7 @@ import { colors, fonts } from '../theme';
 import { useApp } from '../store';
 import { SHIELD_LINES } from '../data';
 import { Screen, ScreenHeader } from '../components/ui';
+import { Slab, Tilt } from '../components/Depth';
 
 const QR_SEED = [1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1];
 const FONT_MAP: Record<string, string> = { body: fonts.body, devanagari: fonts.devanagari, nastaliq: fonts.nastaliq };
@@ -19,7 +20,9 @@ export default function Shield() {
         Hand this to the waiter, the caterer, or whoever insists there's no cream in it.
       </Text>
 
-      <View style={{ borderRadius: 24, overflow: 'hidden', backgroundColor: colors.red, marginBottom: 14 }}>
+      <Tilt style={{ marginBottom: 14 }}>
+      <Slab color={colors.redDark}>
+      <View style={{ borderRadius: 24, overflow: 'hidden', backgroundColor: colors.red }}>
         <View style={{ padding: 22, paddingBottom: 18 }}>
           <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, letterSpacing: 1.6, textTransform: 'uppercase', color: 'rgba(255,243,228,.75)' }}>Medical · allergy card</Text>
           <Text style={{ fontFamily: fonts.display, fontSize: 27, color: '#FFF3E4', marginTop: 12 }}>Do not serve me</Text>
@@ -57,6 +60,8 @@ export default function Shield() {
           </View>
         </View>
       </View>
+      </Slab>
+      </Tilt>
 
       <View style={{ flexDirection: 'row', gap: 10, marginBottom: 12 }}>
         <Pressable onPress={() => flash('Shield card link copied')} style={{ flex: 1, height: 50, borderRadius: 16, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>

@@ -5,6 +5,8 @@ import { colors, fonts, radii } from '../theme';
 import { useApp } from '../store';
 import { QUICK_ADD } from '../data';
 import { CalorieRing } from '../components/Charts';
+import { Slab, Tilt } from '../components/Depth';
+import { DEMO_MODE } from '../brand';
 
 const MACROS = [
   { name: 'Protein', val: '52 / 96 g', pct: 0.54, color: '#F5A524' },
@@ -23,6 +25,8 @@ function IconMic() {
 
 export default function Home() {
   const { s, d, go, flash } = useApp();
+  const kg12 = (d.deltaW / s.horizon) * 12;
+  const pace12 = kg12 === 0 ? 'holding steady' : `${kg12 < 0 ? '−' : '+'}${Math.abs(kg12).toFixed(1)} kg`;
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingTop: 60, paddingBottom: 108 }} showsVerticalScrollIndicator={false}>
@@ -37,8 +41,16 @@ export default function Home() {
         </View>
       </View>
 
+      {DEMO_MODE && (
+        <View style={{ alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 99, backgroundColor: colors.indigoBg, borderWidth: 1, borderColor: colors.indigoLine, marginTop: -8, marginBottom: 14 }}>
+          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, color: colors.indigo }}>Demo · sample data</Text>
+        </View>
+      )}
+
       {/* Rings card */}
-      <View style={{ padding: 22, borderRadius: 24, backgroundColor: colors.ink, marginBottom: 14, overflow: 'hidden' }}>
+      <Tilt style={{ marginBottom: 14 }}>
+      <Slab color={colors.accentDark}>
+      <View style={{ padding: 22, borderRadius: 24, backgroundColor: colors.ink, overflow: 'hidden' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 22 }}>
           <View style={{ width: 118, height: 118, alignItems: 'center', justifyContent: 'center' }}>
             <CalorieRing pct={d.remaining / d.target} />
@@ -70,6 +82,8 @@ export default function Home() {
           ))}
         </View>
       </View>
+      </Slab>
+      </Tilt>
 
       {/* AI ambient cards */}
       <View style={{ gap: 10, marginBottom: 4 }}>
@@ -137,8 +151,8 @@ export default function Home() {
       <Pressable onPress={() => go('future')} style={{ marginTop: 10, padding: 16, borderRadius: 18, backgroundColor: '#FFF0DE', borderWidth: 1, borderColor: 'rgba(245,165,36,.35)', flexDirection: 'row', alignItems: 'center', gap: 12 }}>
         <Text style={{ fontSize: 20 }}>🪞</Text>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.ink }}>See yourself in 12 weeks</Text>
-          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, color: 'rgba(25,21,18,.55)', marginTop: 4 }}>At your current pace: −4.8 kg</Text>
+          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.ink }}>Your 12-week trajectory</Text>
+          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, color: 'rgba(25,21,18,.55)', marginTop: 4 }}>At your current pace: {pace12}</Text>
         </View>
         <Text style={{ fontFamily: fonts.bodyBold, fontSize: 15, color: '#B8730C' }}>→</Text>
       </Pressable>

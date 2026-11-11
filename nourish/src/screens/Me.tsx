@@ -10,7 +10,7 @@ export default function Me() {
   const meRows: { icon: string; name: string; meta: string; go: ScreenName }[] = [
     { icon: '🚫', name: 'Allergies & flags', meta: `${s.allergies.length} set`, go: 'ob' },
     { icon: '🔔', name: 'Nudges & healthy quotes', meta: `${d.notifCount} on`, go: 'nudges' },
-    { icon: '🪞', name: 'Future you', meta: '12-week render', go: 'future' },
+    { icon: '🪞', name: 'Future you', meta: '12-week trajectory', go: 'future' },
     { icon: '◉', name: 'Plate calibration', meta: `${s.plateCm} cm`, go: 'calib' },
     { icon: '🔐', name: 'Camera, mic & alerts', meta: `${d.permCount} of 3 on`, go: 'perm' },
     { icon: '🧠', name: 'What Nourish noticed', meta: '4 new', go: 'feed' },
@@ -19,6 +19,7 @@ export default function Me() {
     { icon: '🧪', name: 'Micronutrient history', meta: '30 days', go: 'micros' },
     { icon: '📈', name: 'Weekly insights', meta: 'Score 74', go: 'insights' },
     { icon: '🥗', name: 'Saved recipes', meta: '12', go: 'recipes' },
+    { icon: '📄', name: 'Privacy, terms & your data', meta: '', go: 'legal' },
   ];
 
   return (

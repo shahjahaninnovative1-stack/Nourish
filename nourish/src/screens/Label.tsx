@@ -65,7 +65,7 @@ export default function Label() {
       </View>
 
       <View style={{ padding: 18, borderRadius: 20, backgroundColor: colors.greenBg, borderWidth: 1, borderColor: colors.greenLine }}>
-        <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.greenDark, marginBottom: 11 }}>Safer swaps on your shelf</Text>
+        <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.greenDark, marginBottom: 11 }}>Swaps without your flagged ingredients</Text>
         <View style={{ gap: 8 }}>
           {LABEL_SWAPS.map((sw) => (
             <View key={sw.name} style={{ flexDirection: 'row', alignItems: 'center', gap: 11, padding: 11, paddingHorizontal: 13, borderRadius: 13, backgroundColor: 'rgba(255,255,255,.8)' }}>
@@ -78,6 +78,9 @@ export default function Label() {
             </View>
           ))}
         </View>
+        <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11, lineHeight: 16, color: 'rgba(25,21,18,.5)', marginTop: 11 }}>
+          Based on listed ingredients only — recipes change. Always confirm on the pack.
+        </Text>
       </View>
     </Screen>
   );

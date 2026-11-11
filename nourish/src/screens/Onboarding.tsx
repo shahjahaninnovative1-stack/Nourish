@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { colors, fonts, radii } from '../theme';
 import { useApp } from '../store';
+import { APP_NAME, MIN_AGE } from '../brand';
 import { ACTIVITY_LEVELS, ALLERGY_OPTIONS, GOAL_LIST, REGIONS } from '../data';
 import { Chip, PrimaryButton, StepperRow } from '../components/ui';
 
@@ -58,9 +59,10 @@ export default function Onboarding() {
               })}
             </View>
             <View style={{ gap: 10 }}>
-              <StepperRow label="Age" value={`${s.age} yrs`} onUp={() => set({ age: s.age + 1 })} onDown={() => set({ age: Math.max(s.age - 1, 14) })} />
+              <StepperRow label="Age" value={`${s.age} yrs`} onUp={() => set({ age: s.age + 1 })} onDown={() => set({ age: Math.max(s.age - 1, MIN_AGE) })} />
               <StepperRow label="Height" value={d.hStr} onUp={() => set({ hCm: s.hCm + 1 })} onDown={() => set({ hCm: Math.max(s.hCm - 1, 120) })} />
               <StepperRow label="Weight" value={d.wStr} onUp={() => set({ wKg: s.wKg + 1 })} onDown={() => set({ wKg: Math.max(s.wKg - 1, 30) })} />
+              <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, color: 'rgba(25,21,18,.45)' }}>{APP_NAME} is for adults aged {MIN_AGE} and over.</Text>
               <Pressable onPress={() => set({ units: imp ? 'Metric' : 'Imperial' })} style={{ alignSelf: 'flex-start', marginTop: 2, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 10, backgroundColor: colors.chip }}>
                 <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12, color: 'rgba(25,21,18,.6)' }}>Switch to {imp ? 'metric (cm / kg)' : 'imperial (ft / lb)'}</Text>
               </Pressable>

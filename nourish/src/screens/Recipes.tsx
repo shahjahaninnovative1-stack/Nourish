@@ -16,7 +16,7 @@ export default function Recipes() {
     : `${s.cuisine} cooking, lightened. Portions already sized to your ${d.remaining.toLocaleString()} kcal left.`;
 
   const countLabel = d.shownRecipes.length === 24 ? `24 recipes from ${originCount} kitchens` : `${d.shownRecipes.length} of 24 recipes`;
-  const allergyNote = d.shownRecipes.length === 0 ? '' : (d.blockedCount ? `${d.blockedCount} flagged for your allergies` : 'All clear for your allergies');
+  const allergyNote = d.shownRecipes.length === 0 ? '' : (d.blockedCount ? `${d.blockedCount} flagged for your allergies` : 'No flagged allergens listed');
 
   return (
     <Screen>
@@ -77,6 +77,10 @@ export default function Recipes() {
           </View>
         ))}
       </View>
+
+      <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, lineHeight: 17, color: 'rgba(25,21,18,.5)', marginTop: 14 }}>
+        Allergen flags are based on listed ingredients only. They cannot detect cross-contamination or substitutions — always check the label or ask the cook.
+      </Text>
 
       {d.shownRecipes.length === 0 && (
         <View style={{ padding: 26, paddingHorizontal: 20, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: 'rgba(25,21,18,.18)', borderStyle: 'dashed', alignItems: 'center' }}>

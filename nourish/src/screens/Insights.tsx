@@ -4,6 +4,7 @@ import { colors, fonts } from '../theme';
 import { useApp } from '../store';
 import { CAL_VALS, DOW, WEEK_NOTES } from '../data';
 import { Screen, ScreenHeader } from '../components/ui';
+import { Slab, Tilt } from '../components/Depth';
 
 export default function Insights() {
   const { go } = useApp();
@@ -11,7 +12,9 @@ export default function Insights() {
     <Screen>
       <ScreenHeader title="Your week" onBack={() => go('home')} />
 
-      <View style={{ padding: 22, borderRadius: 22, backgroundColor: colors.greenDark, marginBottom: 14 }}>
+      <Tilt style={{ marginBottom: 14 }}>
+      <Slab color="#0B3D29" radius={22}>
+      <View style={{ padding: 22, borderRadius: 22, backgroundColor: colors.greenDark }}>
         <Text style={{ fontFamily: fonts.bodyBold, fontSize: 11, letterSpacing: 1.4, textTransform: 'uppercase', color: 'rgba(234,247,240,.7)' }}>Thali score</Text>
         <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 10, marginTop: 12 }}>
           <Text style={{ fontFamily: fonts.display, fontSize: 56, lineHeight: 48, color: '#EAF7F0' }}>74</Text>
@@ -21,6 +24,8 @@ export default function Insights() {
           Protein finally cleared 60 g on five days. Sodium is the one holding you back — three days above 2,300 mg.
         </Text>
       </View>
+      </Slab>
+      </Tilt>
 
       <View style={{ padding: 20, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.lineSoft, marginBottom: 14 }}>
         <Text style={{ fontFamily: fonts.bodyBold, fontSize: 14, color: colors.ink, marginBottom: 16 }}>Calories vs target</Text>

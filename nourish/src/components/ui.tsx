@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
 import { colors, fonts, radii } from '../theme';
+import { Press3D } from './Depth';
 
 export function Screen({ children, padBottom = 108 }: { children: React.ReactNode; padBottom?: number }) {
   return (
@@ -107,17 +108,10 @@ export function Toggle({ on, onPress, activeColor = colors.green }: { on: boolea
 }
 
 export function PrimaryButton({ label, onPress, style, dim }: { label: string; onPress: () => void; style?: ViewStyle; dim?: boolean }) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[{
-        height: 52, borderRadius: radii.md, backgroundColor: dim ? colors.chip : colors.ink,
-        alignItems: 'center', justifyContent: 'center',
-      }, style]}
-    >
-      <Text style={{ fontFamily: fonts.bodyBold, fontSize: 15, color: dim ? 'rgba(25,21,18,.7)' : colors.onDark }}>{label}</Text>
-    </Pressable>
-  );
+  const h = typeof style?.height === 'number' ? style.height : 52;
+  return dim
+    ? <Press3D label={label} onPress={onPress} style={style} height={h} face={colors.chip} edge="#D5CAB8" textColor="rgba(25,21,18,.7)" />
+    : <Press3D label={label} onPress={onPress} style={style} height={h} />;
 }
 
 export function StepperRow({ label, value, onUp, onDown }: { label: string; value: string; onUp: () => void; onDown: () => void }) {

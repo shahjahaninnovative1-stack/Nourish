@@ -108,7 +108,7 @@ export default function Scan() {
           <Text style={{ fontFamily: fonts.bodyBold, fontSize: 16, color: '#fff' }}>✕</Text>
         </Pressable>
         <View style={{ position: 'absolute', bottom: 14, right: 20, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 99, backgroundColor: 'rgba(27,138,90,.9)' }}>
-          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 11.5, color: '#fff' }}>92% sure</Text>
+          <Text style={{ fontFamily: fonts.bodyBold, fontSize: 11.5, color: '#fff' }}>Estimate</Text>
         </View>
       </View>
 
@@ -149,7 +149,7 @@ export default function Scan() {
         </View>
 
         <View style={{ padding: 14, borderRadius: 16, backgroundColor: colors.amberBg, borderWidth: 1, borderColor: colors.amberLine, marginTop: 12 }}>
-          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: colors.amberDark }}>Ghee on the roti adds ~45 kcal each. Tap the roti pin if it was dry.</Text>
+          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: colors.amberDark }}>Photo estimates are approximate — hidden oil and portion depth are easy to miss. Ghee on the roti alone adds ~45 kcal each. Adjust anything that looks off.</Text>
         </View>
 
         <Pressable onPress={() => go('calib')} style={{ padding: 17, borderRadius: 18, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.lineSoft, marginTop: 12 }}>

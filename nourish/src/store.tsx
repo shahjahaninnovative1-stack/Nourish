@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RECIPES, VOICE_ITEMS, VOICE_WORDS, VOICE_SENTENCE, QUOTES } from './data';
 
 export type Sex = 'Female' | 'Male';
@@ -11,7 +12,7 @@ export type MicState = 'idle' | 'hearing' | 'parsed';
 export type Screen =
   | 'ob' | 'perm' | 'home' | 'voice' | 'scan' | 'diary' | 'label' | 'micros' | 'move'
   | 'insights' | 'recipes' | 'me' | 'feed' | 'split' | 'leftover' | 'kitchen' | 'shield'
-  | 'calib' | 'future' | 'nudges';
+  | 'calib' | 'future' | 'nudges' | 'legal';
 
 type State = {
   screen: Screen;
@@ -30,9 +31,15 @@ type State = {
   notifOn: Record<string, boolean>;
   plateCm: number;
   dropped: string[];
+  onboarded: boolean;
 };
 
 const BURNED = 340;
+const STORE_KEY = 'nourish.profile.v1';
+const PERSISTED: (keyof State)[] = [
+  'sex', 'age', 'hCm', 'wKg', 'goal', 'act', 'allergies', 'region', 'units',
+  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded',
+];
 
 function initialState(): State {
   return {
@@ -45,7 +52,7 @@ function initialState(): State {
     micState: 'idle', typed: 0, horizon: 12, quoteIdx: 0,
     permOn: { Camera: true, Microphone: true, Notifications: true },
     notifOn: { Breakfast: true, 'Water reminders': false, 'Evening check-in': true, 'Quote of the day': true, 'Streak rescue': true },
-    plateCm: 26, dropped: [],
+    plateCm: 26, dropped: [], onboarded: false,
   };
 }
 
@@ -116,6 +123,7 @@ type Ctx = {
   set: (patch: Partial<State>) => void;
   go: (screen: Screen) => void;
   goScan: () => void;
+  resetAll: () => void;
   flash: (msg: string) => void;
   toggleMic: () => void;
   shoot: () => void;
@@ -125,6 +133,36 @@ const AppCtx = createContext<Ctx | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [s, setS] = useState<State>(initialState);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Restore the saved profile once on launch. A returning user goes straight
+  // to Home rather than through onboarding again.
+  useEffect(() => {
+    let live = true;
+    AsyncStorage.getItem(STORE_KEY)
+      .then((raw) => {
+        if (!live || !raw) return;
+        const saved = JSON.parse(raw) as Partial<State>;
+        setS((prev) => ({ ...prev, ...saved, screen: saved.onboarded ? 'home' : 'ob' }));
+      })
+      .catch(() => {})
+      .finally(() => { if (live) setHydrated(true); });
+    return () => { live = false; };
+  }, []);
+
+  // Persist only durable profile data, never transient UI state such as the
+  // current screen, scan phase or toast.
+  useEffect(() => {
+    if (!hydrated) return;
+    const durable: Partial<State> = {};
+    for (const k of PERSISTED) (durable as Record<string, unknown>)[k] = s[k];
+    AsyncStorage.setItem(STORE_KEY, JSON.stringify(durable)).catch(() => {});
+  }, [hydrated, s]);
+
+  const resetAll = useCallback(() => {
+    AsyncStorage.removeItem(STORE_KEY).catch(() => {});
+    setS(initialState());
+  }, []);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scanTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const voiceTimer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -172,7 +210,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [set]);
 
   const d = useDerived(s);
-  const value = useMemo(() => ({ s, d, set, go, goScan, flash, toggleMic, shoot }), [s, d, set, go, goScan, flash, toggleMic, shoot]);
+  const value = useMemo(() => ({ s, d, set, go, goScan, resetAll, flash, toggleMic, shoot }), [s, d, set, go, goScan, resetAll, flash, toggleMic, shoot]);
+
+  if (!hydrated) return null;
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

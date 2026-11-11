@@ -141,7 +141,7 @@ const body = () => page.locator('body').innerText();
     if (b4 === await body()) throw new Error('quote unchanged'); return 'rotated';
   });
   await check('27. Notification toggle', async () => { await tap('Water reminders', false); return 'toggled'; });
-  await check('28. Future you', () => viaMe('Future you', 'AI render'));
+  await check('28. Future you', () => viaMe('Future you', 'Projected trajectory'));
   await check('29. LOGIC: horizon changes projection', async () => {
     const b4 = await body(); await tap('24 wk', false);
     if (b4 === await body()) throw new Error('projection unchanged'); return 'recomputed';
@@ -170,13 +170,22 @@ const body = () => page.locator('body').innerText();
   });
   await check('44. LOGIC: allergen flagging', async () => {
     await tap('All', true); const b = await body();
-    const m = b.match(/\d+ flagged for your allergies|All clear for your allergies/);
+    const m = b.match(/\d+ flagged for your allergies|No flagged allergens listed/);
     if (!m) throw new Error('no allergy status line'); return m[0];
   });
   await check('45. LOGIC: empty state', async () => {
     await tap('Nordic', false); await tap('Vegan', false);
     if (!(await body()).includes('Nothing matches')) throw new Error('expected empty state');
     return 'shown';
+  });
+
+  await check('45a. Allergen caveat shown', () => seen('cannot detect cross-contamination'));
+  await check('45b. Legal screen', () => viaMe('Privacy, terms', 'Not medical advice'));
+  await check('45c. Demo build disclosed', () => seen('This is a demo build'));
+  await check('45d. No body-render imagery', async () => {
+    await viaMe('Future you', 'Projected trajectory');
+    if ((await body()).includes('AI render')) throw new Error('body render still present');
+    return 'trajectory chart only';
   });
 
   // ---- scan / split / leftover ----
@@ -220,6 +229,27 @@ const body = () => page.locator('body').innerText();
     if (b4 === af) throw new Error('no effect');
     if (af.includes('591 kcal')) throw new Error('total not recalculated');
     return 'recomputed';
+  });
+
+  // ---- persistence + deletion ----
+  await check('65. Profile survives reload', async () => {
+    await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(1500);
+    await seen('kcal left');           // returning user lands on Home, not onboarding
+    const m = (await body()).match(/([\d,]+)\s*\n?\s*target/);
+    if (!m || parseInt(m[1].replace(/,/g, '')) < 2500) throw new Error('saved profile not restored');
+    return 'restored to Home with saved target';
+  });
+  await check('66. Delete my data', async () => {
+    await viaMe('Privacy, terms', 'Not medical advice');
+    await tap('Delete my data from this device', false); await page.waitForTimeout(500);
+    return seen("Let's size up");      // back to a clean onboarding
+  });
+  await check('67. Adults only (18+)', async () => {
+    for (let i = 0; i < 14; i++) { await page.getByText('\u2212', { exact: true }).first().click(); }
+    await page.waitForTimeout(200);
+    const age = parseInt(await page.getByText(/\d+ yrs/).first().textContent());
+    if (age < 18) throw new Error(`age went to ${age}`);
+    return `floor held at ${age}`;
   });
 
   console.log(results.map(r => `${r.ok ? 'PASS' : 'FAIL'}  ${r.label}${r.note ? '  —  ' + r.note : ''}`).join('\n'));
