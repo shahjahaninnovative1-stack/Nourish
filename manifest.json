@@ -1,7 +1,7 @@
 {
-  "name": "Nourish",
-  "short_name": "Nourish",
-  "description": "AI calorie & fitness coach — desi-first, with a world kitchen.",
+  "name": "Savora",
+  "short_name": "Savora",
+  "description": "Food and fitness diary that starts from your own home cuisine.",
   "start_url": "/Nourish/",
   "scope": "/Nourish/",
   "display": "standalone",
