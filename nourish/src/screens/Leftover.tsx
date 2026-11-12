@@ -11,7 +11,7 @@ export default function Leftover() {
     <Screen padBottom={40}>
       <ScreenHeader title="Leftover re-scan" onBack={() => go('home')} />
       <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 13, lineHeight: 20, color: 'rgba(25,21,18,.55)', marginVertical: 10 }}>
-        Every other app charges you for the plate you were served. Nourish charges you for the plate you finished.
+        Every other app charges you for the plate you were served. Savora charges you for the plate you finished.
       </Text>
 
       <View style={{ flexDirection: 'row', gap: 10, marginBottom: 14 }}>
@@ -46,7 +46,7 @@ export default function Leftover() {
 
       <View style={{ padding: 14, paddingHorizontal: 16, borderRadius: 16, backgroundColor: colors.indigoBg, borderWidth: 1, borderColor: colors.indigoLine, marginBottom: 14 }}>
         <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.65)' }}>
-          This is the third time you've left a roti behind at dinner. Nourish will serve you one fewer in tomorrow's plan.
+          This is the third time you've left a roti behind at dinner. Savora will serve you one fewer in tomorrow's plan.
         </Text>
       </View>
 

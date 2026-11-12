@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Nourish",
-    "slug": "nourish",
+    "name": "Savora",
+    "slug": "savora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,10 +9,10 @@
     "primaryColor": "#E1552B",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shahjahaninnovative.nourish"
+      "bundleIdentifier": "com.shahjahaninnovative.savora"
     },
     "android": {
-      "package": "com.shahjahaninnovative.nourish",
+      "package": "com.shahjahaninnovative.savora",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -25,12 +25,12 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
       "output": "single",
-      "name": "Nourish",
-      "shortName": "Nourish",
+      "name": "Savora",
+      "shortName": "Savora",
       "themeColor": "#FFFBF4",
       "backgroundColor": "#FFFBF4",
       "display": "standalone",
-      "description": "AI calorie & fitness coach — desi-first, with a world kitchen."
+      "description": "Food and fitness diary that starts from your own home cuisine."
     }
   }
 }

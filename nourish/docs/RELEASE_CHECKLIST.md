@@ -20,11 +20,9 @@ Status of everything between this repo and a store listing.
    that under guideline 1.1.6, and it would mislead paying users. Either wire
    real services (vision + speech-to-text + a food database) or sell it only as
    what it is today: a manual food diary.
-2. **The name.** "Nourish" is already used by a US nutrition company with
-   $115M in funding and by at least six calorie apps on the stores. Pick a new
-   name, check it at the trademark office in each launch country, then change
-   `APP_NAME` in `src/brand.ts`, the name fields in `app.json`, and the
-   remaining "Nourish" strings in `src/`.
+2. **Trademark check for "Savora".** A store search found no app with this
+   name, but that is not a legal check. Search the trademark register in each
+   launch country before submitting.
 3. **Developer accounts.** Apple Developer Program ($99/yr) and Google Play
    ($25 once). Apple requires health apps to be submitted by a legal entity,
    not an individual.

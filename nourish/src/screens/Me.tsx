@@ -13,7 +13,7 @@ export default function Me() {
     { icon: '🪞', name: 'Future you', meta: '12-week trajectory', go: 'future' },
     { icon: '◉', name: 'Plate calibration', meta: `${s.plateCm} cm`, go: 'calib' },
     { icon: '🔐', name: 'Camera, mic & alerts', meta: `${d.permCount} of 3 on`, go: 'perm' },
-    { icon: '🧠', name: 'What Nourish noticed', meta: '4 new', go: 'feed' },
+    { icon: '🧠', name: 'What Savora noticed', meta: '4 new', go: 'feed' },
     { icon: '🔬', name: 'Kitchen fingerprint', meta: '94% accurate', go: 'kitchen' },
     { icon: '🛡️', name: 'Allergy shield card', meta: `${s.allergies.length} listed`, go: 'shield' },
     { icon: '🧪', name: 'Micronutrient history', meta: '30 days', go: 'micros' },

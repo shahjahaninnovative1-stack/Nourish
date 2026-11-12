@@ -4,7 +4,7 @@ Written to be defensible under Apple guideline 1.4.1 / 1.1.6 and India's ASCI co
 feature-based, with **no accuracy percentages and no weight-loss outcome claims**.
 Do not add "lose X kg" or "N% accurate" — neither can be substantiated.
 
-**Name (30 chars max):** see RELEASE_CHECKLIST.md — the current name needs replacing first.
+**Name (30 chars max):** Savora: Food & Fitness Diary
 
 **Subtitle (30):** Food diary for every kitchen
 

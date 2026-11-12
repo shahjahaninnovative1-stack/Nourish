@@ -95,7 +95,7 @@ export default function Voice() {
               </View>
               <View style={{ padding: 14, borderRadius: 15, backgroundColor: 'rgba(245,165,36,.14)', borderWidth: 1, borderColor: 'rgba(245,165,36,.3)', marginTop: 12 }}>
                 <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: '#FFD79A' }}>
-                  You said "chai" without sugar detail — Nourish used your usual: one spoon, full-fat milk. Tap it to change.
+                  You said "chai" without sugar detail — Savora used your usual: one spoon, full-fat milk. Tap it to change.
                 </Text>
               </View>
             </View>

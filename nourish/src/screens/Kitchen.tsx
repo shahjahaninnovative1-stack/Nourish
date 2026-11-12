@@ -11,7 +11,7 @@ export default function Kitchen() {
     <Screen padBottom={40}>
       <ScreenHeader title="Kitchen fingerprint" onBack={() => go('me')} />
       <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 13, lineHeight: 20, color: 'rgba(25,21,18,.55)', marginVertical: 10 }}>
-        A generic database says a roti is 120 kcal. Yours isn't. Every correction you make teaches Nourish your kitchen.
+        A generic database says a roti is 120 kcal. Yours isn't. Every correction you make teaches Savora your kitchen.
       </Text>
 
       <View style={{ padding: 20, borderRadius: 22, backgroundColor: colors.ink, marginBottom: 14 }}>

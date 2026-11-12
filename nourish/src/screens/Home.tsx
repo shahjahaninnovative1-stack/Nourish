@@ -96,7 +96,7 @@ export default function Home() {
         <Pressable onPress={() => go('feed')} style={{ padding: 17, borderRadius: 18, backgroundColor: colors.amberBg, borderWidth: 1, borderColor: colors.amberLine }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 9 }}>
             <Text style={{ fontSize: 15 }}>🧠</Text>
-            <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, letterSpacing: 1, color: 'rgba(25,21,18,.45)' }}>NOURISH AI</Text>
+            <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, letterSpacing: 1, color: 'rgba(25,21,18,.45)' }}>SAVORA AI</Text>
           </View>
           <Text style={{ fontFamily: fonts.bodyBold, fontSize: 14.5, color: colors.ink, marginBottom: 6 }}>Protein is trailing again</Text>
           <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.6)' }}>18 g by 4pm. A cup of rajma or 150 g curd closes the gap without touching your calories.</Text>
@@ -104,10 +104,10 @@ export default function Home() {
         <Pressable onPress={() => go('feed')} style={{ padding: 17, borderRadius: 18, backgroundColor: colors.redBg, borderWidth: 1, borderColor: colors.redLine }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 9 }}>
             <Text style={{ fontSize: 15 }}>🧂</Text>
-            <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, letterSpacing: 1, color: 'rgba(25,21,18,.45)' }}>NOURISH AI</Text>
+            <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10.5, letterSpacing: 1, color: 'rgba(25,21,18,.45)' }}>SAVORA AI</Text>
           </View>
           <Text style={{ fontFamily: fonts.bodyBold, fontSize: 14.5, color: colors.ink, marginBottom: 6 }}>Sodium at 118% of target</Text>
-          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.6)' }}>The elaichi rusk did most of it. Nourish will flag it next time you scan the pack.</Text>
+          <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.6)' }}>The elaichi rusk did most of it. Savora will flag it next time you scan the pack.</Text>
         </Pressable>
       </View>
 

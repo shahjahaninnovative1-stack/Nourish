@@ -36,7 +36,7 @@ type State = {
 };
 
 const BURNED = 340;
-const STORE_KEY = 'nourish.profile.v1';
+const STORE_KEY = 'savora.profile.v1';
 const PERSISTED: (keyof State)[] = [
   'sex', 'age', 'hCm', 'wKg', 'goal', 'act', 'allergies', 'region', 'units',
   'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts',

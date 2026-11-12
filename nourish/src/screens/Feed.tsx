@@ -16,7 +16,7 @@ export default function Feed() {
   const { go } = useApp();
   return (
     <Screen>
-      <ScreenHeader title="What Nourish noticed" onBack={() => go('home')} />
+      <ScreenHeader title="What Savora noticed" onBack={() => go('home')} />
       <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 13, lineHeight: 20, color: 'rgba(25,21,18,.55)', marginVertical: 10 }}>
         No chatbot. Just the handful of things worth knowing, written the moment we spot them.
       </Text>

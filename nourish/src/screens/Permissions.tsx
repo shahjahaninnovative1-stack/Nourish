@@ -15,7 +15,7 @@ export default function Permissions() {
         Three things{'\n'}and we're in.
       </Text>
       <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 14.5, lineHeight: 22, color: 'rgba(25,21,18,.6)', marginBottom: 24 }}>
-        Nourish only asks for what it actually uses. Say no to any of them and the rest still works.
+        Savora only asks for what it actually uses. Say no to any of them and the rest still works.
       </Text>
       <View style={{ gap: 10 }}>
         {PERMISSIONS_META.map((p) => {

@@ -95,10 +95,10 @@ const RAW_RECIPES: Omit<Recipe, 'allergens'>[] = [
 export const RECIPES: Recipe[] = RAW_RECIPES.map((r) => ({ ...r, allergens: RECIPE_ALLERGENS[r.name] || [] }));
 
 export const QUOTES = [
-  { t: 'You do not need a perfect plate. You need the next honest one.', by: 'Nourish · daily' },
-  { t: 'Dal before dessert is not deprivation. It is sequencing.', by: 'Nourish · daily' },
-  { t: 'The roti you skip in anger comes back at midnight. Eat properly instead.', by: 'Nourish · daily' },
-  { t: 'Twelve days logged. Consistency is quietly beating intensity again.', by: 'Nourish · daily' },
+  { t: 'You do not need a perfect plate. You need the next honest one.', by: 'Savora · daily' },
+  { t: 'Dal before dessert is not deprivation. It is sequencing.', by: 'Savora · daily' },
+  { t: 'The roti you skip in anger comes back at midnight. Eat properly instead.', by: 'Savora · daily' },
+  { t: 'Twelve days logged. Consistency is quietly beating intensity again.', by: 'Savora · daily' },
 ];
 
 export const GOAL_LIST: { key: string; sub: string; icon: string }[] = [
@@ -182,7 +182,7 @@ export const MEALS = [
     { name: 'Samosa', portion: '1 piece', kcal: '130' },
   ] },
   { name: 'Dinner', icon: '🌙', kcal: 'planned', items: [
-    { name: 'Suggested: shakshuka + fattoush', portion: 'Nourish pick · 38 g protein', kcal: '~450' },
+    { name: 'Suggested: shakshuka + fattoush', portion: 'Savora pick · 38 g protein', kcal: '~450' },
     { name: 'Alt: seekh kebab + salad', portion: '30 g protein', kcal: '~620' },
     { name: 'Alt: Japanese salmon donburi', portion: '34 g protein · omega-3', kcal: '~412' },
   ] },
@@ -242,17 +242,17 @@ export const CONNECTED_APPS = [
 ];
 
 export const WEEK_NOTES = [
-  { icon: '🍛', title: 'Saturdays are your biryani day', body: 'Every Saturday runs ~380 kcal over. Nourish will pre-book the budget on Friday night instead of nagging you after.' },
+  { icon: '🍛', title: 'Saturdays are your biryani day', body: 'Every Saturday runs ~380 kcal over. Savora will pre-book the budget on Friday night instead of nagging you after.' },
   { icon: '🧂', title: 'Sodium spikes track eating out', body: 'Three of four high-sodium days had a restaurant entry. Home karahi runs 40% lower.' },
   { icon: '💪', title: 'Protein trend up', body: 'Averaged 71 g, up from 58 g. Two more curd servings a week hits your 96 g target.' },
 ];
 
 export const AI_FEED = [
   { icon: '🧠', kind: 'Pattern', when: '2m ago', title: 'Protein is trailing again', body: '18 g by 4pm on four of the last five days. A katori of rajma at lunch would close it without touching your calorie budget.', tone: 'amber' as const },
-  { icon: '🧂', kind: 'Label flag', when: '1h ago', title: 'The rusk you scanned has milk solids', body: 'You logged lactose intolerance, so Nourish moved it to your avoid list and suggested ragi khakhra instead.', tone: 'red' as const },
-  { icon: '📷', kind: 'Scan correction', when: 'Yesterday', title: 'Learned your roti size', body: 'You resized roti down twice. Nourish now assumes 6-inch atta roti at 98 kcal for your kitchen.', tone: 'plain' as const },
+  { icon: '🧂', kind: 'Label flag', when: '1h ago', title: 'The rusk you scanned has milk solids', body: 'You logged lactose intolerance, so Savora moved it to your avoid list and suggested ragi khakhra instead.', tone: 'red' as const },
+  { icon: '📷', kind: 'Scan correction', when: 'Yesterday', title: 'Learned your roti size', body: 'You resized roti down twice. Savora now assumes 6-inch atta roti at 98 kcal for your kitchen.', tone: 'plain' as const },
   { icon: '🏃', kind: 'Activity', when: 'Yesterday', title: 'Evening walks are working', body: 'Your 8pm walk shows up on nine of the last ten days and pulled resting heart rate down 3 bpm.', tone: 'green' as const },
-  { icon: '🍛', kind: 'Heads up', when: '2d ago', title: 'Saturday biryani is booked', body: 'Nourish trimmed 120 kcal from Thursday and Friday so today’s plate has room. Eat it guilt-free.', tone: 'plain' as const },
+  { icon: '🍛', kind: 'Heads up', when: '2d ago', title: 'Saturday biryani is booked', body: 'Savora trimmed 120 kcal from Thursday and Friday so today’s plate has room. Eat it guilt-free.', tone: 'plain' as const },
 ];
 
 export const LEFTOVERS = [
@@ -263,7 +263,7 @@ export const LEFTOVERS = [
 ];
 
 export const KITCHEN_ROWS = [
-  { icon: '🥓', name: 'Your roti', value: '98 kcal', learned: 'You resized it down 24 times. Nourish now assumes a 6-inch atta roti, not the 8-inch database default.', conf: 0.94 },
+  { icon: '🥓', name: 'Your roti', value: '98 kcal', learned: 'You resized it down 24 times. Savora now assumes a 6-inch atta roti, not the 8-inch database default.', conf: 0.94 },
   { icon: '🧈', name: 'Ghee hand', value: '0.4 tsp', learned: 'Weekday rotis run dry, Sunday parathas do not. It splits the estimate by day.', conf: 0.88 },
   { icon: '🍲', name: 'Dal consistency', value: 'Thin', learned: 'Your dal photographs thinner than average — 150 kcal a katori, not 180.', conf: 0.91 },
   { icon: '🛢️', name: 'Household oil', value: '1.4× base', learned: 'Across 60 home dishes your tarka runs heavier than the reference kitchen.', conf: 0.82 },
@@ -286,7 +286,7 @@ export const PLATES = [
 export const NOTIF_PREVIEW = [
   { when: '8:02 am', title: 'Chai first, protein second?', body: 'You have done this nine mornings running. Two boiled eggs with it and lunch stops feeling like a rescue mission.' },
   { when: '4:40 pm', title: '“The body keeps the receipts.”', body: 'Your quote for today, plus a nudge: 620 kcal left and you are 1,800 steps from closing the ring.' },
-  { when: '9:15 pm', title: 'One roti away from a clean day', body: 'Log dinner and day 13 of the streak is yours. Nourish can hear it if you would rather talk than type.' },
+  { when: '9:15 pm', title: 'One roti away from a clean day', body: 'Log dinner and day 13 of the streak is yours. Savora can hear it if you would rather talk than type.' },
 ];
 
 export const NOTIF_SETTINGS_META: Record<string, string> = {

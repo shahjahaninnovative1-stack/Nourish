@@ -20,9 +20,9 @@ export default function Nudges() {
           <View key={n.title} style={{ padding: 15, paddingHorizontal: 16, borderRadius: 18, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.lineSoft }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 9 }}>
               <View style={{ width: 22, height: 22, borderRadius: 7, backgroundColor: colors.accent, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10, color: '#fff' }}>N</Text>
+                <Text style={{ fontFamily: fonts.bodyBold, fontSize: 10, color: '#fff' }}>S</Text>
               </View>
-              <Text style={{ flex: 1, fontFamily: fonts.bodyBold, fontSize: 11, color: 'rgba(25,21,18,.5)' }}>NOURISH</Text>
+              <Text style={{ flex: 1, fontFamily: fonts.bodyBold, fontSize: 11, color: 'rgba(25,21,18,.5)' }}>SAVORA</Text>
               <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11, color: 'rgba(25,21,18,.35)' }}>{n.when}</Text>
             </View>
             <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, lineHeight: 18, color: colors.ink }}>{n.title}</Text>

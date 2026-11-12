@@ -171,7 +171,7 @@ const body = () => page.locator('body').innerText();
   await check('31. Plate calibration', () => viaMe('Plate calibration', 'Reference found'));
   await check('32. Plate select', async () => { await tap('Dinner plate', false); return 'selected'; });
   await check('33. Permissions from Me', () => viaMe('Camera, mic & alerts', 'Three things'));
-  await check('34. AI feed', () => viaMe('What Nourish noticed', 'Label flag'));
+  await check('34. AI feed', () => viaMe('What Savora noticed', 'Label flag'));
   await check('35. Kitchen fingerprint', () => viaMe('Kitchen fingerprint', 'Accuracy on your food'));
   await check('36. Allergy shield', () => viaMe('Allergy shield card', 'Do not serve me'));
   await check('37. LOGIC: shield reflects allergies', async () => {
