@@ -2,10 +2,10 @@
 // plus the name fields in app.json.
 export const APP_NAME = 'Savora';
 
-// While true, the app shows a visible "sample data" marker. Food recognition,
-// voice parsing and the insight feed are simulated in this build; shipping it
-// without this marker would present simulated results as real ones. Set to
-// false only once those are backed by a real service.
+// While true, Home shows a "sample data" marker. Photo and described-meal
+// logging are real when the analysis service is connected, but the diary
+// history, insights, micronutrients and several other screens are still
+// sample content. Set to false only once those are real too.
 export const DEMO_MODE = true;
 
 export const MIN_AGE = 18;

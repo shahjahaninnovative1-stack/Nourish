@@ -138,7 +138,7 @@ export default function Home() {
               <Text style={{ fontFamily: fonts.bodyBold, fontSize: 13.5, color: colors.ink }}>{q.name}</Text>
               <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11.5, color: 'rgba(25,21,18,.48)', marginTop: 4 }}>{q.serving} · {q.kcal} kcal</Text>
             </View>
-            <Pressable onPress={() => { set({ eatenBase: s.eatenBase + q.kcal }); flash(`${q.name} added · ${q.kcal} kcal`); }} style={{ width: 30, height: 30, borderRadius: 10, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>
+            <Pressable onPress={() => { set({ eatenBase: s.eatenBase + q.kcal, log: [...s.log, { name: q.name, kcal: q.kcal, via: 'quick', at: Date.now() }] }); flash(`${q.name} added · ${q.kcal} kcal`); }} style={{ width: 30, height: 30, borderRadius: 10, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontFamily: fonts.bodyBold, fontSize: 16, color: colors.onDark }}>+</Text>
             </Pressable>
           </View>

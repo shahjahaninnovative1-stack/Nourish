@@ -84,9 +84,15 @@ const body = () => page.locator('body').innerText();
   };
   const openScan     = () => clickCircle('scan tab button', { color: 'rgb(225, 85, 43)',   min: 46, max: 64, nearBottom: 200 });
   const openVoiceTab = () => clickCircle('mic tab button',  { color: 'rgb(243, 236, 224)', min: 26, max: 40, nearBottom: 95  });
+  // The shutter opens the OS camera / file picker; hand it a real JPEG.
+  const PHOTO = require('path').join(require('os').tmpdir(), 'savora-e2e-meal.jpg');
+  await page.screenshot({ path: PHOTO, type: 'jpeg', quality: 60 });
+  const shoot = async () => {
+    const [chooser] = await Promise.all([page.waitForEvent('filechooser'), pressShutter()]);
+    await chooser.setFiles(PHOTO);
+    await page.waitForFunction(() => /tap a dish to adjust|no food found/i.test(document.body.innerText), null, { timeout: 20000 });
+  };
   const pressShutter = () => clickCircle('shutter',         { color: 'rgb(255, 255, 255)', min: 68, max: 80, nearBottom: 200 });
-  // Accent while recording, translucent cream at rest.
-  const pressVoiceMic= () => clickCircle('voice mic',       { color: ['rgb(225, 85, 43)', 'rgba(255, 251, 244, 0.14)'], min: 74, max: 88, nearBottom: 260 });
 
   // ---- onboarding ----
   await check('1. Onboarding renders', () => seen("Let's size up"));
@@ -212,15 +218,31 @@ const body = () => page.locator('body').innerText();
 
   // ---- scan / split / leftover ----
   await check('46. Scan (aim)', async () => { await toTabbed(); await openScan(); return seen('Frame the whole plate'); });
+  await check('46a. Consent asked before first analysis', async () => {
+    await seen('Before your first analysis');
+    await tap('Allow & continue', false); return 'granted';
+  });
   await check('47. Label scan', async () => { await tap('Label / barcode', false); return seen('Everyday Elaichi Rusk'); });
   await check('48. Label allergy warning', () => seen('Not for you'));
   await check('49. Ingredients decoded', () => seen('Ingredients, decoded'));
   await check('50. Back to scan', async () => { await tap('←', false); return seen('Frame the whole plate'); });
-  await check('51. Shutter -> result', async () => { await pressShutter(); await page.waitForTimeout(2200); return seen('Tap a pin to adjust'); });
+  await check('51. Photo -> result', async () => { await shoot(); return seen('Tap a dish to adjust'); });
+  await check('51a. No backend -> labelled as demo, never passed off as real', async () => {
+    await seen('Demo result'); return seen('sample data, not your photo');
+  });
   await check('52. Result pins', () => seen('Roti (tandoori)'));
   await check('53. LOGIC: pin switches detail', async () => {
     const b4 = await body(); await tap('Chicken karahi · 310', false);
     if (b4 === await body()) throw new Error('no effect'); return 'switched';
+  });
+  await check('53a. LOGIC: portion stepper rescales the dish and the total', async () => {
+    const total = async () => parseInt((await body()).match(/Log ([\d,]+) kcal/)[1].replace(/,/g, ''));
+    const b4 = await total();
+    await page.getByLabel('Larger portion').click(); await page.waitForTimeout(250);
+    const af = await total();
+    if (af !== b4 + 155) throw new Error(`expected ${b4 + 155}, got ${af}`);   // karahi 310 x 0.5
+    await page.getByLabel('Smaller portion').click(); await page.waitForTimeout(250);
+    return `${b4} -> ${af} -> back`;
   });
   await check('54. Hidden-oil meter', () => seen('Hidden-oil meter'));
   await check('55. Shared plate', async () => { await tap('Split this dish', false); return seen('Chicken karahi handi'); });
@@ -234,7 +256,7 @@ const body = () => page.locator('body').innerText();
     if (!m) throw new Error('no reconciliation note'); return m[0];
   });
   await check('58. Leftover re-scan', async () => {
-    await toTabbed(); await openScan(); await pressShutter(); await page.waitForTimeout(2200);
+    await toTabbed(); await openScan(); await shoot();
     await tap('Scan leftovers', false); return seen('You left food on the plate');
   });
   await check('59. Leftover correction', () => seen('207 kcal'));
@@ -242,7 +264,12 @@ const body = () => page.locator('body').innerText();
   // ---- voice ----
   await check('60. Voice idle', async () => { await toTabbed(); await openVoiceTab(); return seen('Talk it in'); });
   await check('61. Voice examples', () => seen('Do roti, ek katori dal aur chai'));
-  await check('62. LOGIC: transcription -> parsed', async () => { await pressVoiceMic(); await page.waitForTimeout(3400); return seen('Heard 4 items'); });
+  await check('62. Describe a meal -> parsed', async () => {
+    await tap('Do roti, ek katori dal aur chai', false);
+    await tap('Work it out', false);
+    await page.waitForFunction(() => document.body.innerText.includes('HEARD') || document.body.innerText.includes('Heard'), null, { timeout: 15000 });
+    return seen('4 items');
+  });
   await check('63. Parsed total', () => seen('591 kcal'));
   await check('64. LOGIC: drop item recalculates', async () => {
     const b4 = await body();

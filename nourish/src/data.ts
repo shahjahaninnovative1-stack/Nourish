@@ -309,3 +309,23 @@ export const PERMISSIONS_META = [
   { name: 'Microphone', icon: '🎙️', iconBg: '#F5F2FF', why: 'Log meals by talking instead of typing', detail: 'Recording only runs while you hold the mic. Audio is transcribed then discarded.' },
   { name: 'Notifications', icon: '🔔', iconBg: '#F0F7F3', why: 'Four nudges a day, tied to real events', detail: 'You pick the windows. Quiet hours are on by default from 10pm to 7am.' },
 ];
+
+// Shown, clearly labelled, when no analysis service answers.
+export const DEMO_SCAN: import('./ai').MealResult = {
+  source: 'demo', isFood: true, hiddenOilTsp: 3.2,
+  items: [
+    { name: 'Roti (tandoori)', portion: '2 pieces', grams: 80, kcal: 208, protein: 7, carbs: 42, fat: 2, fibre: 6, confidence: 'high', allergens: ['Gluten'] },
+    { name: 'Dal tadka', portion: '1 katori', grams: 150, kcal: 180, protein: 9, carbs: 22, fat: 6, fibre: 5, confidence: 'medium', allergens: [] },
+    { name: 'Chicken karahi', portion: '1 serving', grams: 180, kcal: 310, protein: 28, carbs: 6, fat: 19, fibre: 2, confidence: 'medium', allergens: [] },
+    { name: 'Raita', portion: '1 small bowl', grams: 100, kcal: 62, protein: 3, carbs: 5, fat: 3, fibre: 1, confidence: 'high', allergens: ['Lactose'] },
+  ],
+};
+export const DEMO_VOICE: import('./ai').MealResult = {
+  source: 'demo', isFood: true,
+  items: [
+    { name: 'Roti (atta)', portion: '2 pieces', kcal: 196, protein: 6, carbs: 40, fat: 2, fibre: 6, confidence: 'high', allergens: ['Gluten'] },
+    { name: 'Dal tadka', portion: '1 katori', kcal: 150, protein: 8, carbs: 18, fat: 5, fibre: 4, confidence: 'medium', allergens: [] },
+    { name: 'Chicken karahi', portion: 'half serving', kcal: 155, protein: 14, carbs: 3, fat: 10, fibre: 1, confidence: 'medium', allergens: [] },
+    { name: 'Chai with sugar', portion: '1 cup', kcal: 90, protein: 2, carbs: 12, fat: 3, fibre: 0, confidence: 'high', allergens: ['Lactose'] },
+  ],
+};

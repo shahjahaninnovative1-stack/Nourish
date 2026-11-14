@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { RECIPES, VOICE_ITEMS, VOICE_WORDS, VOICE_SENTENCE, QUOTES } from './data';
+import { RECIPES, QUOTES, DEMO_SCAN, DEMO_VOICE } from './data';
+import { analyzePhoto, parseMealText, scaled, MealResult } from './ai';
 
 export type Sex = 'Female' | 'Male';
 export type Goal = 'Lose weight' | 'Maintain' | 'Build muscle' | 'Manage sugar';
@@ -8,7 +9,7 @@ export type Act = 'Sedentary' | 'Light' | 'Active' | 'Athlete';
 export type Units = 'Metric' | 'Imperial';
 export type Region = string;
 export type ScanPhase = 'aim' | 'busy' | 'done';
-export type MicState = 'idle' | 'hearing' | 'parsed';
+export type LogEntry = { name: string; kcal: number; via: 'photo' | 'voice' | 'quick'; at: number };
 export type Screen =
   | 'ob' | 'perm' | 'home' | 'voice' | 'scan' | 'diary' | 'label' | 'micros' | 'move'
   | 'insights' | 'recipes' | 'me' | 'feed' | 'split' | 'leftover' | 'kitchen' | 'shield'
@@ -18,7 +19,7 @@ type State = {
   screen: Screen;
   ob: 0 | 1 | 2;
   scanPhase: ScanPhase;
-  pin: 0 | 1 | 2 | 3;
+  pin: number;
   toast: string;
   sex: Sex; age: number; hCm: number; wKg: number; goal: Goal; act: Act;
   allergies: string[]; region: Region;
@@ -26,7 +27,10 @@ type State = {
   recipeTab: string; cuisine: string;
   eatenBase: number;
   shares: number[];
-  micState: MicState; typed: number; horizon: 4 | 12 | 24 | 52; quoteIdx: number;
+  horizon: 4 | 12 | 24 | 52; quoteIdx: number;
+  scanResult: MealResult | null; scanImage: string | null; scanMult: number[];
+  voiceText: string; voiceBusy: boolean; voiceResult: MealResult | null;
+  aiConsent: boolean; log: LogEntry[];
   permOn: Record<string, boolean>;
   notifOn: Record<string, boolean>;
   plateCm: number;
@@ -39,7 +43,7 @@ const BURNED = 340;
 const STORE_KEY = 'savora.profile.v1';
 const PERSISTED: (keyof State)[] = [
   'sex', 'age', 'hCm', 'wKg', 'goal', 'act', 'allergies', 'region', 'units',
-  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts',
+  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts', 'aiConsent', 'log',
 ];
 
 // Only the US, Liberia and Myanmar use pounds and feet day to day.
@@ -58,7 +62,10 @@ function initialState(): State {
     units: defaultUnits(),
     recipeTab: 'All', cuisine: 'All', eatenBase: 1120,
     shares: [40, 34, 26],
-    micState: 'idle', typed: 0, horizon: 12, quoteIdx: 0,
+    horizon: 12, quoteIdx: 0,
+    scanResult: null, scanImage: null, scanMult: [],
+    voiceText: '', voiceBusy: false, voiceResult: null,
+    aiConsent: false, log: [],
     permOn: { Camera: true, Microphone: true, Notifications: true },
     notifOn: { Breakfast: true, 'Water reminders': false, 'Evening check-in': true, 'Quote of the day': true, 'Streak rescue': true },
     plateCm: 26, dropped: [], onboarded: false, workouts: [],
@@ -81,7 +88,6 @@ export function useDerived(s: State) {
     const burned = BURNED + s.workouts.reduce((a, w) => a + w.kcal, 0);
     const remaining = Math.max(tgt - eaten + burned, 0);
     const shareTotal = s.shares.reduce((a, b) => a + b, 0);
-    const voiceTotal = VOICE_ITEMS.filter((v) => s.dropped.indexOf(v.name) < 0).reduce((a, v) => a + v.kcal, 0);
     const paceKgPerWk = ({ 'Lose weight': -0.4, Maintain: 0, 'Build muscle': 0.16, 'Manage sugar': -0.22 } as Record<string, number>)[s.goal] || 0;
     const deltaW = paceKgPerWk * s.horizon;
     const projW = Math.max(s.wKg + deltaW, 35);
@@ -114,11 +120,9 @@ export function useDerived(s: State) {
     const futureLabel = s.horizon === 52 ? 'In 1 year' : `In ${s.horizon} weeks`;
 
     return {
-      imp, target: tgt, eaten, remaining, burned, shareTotal, voiceTotal,
+      imp, target: tgt, eaten, remaining, burned, shareTotal,
       deltaW, projW, bmi, projectedBmi, permCount, notifCount,
       shownRecipes, blockedCount, originCount, hStr, wStr, futureWeight, futureLabel,
-      transcript: s.micState === 'parsed' ? VOICE_SENTENCE : VOICE_WORDS.slice(0, s.typed).join(' '),
-      voiceItems: VOICE_ITEMS.filter((v) => s.dropped.indexOf(v.name) < 0),
       quote: QUOTES[s.quoteIdx % QUOTES.length],
       myShareKcal: Math.round(1240 * s.shares[0] / 100),
     };
@@ -135,8 +139,9 @@ type Ctx = {
   goScan: () => void;
   resetAll: () => void;
   flash: (msg: string) => void;
-  toggleMic: () => void;
-  shoot: () => void;
+  runScan: (img: { base64: string; mediaType: string; uri: string }) => void;
+  runVoice: (text: string) => void;
+  logMeal: (r: MealResult, mult: number[], via: 'photo' | 'voice') => number;
 };
 
 const AppCtx = createContext<Ctx | null>(null);
@@ -174,8 +179,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setS(initialState());
   }, []);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scanTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const voiceTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const stateRef = useRef(s);
   stateRef.current = s;
 
@@ -184,7 +187,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Entering the camera must always start a fresh frame: without this, returning
   // to the scanner after a completed scan shows the previous meal's result with
   // its Log button primed, which risks logging the same meal twice.
-  const goScan = useCallback(() => set({ screen: 'scan', scanPhase: 'aim' }), [set]);
+  const goScan = useCallback(() => set({ screen: 'scan', scanPhase: 'aim', scanResult: null, scanImage: null }), [set]);
 
   const flash = useCallback((msg: string) => {
     set({ toast: msg });
@@ -192,35 +195,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     toastTimer.current = setTimeout(() => set({ toast: '' }), 2400);
   }, [set]);
 
-  const shoot = useCallback(() => {
-    set({ scanPhase: 'busy' });
-    if (scanTimer.current) clearTimeout(scanTimer.current);
-    scanTimer.current = setTimeout(() => set({ scanPhase: 'done' }), 1500);
+  // Sends the photo for analysis. If no service answers, falls back to a
+  // sample result that the screen labels as a demo, with the reason.
+  const runScan = useCallback((img: { base64: string; mediaType: string; uri: string }) => {
+    const cur = stateRef.current;
+    set({ scanPhase: 'busy', scanImage: img.uri, scanResult: null, pin: 0 });
+    analyzePhoto(img.base64, img.mediaType, { cuisine: cur.region, plateCm: cur.plateCm })
+      .catch((e): MealResult => ({ ...DEMO_SCAN, reason: e?.message || 'Analysis unavailable' }))
+      .then((r) => set({ scanPhase: 'done', scanResult: r, scanMult: r.items.map(() => 1) }));
   }, [set]);
 
-  const toggleMic = useCallback(() => {
+  const runVoice = useCallback((text: string) => {
     const cur = stateRef.current;
-    if (cur.micState === 'hearing') {
-      if (voiceTimer.current) clearInterval(voiceTimer.current);
-      set({ micState: 'parsed' });
-      return;
-    }
-    const start = Date.now();
-    set({ micState: 'hearing', typed: 0 });
-    if (voiceTimer.current) clearInterval(voiceTimer.current);
-    voiceTimer.current = setInterval(() => {
-      const n = Math.min(Math.floor((Date.now() - start) / 190), VOICE_WORDS.length);
-      if (n >= VOICE_WORDS.length) {
-        if (voiceTimer.current) clearInterval(voiceTimer.current);
-        set({ typed: VOICE_WORDS.length, micState: 'parsed' });
-      } else if (n !== stateRef.current.typed) {
-        set({ typed: n });
-      }
-    }, 90);
+    set({ voiceBusy: true, voiceResult: null });
+    parseMealText(text, { cuisine: cur.region })
+      .catch((e): MealResult => ({ ...DEMO_VOICE, reason: e?.message || 'Analysis unavailable' }))
+      .then((r) => set({ voiceBusy: false, voiceResult: r }));
+  }, [set]);
+
+  const logMeal = useCallback((r: MealResult, mult: number[], via: 'photo' | 'voice') => {
+    const cur = stateRef.current;
+    const at = Date.now();
+    const entries = r.items.map((it, i) => ({ name: it.name, kcal: scaled(it, mult[i] ?? 1).kcal, via, at }));
+    const total = entries.reduce((a, e) => a + e.kcal, 0);
+    set({ eatenBase: cur.eatenBase + total, log: [...cur.log, ...entries] });
+    return total;
   }, [set]);
 
   const d = useDerived(s);
-  const value = useMemo(() => ({ s, d, set, go, goScan, resetAll, flash, toggleMic, shoot }), [s, d, set, go, goScan, resetAll, flash, toggleMic, shoot]);
+  const value = useMemo(() => ({ s, d, set, go, goScan, resetAll, flash, runScan, runVoice, logMeal }), [s, d, set, go, goScan, resetAll, flash, runScan, runVoice, logMeal]);
 
   if (!hydrated) return null;
 

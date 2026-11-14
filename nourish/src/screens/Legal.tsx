@@ -16,7 +16,7 @@ const SECTIONS: { title: string; body: string }[] = [
   },
   {
     title: 'Your data',
-    body: 'Your profile (age, sex, height, weight, goal, allergies and preferences) is stored on this device only. This version does not create an account, does not upload your profile, and contains no advertising or tracking.',
+    body: 'Your profile and food log are stored on this device only. There is no account, no advertising and no tracking. When you scan a meal or describe one, that photo or text — plus your home cuisine and plate size, nothing else — is sent to our server and to our AI provider (Anthropic) to produce the estimate. It is not stored by us and is not linked to your identity.',
   },
   {
     title: 'Who can use it',
@@ -32,7 +32,7 @@ export default function Legal() {
   const { s, go, resetAll, flash } = useApp();
   // Export is free and unrestricted: the data is the user's own.
   const exportData = async () => {
-    const { screen, toast, scanPhase, pin, micState, typed, dropped, ob, ...profile } = s;
+    const { screen, toast, scanPhase, pin, dropped, ob, scanResult, scanImage, scanMult, voiceText, voiceBusy, voiceResult, ...profile } = s;
     try { await Share.share({ title: `${APP_NAME} data export`, message: JSON.stringify(profile, null, 2) }); }
     catch { flash('Export prepared — sharing is not available in this browser'); }
   };
@@ -43,7 +43,7 @@ export default function Legal() {
         <View style={{ padding: 14, borderRadius: 16, backgroundColor: colors.indigoBg, borderWidth: 1, borderColor: colors.indigoLine, marginTop: 10 }}>
           <Text style={{ fontFamily: fonts.bodyBold, fontSize: 12.5, color: colors.indigo, marginBottom: 4 }}>This is a demo build</Text>
           <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12, lineHeight: 18, color: 'rgba(25,21,18,.6)' }}>
-            Photo scanning, voice logging and insights show sample results. They are not analysing your real food yet.
+            The diary history, insights, micronutrients, shared plate and leftover screens show sample data. Photo and voice logging are real when the analysis service is connected, and are labelled "Demo result" when it is not.
           </Text>
         </View>
       )}

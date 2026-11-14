@@ -14,12 +14,12 @@ Status of everything between this repo and a store listing.
 - [x] Store copy and privacy policy drafted (`docs/`)
 
 ## Blocking — must be resolved before selling
-1. **The AI is simulated.** Photo scan, voice logging and the insight feed return
-   fixed sample data. `DEMO_MODE` in `src/brand.ts` labels this in the app. Selling
-   it with the label removed would present fake results as real: Apple rejects
-   that under guideline 1.1.6, and it would mislead paying users. Either wire
-   real services (vision + speech-to-text + a food database) or sell it only as
-   what it is today: a manual food diary.
+1. **Connect and verify the analysis service.** Photo and described-meal
+   logging are implemented but need an API key on the server — see
+   `docs/AI_SETUP.md`. Until then results are labelled "Demo result". After
+   connecting it, test real meals yourself: the automated tests stub the
+   provider and say nothing about estimate quality. Several other screens are
+   still sample data (listed in that file) and `DEMO_MODE` keeps them labelled.
 2. **Trademark check for "Savora".** A store search found no app with this
    name, but that is not a legal check. Search the trademark register in each
    launch country before submitting.

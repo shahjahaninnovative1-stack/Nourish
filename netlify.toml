@@ -22,3 +22,9 @@
   [headers.values]
     # Bundle filenames are content-hashed, so they are safe to cache forever.
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Meal analysis functions (photo and text). Path is relative to `base`.
+# They need ANTHROPIC_API_KEY set in Site configuration -> Environment variables.
+[functions]
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"

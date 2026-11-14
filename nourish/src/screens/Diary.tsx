@@ -8,7 +8,7 @@ import { Screen } from '../components/ui';
 const WEEK_NUMS = [31, 1, 2, 3, 4, 5, 6];
 
 export default function Diary() {
-  const { d, goScan } = useApp();
+  const { s, d, goScan } = useApp();
 
   return (
     <Screen>
@@ -38,6 +38,25 @@ export default function Diary() {
           <Text style={{ fontFamily: fonts.display, fontSize: 24, color: colors.amber, marginTop: 7 }}>{d.remaining.toLocaleString()}</Text>
         </View>
       </View>
+
+      {s.log.length > 0 && (
+        <View style={{ borderRadius: 20, backgroundColor: colors.greenBg, borderWidth: 1, borderColor: colors.greenLine, overflow: 'hidden', marginBottom: 12 }}>
+          <View style={{ padding: 14, paddingHorizontal: 16 }}>
+            <Text style={{ fontFamily: fonts.bodyBold, fontSize: 14, color: colors.greenDark }}>Logged by you</Text>
+          </View>
+          {s.log.slice().reverse().map((e, i) => (
+            <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, paddingHorizontal: 16 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 13, color: colors.ink }}>{e.name}</Text>
+                <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 11, color: 'rgba(25,21,18,.45)', marginTop: 3 }}>
+                  {e.via === 'photo' ? 'Photo scan' : e.via === 'voice' ? 'Described' : 'Quick add'} · {new Date(e.at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}
+                </Text>
+              </View>
+              <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 12.5, color: 'rgba(25,21,18,.55)' }}>{e.kcal}</Text>
+            </View>
+          ))}
+        </View>
+      )}
 
       <View style={{ gap: 12 }}>
         {MEALS.map((m) => (

@@ -5,13 +5,19 @@ _Last updated: 11 November 2026. Replace the bracketed items before publishing, 
 **[Legal entity name]** ("we") publishes this app.
 
 ## What the app stores
-Your profile — age, sex, height, weight, goal, activity level, allergies, kitchen region and notification preferences — and your logged calorie total. This is stored **on your device only**.
+Your profile — age, sex, height, weight, goal, activity level, allergies, home cuisine and notification preferences — your food log and your workouts. This is stored **on your device only**.
+
+## What leaves your device
+Only when you scan a meal or describe one, and only after you agree in the app:
+- the photo, or the text you typed or spoke;
+- your home cuisine and plate size, to improve the estimate.
+
+This is sent to our server and passed to our AI provider, Anthropic, PBC (USA), to produce the estimate. We do not store the photo or text, and it is not linked to your name, account or profile. Your age, sex, weight, goal and allergies are never sent.
 
 ## What the app does not do
 - It does not create an account.
-- It does not upload your profile or food log to any server.
 - It contains no advertising and no third-party analytics or tracking.
-- It does not access your camera, microphone, photos or health data in this version. Photo scanning and voice logging show sample results.
+- It does not read your health data.
 
 ## Deleting your data
 Me → Privacy, terms & your data → **Delete my data from this device**. Uninstalling the app also removes it.
@@ -20,7 +26,7 @@ Me → Privacy, terms & your data → **Delete my data from this device**. Unins
 The app is for adults aged 18 and over and is not directed at children.
 
 ## Changes
-If a later version sends data off the device (for example, real photo analysis), this policy and the in-app notice will be updated before that version is released, and consent will be requested.
+If a later version changes what leaves your device, this policy and the in-app notice will be updated first, and consent will be requested again.
 
 ## Contact
 [contact email]
