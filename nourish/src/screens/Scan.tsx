@@ -6,6 +6,7 @@ import { scaled } from '../ai';
 import { capture } from '../capture';
 import { PlaceholderImage, PrimaryButton } from '../components/ui';
 import { Consent } from '../components/Consent';
+import { FREE_SCANS_PER_DAY } from '../ads';
 
 function PulseDot() {
   const scale = useRef(new Animated.Value(1)).current;
@@ -23,7 +24,7 @@ function PulseDot() {
 const FILL = { position: 'absolute' as const, top: 0, left: 0, right: 0, bottom: 0 };
 
 export default function Scan() {
-  const { s, set, go, runScan, logMeal, flash } = useApp();
+  const { s, d, set, go, runScan, logMeal, flash } = useApp();
 
   const take = async (from: 'camera' | 'library') => {
     try {
@@ -50,8 +51,17 @@ export default function Scan() {
           <View style={{ position: 'absolute', bottom: 52, left: 20, right: 20, alignItems: 'center', gap: 18 }}>
             {!s.aiConsent ? (
               <View style={{ alignSelf: 'stretch' }}><Consent onAllow={() => set({ aiConsent: true })} /></View>
+            ) : d.scansLeft === 0 ? (
+              <View style={{ alignSelf: 'stretch', padding: 18, borderRadius: 20, backgroundColor: 'rgba(255,251,244,.96)' }}>
+                <Text style={{ fontFamily: fonts.bodyBold, fontSize: 14, color: colors.ink, marginBottom: 6 }}>Today's free scans are used</Text>
+                <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.62)', marginBottom: 14 }}>
+                  Photo scans are limited to {FREE_SCANS_PER_DAY} a day to keep the app free. You can still describe a meal or use quick add, and scans reset tomorrow.
+                </Text>
+                <PrimaryButton label="Describe it instead" onPress={() => go('voice')} />
+              </View>
             ) : (
               <>
+                <Text style={{ fontFamily: fonts.bodySemibold, fontSize: 11.5, color: 'rgba(25,21,18,.5)' }}>{d.scansLeft} of {FREE_SCANS_PER_DAY} free scans left today</Text>
                 <View style={{ flexDirection: 'row', gap: 8 }}>
                   <Pressable onPress={() => take('library')} style={pill}><Text style={pillText}>Library</Text></Pressable>
                   <Pressable onPress={() => go('voice')} style={pill}><Text style={pillText}>Describe it</Text></Pressable>

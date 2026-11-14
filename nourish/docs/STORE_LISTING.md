@@ -24,7 +24,8 @@ A food diary that starts from your own home cuisine — South Asian, Middle East
 • See where your current pace leads over 4, 12 and 24 weeks
 • Log workouts and see what they burn at your own weight
 • Export your data any time, free
-• Your profile stays on your device. No account, no ads, no tracking.
+• Free to use, supported by non-personalised ads
+• Your profile stays on your device. No account, no tracking.
 
 Calorie figures are estimates. This app is not medical advice and never confirms that a food is safe for an allergy — always check the label.
 

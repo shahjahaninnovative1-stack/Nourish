@@ -140,6 +140,8 @@ const body = () => page.locator('body').innerText();
     if (!/Good (morning|afternoon|evening)/.test(b)) throw new Error('no greeting'); return 'ok';
   });
 
+  await check('18c. Ad slot on Home is marked as advertising', async () => { await seen('Advertisement'); return seen('Ad space'); });
+
   // ---- tabs ----
   await check('19. Diary tab', async () => { await tap('Diary'); return seen('Aloo paratha'); });
   await check('20. Diary meals', () => seen('Suggested: shakshuka'));
@@ -180,6 +182,9 @@ const body = () => page.locator('body').innerText();
   await check('34. AI feed', () => viaMe('What Savora noticed', 'Label flag'));
   await check('35. Kitchen fingerprint', () => viaMe('Kitchen fingerprint', 'Accuracy on your food'));
   await check('36. Allergy shield', () => viaMe('Allergy shield card', 'Do not serve me'));
+  await check('36a. No ads on the allergy screen', async () => {
+    if ((await body()).toLowerCase().includes('advertisement')) throw new Error('ad on allergy screen'); return 'none';
+  });
   await check('37. LOGIC: shield reflects allergies', async () => {
     if (!(await body()).includes('Gluten')) throw new Error('Gluten from onboarding missing');
     return 'lists Gluten';
@@ -218,6 +223,9 @@ const body = () => page.locator('body').innerText();
 
   // ---- scan / split / leftover ----
   await check('46. Scan (aim)', async () => { await toTabbed(); await openScan(); return seen('Frame the whole plate'); });
+  await check('46-. No ads on the camera screen', async () => {
+    if ((await body()).toLowerCase().includes('advertisement')) throw new Error('ad on camera screen'); return 'none';
+  });
   await check('46a. Consent asked before first analysis', async () => {
     await seen('Before your first analysis');
     await tap('Allow & continue', false); return 'granted';

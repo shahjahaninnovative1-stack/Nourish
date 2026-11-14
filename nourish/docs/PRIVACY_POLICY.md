@@ -16,7 +16,10 @@ This is sent to our server and passed to our AI provider, Anthropic, PBC (USA), 
 
 ## What the app does not do
 - It does not create an account.
-- It contains no advertising and no third-party analytics or tracking.
+- It does not use analytics that track you across other apps or sites.
+
+## Advertising
+The app is free and funded by ads from Google (AdSense on the web, AdMob in the phone apps). Ads are requested as **non-personalised**: your health details, food log, photos and descriptions are never used to select ads and are never shared with advertisers. Google may still receive standard technical data (such as IP address and device type) to deliver and measure ads; see Google's policy at policies.google.com/technologies/ads. Ads do not appear on the camera, allergy, health-detail or legal screens.
 - It does not read your health data.
 
 ## Deleting your data

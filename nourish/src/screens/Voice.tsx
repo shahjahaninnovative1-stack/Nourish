@@ -25,7 +25,7 @@ function speechCtor(): any {
 }
 
 export default function Voice() {
-  const { s, set, go, runVoice, logMeal, flash } = useApp();
+  const { s, d, set, go, runVoice, logMeal, flash } = useApp();
   const [listening, setListening] = useState(false);
   const [dropped, setDropped] = useState<number[]>([]);
   const rec = useRef<any>(null);
@@ -138,7 +138,7 @@ export default function Voice() {
                   <IconMic />
                 </Pressable>
                 <Pressable
-                  onPress={() => (s.voiceText.trim().length < 2 ? flash('Say or type what you ate first') : runVoice(s.voiceText))}
+                  onPress={() => (d.describesLeft === 0 ? flash("Today's free descriptions are used — quick add still works") : s.voiceText.trim().length < 2 ? flash('Say or type what you ate first') : runVoice(s.voiceText))}
                   disabled={s.voiceBusy}
                   style={{ flex: 1, height: 56, borderRadius: 16, backgroundColor: colors.accent, alignItems: 'center', justifyContent: 'center', opacity: s.voiceBusy ? 0.7 : 1 }}
                 >

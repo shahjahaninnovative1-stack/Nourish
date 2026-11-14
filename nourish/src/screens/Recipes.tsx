@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
+import { AdSlot } from '../components/AdSlot';
 import { useApp } from '../store';
 import { CUISINES } from '../data';
 import { Chip, PlaceholderImage, Screen, ScreenHeader } from '../components/ui';
@@ -88,6 +89,7 @@ export default function Recipes() {
           <Text style={{ fontFamily: fonts.bodyMedium, fontSize: 12.5, lineHeight: 19, color: 'rgba(25,21,18,.55)', textAlign: 'center' }}>Try a different kitchen, or loosen the filter to "All".</Text>
         </View>
       )}
+      <AdSlot placement="recipes" />
     </Screen>
   );
 }

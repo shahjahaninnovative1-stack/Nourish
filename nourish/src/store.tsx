@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RECIPES, QUOTES, DEMO_SCAN, DEMO_VOICE } from './data';
 import { analyzePhoto, parseMealText, scaled, MealResult } from './ai';
+import { FREE_DESCRIBES_PER_DAY, FREE_SCANS_PER_DAY, todayKey } from './ads';
 
 export type Sex = 'Female' | 'Male';
 export type Goal = 'Lose weight' | 'Maintain' | 'Build muscle' | 'Manage sugar';
@@ -31,6 +32,7 @@ type State = {
   scanResult: MealResult | null; scanImage: string | null; scanMult: number[];
   voiceText: string; voiceBusy: boolean; voiceResult: MealResult | null;
   aiConsent: boolean; log: LogEntry[];
+  usage: { day: string; scans: number; describes: number };
   permOn: Record<string, boolean>;
   notifOn: Record<string, boolean>;
   plateCm: number;
@@ -43,7 +45,7 @@ const BURNED = 340;
 const STORE_KEY = 'savora.profile.v1';
 const PERSISTED: (keyof State)[] = [
   'sex', 'age', 'hCm', 'wKg', 'goal', 'act', 'allergies', 'region', 'units',
-  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts', 'aiConsent', 'log',
+  'eatenBase', 'permOn', 'notifOn', 'plateCm', 'onboarded', 'workouts', 'aiConsent', 'log', 'usage',
 ];
 
 // Only the US, Liberia and Myanmar use pounds and feet day to day.
@@ -66,6 +68,7 @@ function initialState(): State {
     scanResult: null, scanImage: null, scanMult: [],
     voiceText: '', voiceBusy: false, voiceResult: null,
     aiConsent: false, log: [],
+    usage: { day: '', scans: 0, describes: 0 },
     permOn: { Camera: true, Microphone: true, Notifications: true },
     notifOn: { Breakfast: true, 'Water reminders': false, 'Evening check-in': true, 'Quote of the day': true, 'Streak rescue': true },
     plateCm: 26, dropped: [], onboarded: false, workouts: [],
@@ -91,6 +94,10 @@ export function useDerived(s: State) {
     const paceKgPerWk = ({ 'Lose weight': -0.4, Maintain: 0, 'Build muscle': 0.16, 'Manage sugar': -0.22 } as Record<string, number>)[s.goal] || 0;
     const deltaW = paceKgPerWk * s.horizon;
     const projW = Math.max(s.wKg + deltaW, 35);
+    // Free daily allowance of paid analyses; the count resets when the date changes.
+    const used = s.usage.day === todayKey() ? s.usage : { scans: 0, describes: 0 };
+    const scansLeft = Math.max(FREE_SCANS_PER_DAY - used.scans, 0);
+    const describesLeft = Math.max(FREE_DESCRIBES_PER_DAY - used.describes, 0);
     const bmi = s.wKg / Math.pow(s.hCm / 100, 2);
     const projectedBmi = projW / Math.pow(s.hCm / 100, 2);
     const permCount = Object.keys(s.permOn).filter((k) => s.permOn[k]).length;
@@ -121,6 +128,7 @@ export function useDerived(s: State) {
 
     return {
       imp, target: tgt, eaten, remaining, burned, shareTotal,
+      scansLeft, describesLeft,
       deltaW, projW, bmi, projectedBmi, permCount, notifCount,
       shownRecipes, blockedCount, originCount, hStr, wStr, futureWeight, futureLabel,
       quote: QUOTES[s.quoteIdx % QUOTES.length],
@@ -195,6 +203,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     toastTimer.current = setTimeout(() => set({ toast: '' }), 2400);
   }, [set]);
 
+  // Only a real analysis is charged against the allowance; a demo fallback costs nothing.
+  const spend = (r: MealResult, kind: 'scans' | 'describes') => {
+    if (r.source !== 'ai') return {};
+    const u = stateRef.current.usage;
+    const base = u.day === todayKey() ? u : { day: todayKey(), scans: 0, describes: 0 };
+    return { usage: { ...base, day: todayKey(), [kind]: base[kind] + 1 } };
+  };
+
   // Sends the photo for analysis. If no service answers, falls back to a
   // sample result that the screen labels as a demo, with the reason.
   const runScan = useCallback((img: { base64: string; mediaType: string; uri: string }) => {
@@ -202,7 +218,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     set({ scanPhase: 'busy', scanImage: img.uri, scanResult: null, pin: 0 });
     analyzePhoto(img.base64, img.mediaType, { cuisine: cur.region, plateCm: cur.plateCm })
       .catch((e): MealResult => ({ ...DEMO_SCAN, reason: e?.message || 'Analysis unavailable' }))
-      .then((r) => set({ scanPhase: 'done', scanResult: r, scanMult: r.items.map(() => 1) }));
+      .then((r) => set({ scanPhase: 'done', scanResult: r, scanMult: r.items.map(() => 1), ...spend(r, 'scans') }));
   }, [set]);
 
   const runVoice = useCallback((text: string) => {
@@ -210,7 +226,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     set({ voiceBusy: true, voiceResult: null });
     parseMealText(text, { cuisine: cur.region })
       .catch((e): MealResult => ({ ...DEMO_VOICE, reason: e?.message || 'Analysis unavailable' }))
-      .then((r) => set({ voiceBusy: false, voiceResult: r }));
+      .then((r) => set({ voiceBusy: false, voiceResult: r, ...spend(r, 'describes') }));
   }, [set]);
 
   const logMeal = useCallback((r: MealResult, mult: number[], via: 'photo' | 'voice') => {

@@ -16,7 +16,11 @@ const SECTIONS: { title: string; body: string }[] = [
   },
   {
     title: 'Your data',
-    body: 'Your profile and food log are stored on this device only. There is no account, no advertising and no tracking. When you scan a meal or describe one, that photo or text — plus your home cuisine and plate size, nothing else — is sent to our server and to our AI provider (Anthropic) to produce the estimate. It is not stored by us and is not linked to your identity.',
+    body: 'Your profile and food log are stored on this device only. There is no account and no tracking of you across other apps or sites. When you scan a meal or describe one, that photo or text — plus your home cuisine and plate size, nothing else — is sent to our server and to our AI provider (Anthropic) to produce the estimate. It is not stored by us and is not linked to your identity.',
+  },
+  {
+    title: 'Ads',
+    body: `${APP_NAME} is free and paid for by advertising, shown only on browsing screens — never on the camera, allergy or health-detail screens. Ads are not personalised: your health details, food log and photos are never used to choose them or shared with advertisers. Photo scans are limited each day to keep the app free.`,
   },
   {
     title: 'Who can use it',

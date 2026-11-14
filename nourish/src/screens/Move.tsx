@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { DOW, MOVE_STATS, STEP_VALS, SESSIONS, CONNECTED_APPS, WORKOUTS } from '../data';
 import { Chip, Pill, PrimaryButton, Screen } from '../components/ui';
+import { AdSlot } from '../components/AdSlot';
 import { useApp } from '../store';
 
 export default function Move() {
@@ -106,6 +107,7 @@ export default function Move() {
           </View>
         ))}
       </View>
+      <AdSlot placement="move" />
     </Screen>
   );
 }

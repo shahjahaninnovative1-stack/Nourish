@@ -7,6 +7,7 @@ import { QUICK_ADD } from '../data';
 import { CalorieRing } from '../components/Charts';
 import { Slab, Tilt } from '../components/Depth';
 import { DEMO_MODE } from '../brand';
+import { AdSlot } from '../components/AdSlot';
 
 const MACROS = [
   { name: 'Protein', val: '52 / 96 g', pct: 0.54, color: '#F5A524' },
@@ -180,6 +181,7 @@ export default function Home() {
         </View>
         <Text style={{ fontFamily: fonts.bodyBold, fontSize: 15, color: colors.green }}>→</Text>
       </Pressable>
+      <AdSlot placement="home" />
     </ScrollView>
   );
 }

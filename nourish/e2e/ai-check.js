@@ -61,10 +61,28 @@ const circle = async (color, min, max) => {
   await check('B2. Removing an item changes the total', async () => { await page.getByLabel('Remove Banana').click(); await page.waitForTimeout(250); return has('Log 158 kcal'); });
   await check('B3. Voice log lands in the diary', async () => { await tap('Log 158 kcal'); await page.waitForTimeout(500); await has('Oat porridge'); return has('Described'); });
 
+  // ---- free daily allowance (3 real scans) ----
+  const scanOnce = async () => {
+    const [fc] = await Promise.all([page.waitForEvent('filechooser'), circle('rgb(255, 255, 255)', 68, 80)]);
+    await fc.setFiles(PHOTO);
+    await page.waitForFunction(() => /tap a dish to adjust/i.test(document.body.innerText), null, { timeout: 20000 });
+  };
+  await check('D1. Allowance counts down after a real scan', async () => { await tap('Home', true); await circle('rgb(225, 85, 43)', 46, 64); return has('2 of 3 free scans left today'); });
+  await check('D2. Second and third scans still work', async () => {
+    await scanOnce(); await page.getByLabel('Retake').click(); await page.waitForTimeout(300); await has('1 of 3 free scans left today');
+    await scanOnce(); await page.getByLabel('Retake').click(); await page.waitForTimeout(300); return 'used 3';
+  });
+  await check('D3. Fourth scan is blocked, with a way forward', async () => { await has("Today's free scans are used"); await has('Describe it instead'); return 'blocked'; });
+  await check('D4. The limit survives closing and reopening the app', async () => {
+    await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(1500);
+    await circle('rgb(225, 85, 43)', 46, 64); return has("Today's free scans are used");
+  });
+  await page.getByText('\u2715', { exact: true }).first().click(); await page.waitForTimeout(300);
+
   const reqs = await (await fetch(BASE + '/__requests')).json();
-  await check('C1. Exactly two provider calls, each keyed and tool-forced', async () => {
-    if (reqs.length !== 2) throw new Error(`${reqs.length} calls`);
-    if (!reqs.every((r) => r.hasKey && r.forcedTool === 'record_meal')) throw new Error('missing key or tool'); return '2 calls';
+  await check('C1. Four provider calls (3 scans + 1 description), none after the limit', async () => {
+    if (reqs.length !== 4) throw new Error(`${reqs.length} calls`);
+    if (!reqs.every((r) => r.hasKey && r.forcedTool === 'record_meal')) throw new Error('missing key or tool'); return '4 calls';
   });
   await check('C2. Only cuisine and plate size accompany the meal', async () => {
     const all = reqs.map((r) => r.text).join(' ');

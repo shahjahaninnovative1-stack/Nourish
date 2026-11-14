@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
+import { AdSlot } from '../components/AdSlot';
 import { useApp } from '../store';
 import { DOW, MEALS } from '../data';
 import { Screen } from '../components/ui';
@@ -81,6 +82,7 @@ export default function Diary() {
           </View>
         ))}
       </View>
+      <AdSlot placement="diary" />
     </Screen>
   );
 }
